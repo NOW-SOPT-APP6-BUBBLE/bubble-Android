@@ -1,4 +1,4 @@
-package com.sopt.bubble.util
+package com.sopt.bubble.util.extension
 
 import android.content.Context
 import android.widget.Toast

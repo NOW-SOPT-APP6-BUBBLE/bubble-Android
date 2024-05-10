@@ -1,4 +1,4 @@
-package com.sopt.bubble
+package com.sopt.bubble.feature
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
