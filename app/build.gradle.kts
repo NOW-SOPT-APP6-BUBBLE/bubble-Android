@@ -78,20 +78,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
     // network
     implementation(libs.squareup.retrofit2)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(platform(libs.squareup.okhttp3.bom))
+    implementation(libs.squareup.okhttp3)
+    implementation(libs.squareup.okhttp3.logging.interceptor)
 
     // coil
-    implementation ("io.coil-kt:coil:2.5.0")
+    implementation(libs.coil)
 
     // timber
-    implementation ("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
 }
 
 fun getApiKey(propertyKey: String): String {
