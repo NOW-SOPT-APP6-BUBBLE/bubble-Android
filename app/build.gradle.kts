@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sopt.bubble"
-        minSdk = 33
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -78,6 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+
+    // network
     implementation(libs.squareup.retrofit2)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
@@ -85,7 +87,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
+    // coil
     implementation ("io.coil-kt:coil:2.5.0")
+
+    // timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
 }
 
