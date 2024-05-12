@@ -91,6 +91,9 @@ dependencies {
 
     // timber
     implementation(libs.timber)
+
+    // navigation
+    implementation(libs.navigation)
 }
 
 fun getApiKey(propertyKey: String): String {
