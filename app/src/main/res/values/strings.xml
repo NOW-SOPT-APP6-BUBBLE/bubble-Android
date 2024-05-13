@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">bubble-Android</string>
+
+    <!--    bottom navigation-->
+    <string name="screen_friends">친구</string>
+    <string name="screen_chat">채팅</string>
+    <string name="screen_more">더 보기</string>
 </resources>
