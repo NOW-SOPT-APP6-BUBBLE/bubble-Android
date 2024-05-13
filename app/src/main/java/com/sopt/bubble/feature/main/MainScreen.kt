@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature
+package com.sopt.bubble.feature.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,14 +11,11 @@ import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import com.sopt.bubble.ui.theme.Headline01
 
 @Composable
-fun MainScreen(name: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = Modifier.padding(10.dp)
-    ) {
+fun MainScreen() {
+    Column{
 
         Text(
-            text = "Hello $name!",
-            modifier = modifier,
+            text = "Hello !",
             style = Headline01
         )
     }
@@ -28,6 +25,6 @@ fun MainScreen(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     BubbleAndroidTheme {
-        MainScreen("Android")
+        MainScreen()
     }
 }
