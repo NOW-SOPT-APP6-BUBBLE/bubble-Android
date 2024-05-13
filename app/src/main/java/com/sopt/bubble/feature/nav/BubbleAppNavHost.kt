@@ -13,9 +13,9 @@ import com.sopt.bubble.feature.more.MoreScreen
 fun BubbleAppNavHost(
     navController: NavHostController,
     startDestination: String,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
-    NavHost(navController = navController, startDestination = startDestination) {
+    NavHost(navController = navController, startDestination = startDestination, modifier) {
         composable(
             Screen.Friends.route,
         ) {
