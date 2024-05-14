@@ -3,12 +3,10 @@ package com.sopt.bubble.feature.nav
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -28,15 +26,21 @@ fun BubbleBottomNavigation(navHostController: NavHostController) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
+            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
             BottomNavigationItem(
                 icon = {
-                    Icon(
-                        painter = painterResource(id = screen.icon),
-                        contentDescription = null
-                    )
+                    (if (isSelected) screen.selectedIcon else screen.icon)?.let {
+                        painterResource(
+                            id = it
+                        )
+                    }?.let {
+                        Icon(
+                            painter = it,
+                            contentDescription = screen.resourceId.toString()
+                        )
+                    }
                 },
-                label = { Text(stringResource(screen.resourceId)) },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                selected = isSelected,
                 onClick = {
                     navHostController.navigate(screen.route) {
                         popUpTo(navHostController.graph.findStartDestination().id) {
@@ -46,9 +50,6 @@ fun BubbleBottomNavigation(navHostController: NavHostController) {
                         restoreState = true
                     }
                 },
-                selectedContentColor = Color.Magenta,
-                unselectedContentColor = Color.Gray,
-                alwaysShowLabel = true,
             )
         }
     }
