@@ -3,6 +3,7 @@ package com.sopt.bubble.presentation.precise_store
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,6 +39,7 @@ import com.sopt.bubble.presentation.precise_store.model.mockTicketList
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray300
+import com.sopt.bubble.ui.theme.Gray400
 import com.sopt.bubble.ui.theme.Gray500
 import com.sopt.bubble.ui.theme.Gray700
 import com.sopt.bubble.ui.theme.Gray800
@@ -85,7 +90,21 @@ fun PreciseStoreScreen() {
             }
 
             item {
+                Column {
+                    Spacer(modifier = Modifier.height(24.dp))
 
+                    PreciseStoreMoreButtonView()
+
+                    Spacer(
+                        modifier = Modifier.fillMaxWidth()
+                            .height(4.dp)
+                            .background(color = Gray800))
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    PreciseStoreBubbleDescriptionView()
+
+                }
             }
         }
     }
@@ -230,6 +249,69 @@ private fun PreciseStoreTicketView(
                     style = Body03)
             }
         }
+    }
+}
+
+@Composable
+private fun PreciseStoreMoreButtonView() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, end = 20.dp)
+            .drawBehind {
+                val strokeWidth = 1.dp.toPx() // Border 두께
+                drawLine(
+                    brush = SolidColor(Gray800),
+                    strokeWidth = strokeWidth,
+                    start = Offset(0f, strokeWidth / 2),
+                    end = Offset(size.width, strokeWidth / 2)
+                )
+            }
+
+    ) {
+        Text(
+            text = stringResource(id = R.string.precise_store_button_more),
+            color = Gray400,
+            style = Body03,
+            modifier = Modifier.padding(vertical = 22.dp)
+        )
+    }
+}
+
+@Composable
+private fun PreciseStoreBubbleDescriptionView() {
+    val bannerImageRatio = 320 / 64f
+
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(bannerImageRatio),
+            contentScale = ContentScale.Crop
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "소개",
+            color = White,
+            style = Body02
+        )
+
+        Text(
+            text = "bubble for JYPnation DAY6는 DAY6 팬들을 위한 특별한 서비스입니다.\n" +
+                    "\n" +
+                    "나만의 최애 DAY6 멤버가 직접 작성하는 개성 넘치는 프라이빗한 메시지를 받을 수 있습니다.\n" +
+                    "\n" +
+                    "bubble for JYPnation은 아티스트의 창작활동을 지원하고 응원합니다.",
+            color = Gray400,
+            style = Body03
+        )
     }
 }
 
