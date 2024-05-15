@@ -1,9 +1,18 @@
 package com.sopt.bubble.presentation.precise_store
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,8 +38,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -43,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
 import com.sopt.bubble.presentation.precise_store.model.mockTicketList
+import com.sopt.bubble.presentation.precise_store.model.mockTicketList1
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100
@@ -66,6 +83,11 @@ fun PreciseStoreScreen() {
     ) { paddingValues ->
         val topImageRatio = 360 / 182f
 
+        val list = mockTicketList1
+
+        var isMore: Boolean by remember { mutableStateOf(false) }
+        var maxTicketNum: Int by remember { mutableIntStateOf(2) }
+
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
@@ -86,14 +108,13 @@ fun PreciseStoreScreen() {
 
                 PreciseStoreArtistDescription()
             }
-
-            items(mockTicketList){ ticket ->
+            items(list.take(maxTicketNum)) { ticket ->
                 PreciseStoreTicket(
                     title = ticket.number,
                     price = ticket.price,
                     originalPrice = ticket.originalPrice,
                     modifier =
-                    if (mockTicketList.indexOf(ticket) != 0)
+                    if (list.indexOf(ticket) != 0)
                         Modifier.padding(top = 14.dp)
                     else Modifier.padding(top = 26.dp)
                 )
@@ -103,13 +124,22 @@ fun PreciseStoreScreen() {
                 Column {
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    PreciseStoreMoreButton()
+                    if (list.size > 2){
+                        PreciseStoreMoreButton(
+                            isMore = isMore,
+                            onClick = {
+                                isMore = !isMore
+                                maxTicketNum = if (isMore) list.size else 2
+                            },
+                        )
+                    }
 
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(4.dp)
-                            .background(color = Gray800))
+                            .background(color = Gray800)
+                    )
 
                     Spacer(modifier = Modifier.height(24.dp))
 
@@ -248,7 +278,7 @@ private fun PreciseStoreTicket(
     title: String,
     price: String,
     modifier: Modifier = Modifier,
-    originalPrice: String?=null,
+    originalPrice: String? = null,
 ) {
     Card(
         shape = RoundedCornerShape(
@@ -274,28 +304,35 @@ private fun PreciseStoreTicket(
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                if(originalPrice != null)
+            ) {
+                if (originalPrice != null)
                     Text(
                         text = originalPrice,
                         color = Gray500,
-                        style = Body03,)
+                        style = Body03,
+                    )
                 Text(
                     text = stringResource(id = R.string.precise_store_ticket_price, price),
                     color = White,
                     style = Name02,
-                    modifier = Modifier.padding(horizontal = 5.dp))
+                    modifier = Modifier.padding(horizontal = 5.dp)
+                )
                 Text(
                     text = stringResource(id = R.string.precise_store_ticket_month),
                     color = Gray500,
-                    style = Body03)
+                    style = Body03
+                )
             }
         }
     }
 }
 
 @Composable
-private fun PreciseStoreMoreButton() {
+private fun PreciseStoreMoreButton(
+    isMore: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -310,14 +347,26 @@ private fun PreciseStoreMoreButton() {
                     end = Offset(size.width, strokeWidth / 2)
                 )
             }
+            .noRippleClickable { onClick() }
 
     ) {
-        Text(
-            text = stringResource(id = R.string.precise_store_button_more),
-            color = Gray400,
-            style = Body03,
-            modifier = Modifier.padding(vertical = 22.dp)
-        )
+        if (isMore) {
+            Text(
+                text = stringResource(id = R.string.precise_store_button_more_close),
+                color = Gray400,
+                style = Body03,
+                modifier = Modifier.padding(vertical = 22.dp)
+            )
+        } else {
+            Text(
+                text = stringResource(id = R.string.precise_store_button_more),
+                color = Gray400,
+                style = Body03,
+                modifier = Modifier.padding(vertical = 22.dp)
+            )
+        }
+
+
     }
 }
 
@@ -400,7 +449,7 @@ private fun PreciseStoreCheckBox() {
                             id = R.string.precise_store_content_description_checkbox_unchecked
                         )
                     )
-                    
+
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
@@ -412,11 +461,22 @@ private fun PreciseStoreCheckBox() {
 
                 Image(
                     painter = painterResource(
-                        id = R.drawable.ic_precise_store_unfold),
+                        id = R.drawable.ic_precise_store_unfold
+                    ),
                     contentDescription = stringResource(
-                        id = R.string.precise_store_content_description_unfold))
+                        id = R.string.precise_store_content_description_unfold
+                    )
+                )
             }
         }
+    }
+}
+
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
+inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
+    clickable(indication = null,
+        interactionSource = remember { MutableInteractionSource() }) {
+        onClick()
     }
 }
 
@@ -432,3 +492,4 @@ fun PreciseScreenPreview() {
 fun CheckBoxPreview() {
     PreciseStoreCheckBox()
 }
+
