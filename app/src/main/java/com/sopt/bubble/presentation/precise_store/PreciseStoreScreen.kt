@@ -1,7 +1,9 @@
 package com.sopt.bubble.presentation.precise_store
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -61,12 +63,12 @@ import com.sopt.bubble.util.extension.noRippleClickable
 fun PreciseStoreScreen() {
     val topImageRatio = 360 / 182f
 
-    var isChecked1: Boolean by remember{ mutableStateOf(false) }
-    var isChecked2: Boolean by remember{ mutableStateOf(false) }
-    var isChecked3: Boolean by remember{ mutableStateOf(false) }
-    var isFolded1: Boolean by remember{ mutableStateOf(false) }
-    var isFolded2: Boolean by remember{ mutableStateOf(false) }
-    var isFolded3: Boolean by remember{ mutableStateOf(false) }
+    var isChecked1: Boolean by remember { mutableStateOf(false) }
+    var isChecked2: Boolean by remember { mutableStateOf(false) }
+    var isChecked3: Boolean by remember { mutableStateOf(false) }
+    var isFolded1: Boolean by remember { mutableStateOf(false) }
+    var isFolded2: Boolean by remember { mutableStateOf(false) }
+    var isFolded3: Boolean by remember { mutableStateOf(false) }
 
     val list = mockTicketList1
 
@@ -74,13 +76,19 @@ fun PreciseStoreScreen() {
     var maxTicketNum: Int by remember { mutableIntStateOf(2) }
 
     Scaffold(
-        topBar = { PreciseStoreTopBar() },
-        bottomBar = { PreciseStoreBottomBar(
-            isChecked = isChecked1 && isChecked2 && isChecked3
-        ) }
+        topBar = {
+            PreciseStoreTopBar(
+                onClickBack = {},
+                onClickClose = {}
+            )
+        },
+        bottomBar = {
+            PreciseStoreBottomBar(
+                isChecked = isChecked1 && isChecked2 && isChecked3,
+                onClick = {}
+            )
+        }
     ) { paddingValues ->
-
-
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
@@ -117,7 +125,7 @@ fun PreciseStoreScreen() {
                 Column {
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    if (list.size > 2){
+                    if (list.size > 2) {
                         PreciseStoreMoreButton(
                             isMore = isMore,
                             onClick = {
@@ -144,15 +152,15 @@ fun PreciseStoreScreen() {
                         isChecked01 = isChecked1,
                         isChecked02 = isChecked2,
                         isChecked03 = isChecked3,
-                        onClickCheckBox1 = {isChecked1 = !isChecked1},
-                        onClickCheckBox2 = {isChecked2 = !isChecked2},
-                        onClickCheckBox3 = {isChecked3 = !isChecked3},
+                        onClickCheckBox1 = { isChecked1 = !isChecked1 },
+                        onClickCheckBox2 = { isChecked2 = !isChecked2 },
+                        onClickCheckBox3 = { isChecked3 = !isChecked3 },
                         isFolded1 = isFolded1,
                         isFolded2 = isFolded2,
                         isFolded3 = isFolded3,
-                        onClickFold1 = {isFolded1 = !isFolded1},
-                        onClickFold2 = {isFolded2 = !isFolded2},
-                        onClickFold3 = {isFolded3 = !isFolded3}
+                        onClickFold1 = { isFolded1 = !isFolded1 },
+                        onClickFold2 = { isFolded2 = !isFolded2 },
+                        onClickFold3 = { isFolded3 = !isFolded3 }
 
                     )
 
@@ -165,13 +173,16 @@ fun PreciseStoreScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PreciseStoreTopBar() {
+fun PreciseStoreTopBar(
+    onClickBack: () -> Unit,
+    onClickClose: () -> Unit,
+) {
     TopAppBar(
         title = {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 12.dp),
+                    .padding(top = 20.dp, bottom = 20.dp, end = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -180,18 +191,21 @@ fun PreciseStoreTopBar() {
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = stringResource(id = R.string.app_bar_content_description_back)
-                    )
-                    Spacer(modifier = Modifier.width(15.dp))
+                        contentDescription = stringResource(id = R.string.app_bar_content_description_back),
+                        modifier = Modifier.noRippleClickable { onClickBack() }
 
+                    )
                     Text(
                         text = stringResource(id = R.string.precise_store_app_bar_header),
                         style = Headline02,
+                        modifier = Modifier.padding(start = 15.dp)
                     )
                 }
+
                 Icon(
                     painter = painterResource(id = R.drawable.ic_close),
-                    contentDescription = stringResource(id = R.string.app_bar_content_description_close)
+                    contentDescription = stringResource(id = R.string.app_bar_content_description_close),
+                    modifier = Modifier.noRippleClickable { onClickClose() }
                 )
             }
         }
@@ -200,12 +214,13 @@ fun PreciseStoreTopBar() {
 
 @Composable
 private fun PreciseStoreBottomBar(
-    isChecked:Boolean
+    isChecked: Boolean,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
             .background(Gray700) // Transparent background
+            .noRippleClickable { onClick() }
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -213,8 +228,8 @@ private fun PreciseStoreBottomBar(
                 .fillMaxWidth()
                 .background(
                     shape = RoundedCornerShape(topEnd = 18.dp),
-                    color = if(isChecked) JYPBLUE
-                        else Gray200
+                    color = if (isChecked) JYPBLUE
+                    else Gray200
                 )
         ) {
             Text(
@@ -228,12 +243,19 @@ private fun PreciseStoreBottomBar(
 }
 
 @Composable
-private fun PreciseStoreArtistDescription() {
+private fun PreciseStoreArtistDescription(
+    artistName: String = "DAY6",
+    bubbleDescription: String = "선물처럼 찾아오는 최애의 메시지와 함께하는 설레이는 일상!\n" +
+            "최애 아티스트와 나만의 특별한 프라이빗 메시지, bubble for JYPnation",
+    artistLineup: String = "WONPIL, DOWOON",
+    artistComingSoon: String? = "SUNGJIN, Young K"
+
+) {
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
         Text(
-            text = "DAY6",
+            text = artistName,
             color = White,
             style = Headline04,
             modifier = Modifier.height(32.dp)
@@ -247,39 +269,42 @@ private fun PreciseStoreArtistDescription() {
         )
 
         Text(
-            text = "선물처럼 찾아오는 최애의 메시지와 함께하는 설레이는 일상!\n" +
-                    "최애 아티스트와 나만의 특별한 프라이빗 메시지, bubble for JYPnation",
+            text = bubbleDescription,
             modifier = Modifier.padding(top = 20.dp),
             color = Gray300,
             style = Body03
         )
 
         Text(
-            text = "ARTIST 라인업",
+            text = stringResource(id = R.string.precise_store_artist_lineup),
             modifier = Modifier.padding(top = 18.dp),
             color = White,
             style = Body02
         )
 
         Text(
-            text = "WONPIL, DOWOON",
+            text = artistLineup,
             modifier = Modifier.padding(top = 6.dp),
             color = White,
             style = Body03
         )
 
-        Text(
-            text = "Coming soon",
-            modifier = Modifier.padding(top = 18.dp),
-            color = Gray500,
-            style = Body02
-        )
-        Text(
-            text = "SUNGJIN, Young K",
-            modifier = Modifier.padding(top = 6.dp),
-            color = Gray500,
-            style = Body03
-        )
+        if (artistComingSoon != null) {
+            Text(
+                text = stringResource(id = R.string.precise_store_artist_coming_soon),
+                modifier = Modifier.padding(top = 18.dp),
+                color = Gray500,
+                style = Body02
+            )
+            Text(
+                text = artistComingSoon,
+                modifier = Modifier.padding(top = 6.dp),
+                color = Gray500,
+                style = Body03
+            )
+        }
+
+
     }
 }
 
@@ -340,8 +365,7 @@ private fun PreciseStoreTicket(
 @Composable
 private fun PreciseStoreMoreButton(
     isMore: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -381,7 +405,13 @@ private fun PreciseStoreMoreButton(
 }
 
 @Composable
-private fun PreciseStoreBubbleDescription() {
+private fun PreciseStoreBubbleDescription(
+    bubbleIntroduction: String = "bubble for JYPnation DAY6는 DAY6 팬들을 위한 특별한 서비스입니다.\n" +
+            "\n" +
+            "나만의 최애 DAY6 멤버가 직접 작성하는 개성 넘치는 프라이빗한 메시지를 받을 수 있습니다.\n" +
+            "\n" +
+            "bubble for JYPnation은 아티스트의 창작활동을 지원하고 응원합니다."
+) {
     val bannerImageRatio = 320 / 64f
 
     Column(
@@ -399,17 +429,15 @@ private fun PreciseStoreBubbleDescription() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "소개",
+            text = stringResource(id = R.string.precise_store_bubble_introduction),
             color = White,
             style = Body02
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
         Text(
-            text = "bubble for JYPnation DAY6는 DAY6 팬들을 위한 특별한 서비스입니다.\n" +
-                    "\n" +
-                    "나만의 최애 DAY6 멤버가 직접 작성하는 개성 넘치는 프라이빗한 메시지를 받을 수 있습니다.\n" +
-                    "\n" +
-                    "bubble for JYPnation은 아티스트의 창작활동을 지원하고 응원합니다.",
+            text = bubbleIntroduction,
             color = Gray400,
             style = Body03
         )
@@ -418,18 +446,18 @@ private fun PreciseStoreBubbleDescription() {
 
 @Composable
 private fun PreciseStoreCheckBoxes(
-    onClickCheckBox1:()->Unit,
-    onClickCheckBox2:()->Unit,
-    onClickCheckBox3:()->Unit,
-    isChecked01:Boolean,
-    isChecked02:Boolean,
-    isChecked03:Boolean,
-    onClickFold1:()->Unit,
-    onClickFold2:()->Unit,
-    onClickFold3:()->Unit,
-    isFolded1:Boolean,
-    isFolded2:Boolean,
-    isFolded3:Boolean,
+    onClickCheckBox1: () -> Unit,
+    onClickCheckBox2: () -> Unit,
+    onClickCheckBox3: () -> Unit,
+    isChecked01: Boolean,
+    isChecked02: Boolean,
+    isChecked03: Boolean,
+    onClickFold1: () -> Unit,
+    onClickFold2: () -> Unit,
+    onClickFold3: () -> Unit,
+    isFolded1: Boolean,
+    isFolded2: Boolean,
+    isFolded3: Boolean,
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
@@ -438,30 +466,52 @@ private fun PreciseStoreCheckBoxes(
             onClickCheckIcon = onClickCheckBox1,
             isChecked = isChecked01,
             onClickFold = onClickFold1,
-            isFolded = isFolded1
+            isFolded = isFolded1,
+            title = R.string.precise_store_checkbox_title01,
+            content = "textbox1"
         )
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = onClickCheckBox2,
             isChecked = isChecked02,
             onClickFold = onClickFold2,
-            isFolded = isFolded2)
+            isFolded = isFolded2,
+            title = R.string.precise_store_checkbox_title02,
+            content = "textbox2"
+        )
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = onClickCheckBox3,
             isChecked = isChecked03,
             onClickFold = onClickFold3,
-            isFolded = isFolded3)
+            isFolded = isFolded3,
+            title = R.string.precise_store_checkbox_title03,
+            content = "textbox3"
+        )
     }
 }
 
 @Composable
 private fun PreciseStoreCheckBox(
+    @StringRes
+    title: Int,
+    content: String,
     onClickCheckIcon: () -> Unit,
-    onClickFold:() -> Unit,
+    onClickFold: () -> Unit,
     isChecked: Boolean,
-    isFolded: Boolean
+    isFolded: Boolean,
 ) {
+    val checkImageId = if (isChecked) R.drawable.ic_precise_store_checkbox_selected
+    else R.drawable.ic_precise_store_checkbox_unselected
+    val checkStringId = if (isChecked) R.string.precise_store_content_description_checkbox_checked
+    else R.string.precise_store_content_description_checkbox_unchecked
+
+    val foldImageId = if (isFolded) R.drawable.ic_precise_store_fold
+    else R.drawable.ic_precise_store_unfold
+    val foldStringId = if (isFolded) R.string.precise_store_content_description_fold
+    else R.string.precise_store_content_description_unfold
+
+
     Card(
         shape = RoundedCornerShape(
             topStart = 10.dp, topEnd = 10.dp,
@@ -475,7 +525,9 @@ private fun PreciseStoreCheckBox(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().noRippleClickable { onClickFold() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .noRippleClickable { onClickFold() },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -483,49 +535,34 @@ private fun PreciseStoreCheckBox(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
-                        painter = painterResource(
-                            id = if(isChecked)
-                                    R.drawable.ic_precise_store_checkbox_selected
-                                else
-                                    R.drawable.ic_precise_store_checkbox_unselected
-                        ),
-                        contentDescription = stringResource(
-                            id = if(isChecked)
-                                    R.string.precise_store_content_description_checkbox_checked
-                                else
-                                    R.string.precise_store_content_description_checkbox_unchecked
-                        ),
+                        painter = painterResource(id = checkImageId),
+                        contentDescription = stringResource(id = checkStringId),
                         modifier = Modifier.noRippleClickable { onClickCheckIcon() }
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = "서비스 이용안내 동의",
+                        text = stringResource(id = title),
                         style = Body02,
                         color = White
                     )
                 }
 
                 Image(
-                    painter = painterResource(
-                        id = if(isFolded) R.drawable.ic_precise_store_fold
-                            else R.drawable.ic_precise_store_unfold
-                    ),
-                    contentDescription = stringResource(
-                        id = if(isFolded) R.string.precise_store_content_description_fold
-                            else R.string.precise_store_content_description_unfold
-                    ),
-                    //modifier = Modifier.noRippleClickable { onClickFold() }
+                    painter = painterResource(id = foldImageId),
+                    contentDescription = stringResource(id = foldStringId),
                 )
             }
-            if(isFolded) {
-                Text(text = "" +
-                        "huge amount of texthuge amount of texthuge amount of text"+
-                        "huge amount of texthuge amount of texthuge amount of text"+
-                        "huge amount of texthuge amount of texthuge amount of text"+
-                        "huge amount of texthuge amount of texthuge amount of text"+
-                        "huge amount of texthuge amount of texthuge amount of text")
+            if (isFolded) {
+                Text(
+                    text = content,
+                    style = Body03,
+                    color = White,
+                    modifier = Modifier.padding(
+                        top = 12.dp, start = 1.dp, end = 1.dp, bottom = 11.dp
+                    )
+                )
             }
         }
     }

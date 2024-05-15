@@ -5,13 +5,22 @@
     <string name="app_bar_content_description_close">close</string>
     <string name="app_bar_content_description_back">back</string>
 
+    <string name="precise_store_artist_lineup">ARTIST 라인업</string>
+    <string name="precise_store_artist_coming_soon">Coming soon</string>
+    <string name="precise_store_bubble_introduction">소개</string>
     <string name="precise_store_ticket_number">%s인권</string>
     <string name="precise_store_ticket_price">₩%s</string>
     <string name="precise_store_ticket_month">/월</string>
     <string name="precise_store_button_more">더보기</string>
     <string name="precise_store_button_more_close">닫기</string>
+
+
     <string name="precise_store_content_description_checkbox_unchecked">unchecked</string>
     <string name="precise_store_content_description_checkbox_checked">checked</string>
     <string name="precise_store_content_description_fold">fold</string>
     <string name="precise_store_content_description_unfold">unfold</string>
+
+    <string name="precise_store_checkbox_title01">서비스 이용안내 동의</string>
+    <string name="precise_store_checkbox_title02">콘텐츠 관련 유의사항 동의</string>
+    <string name="precise_store_checkbox_title03">답장 작성 시 유의사항 동의</string>
 </resources>
