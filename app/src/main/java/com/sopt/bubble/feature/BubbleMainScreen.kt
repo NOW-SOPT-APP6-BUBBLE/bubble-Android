@@ -1,4 +1,4 @@
-package com.sopt.bubble
+package com.sopt.bubble.feature
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +11,7 @@ import com.sopt.bubble.feature.nav.BubbleBottomNavigation
 import com.sopt.bubble.feature.nav.Screen
 
 @Composable
-fun BubbleApp() {
+fun BubbleMainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
