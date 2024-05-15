@@ -1,23 +1,23 @@
 package com.sopt.bubble.presentation.more
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +32,7 @@ import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline01
 import com.sopt.bubble.ui.theme.Headline04
+import com.sopt.bubble.ui.theme.JYPBLUE
 import com.sopt.bubble.ui.theme.White
 
 @Composable
@@ -49,10 +50,31 @@ fun MoreScreen() {
             
             Spacer(
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 37.dp, bottom = 12.dp)
+                    .padding(start = 20.dp, end = 20.dp, top = 37.dp, bottom = 6.dp)
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(color = Gray100)
+            )
+
+            MoreMenuButton(
+                iconResId = R.drawable.ic_more_my_bubble,
+                textResId = R.string.more_btn_my_bubble,
+                onClick = {}
+            )
+            MoreMenuButton(
+                iconResId = R.drawable.ic_more_store,
+                textResId = R.string.more_btn_store,
+                onClick = {}
+            )
+            MoreMenuButton(
+                iconResId = R.drawable.ic_more_notice,
+                textResId = R.string.more_btn_notice,
+                onClick = {}
+            )
+            MoreMenuButton(
+                iconResId = R.drawable.ic_more_guide,
+                textResId = R.string.more_btn_faq,
+                onClick = {}
             )
         }
     }
@@ -60,10 +82,12 @@ fun MoreScreen() {
 
 @Composable
 private fun MoreTopAppBar() {
+    val heightRatio = 360/62f
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(52.dp)
+            .aspectRatio(heightRatio)
             .padding(horizontal = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -123,8 +147,56 @@ private fun MoreUserProfile(
     }
 }
 
+@Composable
+fun MoreMenuButton(
+    @DrawableRes
+    iconResId: Int,
+    @StringRes
+    textResId: Int,
+    onClick:()->Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(vertical = 6.dp, horizontal = 20.dp)
+            .fillMaxWidth()
+            .height(48.dp)
+            .clickable { onClick() },
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Image(
+                painter = painterResource(id = iconResId),
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(id = textResId),
+                color = Black,
+                modifier = Modifier.padding(start = 14.dp)
+            )
+        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_more_btn_arrow),
+            contentDescription = null,
+            tint = JYPBLUE
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun MoreScreenPreview() {
     MoreScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MoreMenuButtonPreview() {
+    MoreMenuButton(
+        iconResId = R.drawable.ic_more_my_bubble,
+        textResId = R.string.more_btn_my_bubble,
+        onClick = {}
+    )
 }
