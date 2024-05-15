@@ -71,22 +71,34 @@ import com.sopt.bubble.ui.theme.Gray700
 import com.sopt.bubble.ui.theme.Gray800
 import com.sopt.bubble.ui.theme.Headline02
 import com.sopt.bubble.ui.theme.Headline04
+import com.sopt.bubble.ui.theme.JYPBLUE
 import com.sopt.bubble.ui.theme.Name02
 import com.sopt.bubble.ui.theme.Name03
 import com.sopt.bubble.ui.theme.White
 
 @Composable
 fun PreciseStoreScreen() {
+    val topImageRatio = 360 / 182f
+
+    var isChecked1: Boolean by remember{ mutableStateOf(false) }
+    var isChecked2: Boolean by remember{ mutableStateOf(false) }
+    var isChecked3: Boolean by remember{ mutableStateOf(false) }
+    var isFolded1: Boolean by remember{ mutableStateOf(false) }
+    var isFolded2: Boolean by remember{ mutableStateOf(false) }
+    var isFolded3: Boolean by remember{ mutableStateOf(false) }
+
+    val list = mockTicketList1
+
+    var isMore: Boolean by remember { mutableStateOf(false) }
+    var maxTicketNum: Int by remember { mutableIntStateOf(2) }
+
     Scaffold(
         topBar = { PreciseStoreTopBar() },
-        bottomBar = { PreciseStoreBottomBar() }
+        bottomBar = { PreciseStoreBottomBar(
+            isChecked = isChecked1 && isChecked2 && isChecked3
+        ) }
     ) { paddingValues ->
-        val topImageRatio = 360 / 182f
 
-        val list = mockTicketList1
-
-        var isMore: Boolean by remember { mutableStateOf(false) }
-        var maxTicketNum: Int by remember { mutableIntStateOf(2) }
 
         LazyColumn(
             modifier = Modifier
@@ -147,7 +159,21 @@ fun PreciseStoreScreen() {
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    PreciseStoreCheckBoxes()
+                    PreciseStoreCheckBoxes(
+                        isChecked01 = isChecked1,
+                        isChecked02 = isChecked2,
+                        isChecked03 = isChecked3,
+                        onClickCheckBox1 = {isChecked1 = !isChecked1},
+                        onClickCheckBox2 = {isChecked2 = !isChecked2},
+                        onClickCheckBox3 = {isChecked3 = !isChecked3},
+                        isFolded1 = isFolded1,
+                        isFolded2 = isFolded2,
+                        isFolded3 = isFolded3,
+                        onClickFold1 = {isFolded1 = !isFolded1},
+                        onClickFold2 = {isFolded2 = !isFolded2},
+                        onClickFold3 = {isFolded3 = !isFolded3}
+
+                    )
 
                     Spacer(modifier = Modifier.height(47.dp))
                 }
@@ -192,7 +218,9 @@ fun PreciseStoreTopBar() {
 }
 
 @Composable
-private fun PreciseStoreBottomBar() {
+private fun PreciseStoreBottomBar(
+    isChecked:Boolean
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -204,7 +232,8 @@ private fun PreciseStoreBottomBar() {
                 .fillMaxWidth()
                 .background(
                     shape = RoundedCornerShape(topEnd = 18.dp),
-                    color = Gray200
+                    color = if(isChecked) JYPBLUE
+                        else Gray200
                 )
         ) {
             Text(
@@ -407,20 +436,51 @@ private fun PreciseStoreBubbleDescription() {
 }
 
 @Composable
-private fun PreciseStoreCheckBoxes() {
+private fun PreciseStoreCheckBoxes(
+    onClickCheckBox1:()->Unit,
+    onClickCheckBox2:()->Unit,
+    onClickCheckBox3:()->Unit,
+    isChecked01:Boolean,
+    isChecked02:Boolean,
+    isChecked03:Boolean,
+    onClickFold1:()->Unit,
+    onClickFold2:()->Unit,
+    onClickFold3:()->Unit,
+    isFolded1:Boolean,
+    isFolded2:Boolean,
+    isFolded3:Boolean,
+) {
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
-        PreciseStoreCheckBox()
+        PreciseStoreCheckBox(
+            onClickCheckIcon = onClickCheckBox1,
+            isChecked = isChecked01,
+            onClickFold = onClickFold1,
+            isFolded = isFolded1
+        )
         Spacer(modifier = Modifier.height(6.dp))
-        PreciseStoreCheckBox()
+        PreciseStoreCheckBox(
+            onClickCheckIcon = onClickCheckBox2,
+            isChecked = isChecked02,
+            onClickFold = onClickFold2,
+            isFolded = isFolded2)
         Spacer(modifier = Modifier.height(6.dp))
-        PreciseStoreCheckBox()
+        PreciseStoreCheckBox(
+            onClickCheckIcon = onClickCheckBox3,
+            isChecked = isChecked03,
+            onClickFold = onClickFold3,
+            isFolded = isFolded3)
     }
 }
 
 @Composable
-private fun PreciseStoreCheckBox() {
+private fun PreciseStoreCheckBox(
+    onClickCheckIcon: () -> Unit,
+    onClickFold:() -> Unit,
+    isChecked: Boolean,
+    isFolded: Boolean
+) {
     Card(
         shape = RoundedCornerShape(
             topStart = 10.dp, topEnd = 10.dp,
@@ -434,7 +494,7 @@ private fun PreciseStoreCheckBox() {
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().noRippleClickable { onClickFold() },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -443,11 +503,18 @@ private fun PreciseStoreCheckBox() {
                 ) {
                     Image(
                         painter = painterResource(
-                            id = R.drawable.ic_precise_store_checkbox_unselected
+                            id = if(isChecked)
+                                    R.drawable.ic_precise_store_checkbox_selected
+                                else
+                                    R.drawable.ic_precise_store_checkbox_unselected
                         ),
                         contentDescription = stringResource(
-                            id = R.string.precise_store_content_description_checkbox_unchecked
-                        )
+                            id = if(isChecked)
+                                    R.string.precise_store_content_description_checkbox_checked
+                                else
+                                    R.string.precise_store_content_description_checkbox_unchecked
+                        ),
+                        modifier = Modifier.noRippleClickable { onClickCheckIcon() }
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
@@ -461,12 +528,23 @@ private fun PreciseStoreCheckBox() {
 
                 Image(
                     painter = painterResource(
-                        id = R.drawable.ic_precise_store_unfold
+                        id = if(isFolded) R.drawable.ic_precise_store_fold
+                            else R.drawable.ic_precise_store_unfold
                     ),
                     contentDescription = stringResource(
-                        id = R.string.precise_store_content_description_unfold
-                    )
+                        id = if(isFolded) R.string.precise_store_content_description_fold
+                            else R.string.precise_store_content_description_unfold
+                    ),
+                    //modifier = Modifier.noRippleClickable { onClickFold() }
                 )
+            }
+            if(isFolded) {
+                Text(text = "" +
+                        "huge amount of texthuge amount of texthuge amount of text"+
+                        "huge amount of texthuge amount of texthuge amount of text"+
+                        "huge amount of texthuge amount of texthuge amount of text"+
+                        "huge amount of texthuge amount of texthuge amount of text"+
+                        "huge amount of texthuge amount of texthuge amount of text")
             }
         }
     }
@@ -487,9 +565,9 @@ fun PreciseScreenPreview() {
     PreciseStoreScreen()
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun CheckBoxPreview() {
     PreciseStoreCheckBox()
-}
+}*/
 
