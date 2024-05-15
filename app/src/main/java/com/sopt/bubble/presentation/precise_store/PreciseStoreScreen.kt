@@ -3,7 +3,7 @@ package com.sopt.bubble.presentation.precise_store
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +60,9 @@ import com.sopt.bubble.ui.theme.White
 import com.sopt.bubble.util.extension.noRippleClickable
 
 @Composable
-fun PreciseStoreScreen() {
+fun PreciseStoreScreen(
+    viewModel: PreciseStoreViewModel = viewModel()
+) {
     val topImageRatio = 360 / 182f
 
     var isChecked1: Boolean by remember { mutableStateOf(false) }
