@@ -1,4 +1,4 @@
-package com.sopt.bubble
+package com.sopt.bubble.feature
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.sopt.bubble.BubbleApp
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 
 class MainActivity : ComponentActivity() {

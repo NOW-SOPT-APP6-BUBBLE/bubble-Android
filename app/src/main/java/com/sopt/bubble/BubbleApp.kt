@@ -13,6 +13,7 @@ import com.sopt.bubble.feature.nav.Screen
 @Composable
 fun BubbleApp() {
     val navController = rememberNavController()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = { BubbleBottomNavigation(navController) }
