@@ -4,4 +4,9 @@
     <string name="precise_store_app_bar_header">bubble</string>
     <string name="app_bar_content_description_close">close</string>
     <string name="app_bar_content_description_back">back</string>
+
+    <string name="precise_store_ticket_number">%s인권</string>
+    <string name="precise_store_ticket_price">₩%s</string>
+    <string name="precise_store_ticket_month">/월</string>
+    <string name="precise_store_button_more">더보기</string>
 </resources>
