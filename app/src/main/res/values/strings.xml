@@ -9,4 +9,8 @@
     <string name="precise_store_ticket_price">₩%s</string>
     <string name="precise_store_ticket_month">/월</string>
     <string name="precise_store_button_more">더보기</string>
+    <string name="precise_store_content_description_checkbox_unchecked">unchecked</string>
+    <string name="precise_store_content_description_checkbox_checked">checked</string>
+    <string name="precise_store_content_description_fold">fold</string>
+    <string name="precise_store_content_description_unfold">unfold</string>
 </resources>

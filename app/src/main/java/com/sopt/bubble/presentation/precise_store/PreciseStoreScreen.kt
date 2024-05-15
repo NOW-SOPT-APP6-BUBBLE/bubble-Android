@@ -1,7 +1,9 @@
 package com.sopt.bubble.presentation.precise_store
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,13 +15,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -28,7 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,6 +45,8 @@ import com.sopt.bubble.R
 import com.sopt.bubble.presentation.precise_store.model.mockTicketList
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
+import com.sopt.bubble.ui.theme.Gray100
+import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Gray300
 import com.sopt.bubble.ui.theme.Gray400
 import com.sopt.bubble.ui.theme.Gray500
@@ -52,7 +61,8 @@ import com.sopt.bubble.ui.theme.White
 @Composable
 fun PreciseStoreScreen() {
     Scaffold(
-        topBar = { PreciseStoreTopBar() }
+        topBar = { PreciseStoreTopBar() },
+        bottomBar = { PreciseStoreBottomBar() }
     ) { paddingValues ->
         val topImageRatio = 360 / 182f
 
@@ -74,11 +84,11 @@ fun PreciseStoreScreen() {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                PreciseStoreArtistDescriptionView()
+                PreciseStoreArtistDescription()
             }
 
             items(mockTicketList){ ticket ->
-                PreciseStoreTicketView(
+                PreciseStoreTicket(
                     title = ticket.number,
                     price = ticket.price,
                     originalPrice = ticket.originalPrice,
@@ -93,17 +103,23 @@ fun PreciseStoreScreen() {
                 Column {
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    PreciseStoreMoreButtonView()
+                    PreciseStoreMoreButton()
 
                     Spacer(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .height(4.dp)
                             .background(color = Gray800))
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    PreciseStoreBubbleDescriptionView()
+                    PreciseStoreBubbleDescription()
 
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    PreciseStoreCheckBoxes()
+
+                    Spacer(modifier = Modifier.height(47.dp))
                 }
             }
         }
@@ -146,7 +162,33 @@ fun PreciseStoreTopBar() {
 }
 
 @Composable
-private fun PreciseStoreArtistDescriptionView() {
+private fun PreciseStoreBottomBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Gray700) // Transparent background
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    shape = RoundedCornerShape(topEnd = 18.dp),
+                    color = Gray200
+                )
+        ) {
+            Text(
+                text = "이용권 구매",
+                style = Headline04,
+                color = White,
+                modifier = Modifier.padding(vertical = 18.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PreciseStoreArtistDescription() {
     Column(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
@@ -202,7 +244,7 @@ private fun PreciseStoreArtistDescriptionView() {
 }
 
 @Composable
-private fun PreciseStoreTicketView(
+private fun PreciseStoreTicket(
     title: String,
     price: String,
     modifier: Modifier = Modifier,
@@ -253,7 +295,7 @@ private fun PreciseStoreTicketView(
 }
 
 @Composable
-private fun PreciseStoreMoreButtonView() {
+private fun PreciseStoreMoreButton() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -280,7 +322,7 @@ private fun PreciseStoreMoreButtonView() {
 }
 
 @Composable
-private fun PreciseStoreBubbleDescriptionView() {
+private fun PreciseStoreBubbleDescription() {
     val bannerImageRatio = 320 / 64f
 
     Column(
@@ -315,9 +357,78 @@ private fun PreciseStoreBubbleDescriptionView() {
     }
 }
 
+@Composable
+private fun PreciseStoreCheckBoxes() {
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp)
+    ) {
+        PreciseStoreCheckBox()
+        Spacer(modifier = Modifier.height(6.dp))
+        PreciseStoreCheckBox()
+        Spacer(modifier = Modifier.height(6.dp))
+        PreciseStoreCheckBox()
+    }
+}
+
+@Composable
+private fun PreciseStoreCheckBox() {
+    Card(
+        shape = RoundedCornerShape(
+            topStart = 10.dp, topEnd = 10.dp,
+            bottomStart = 10.dp, bottomEnd = 10.dp
+        ),
+        colors = CardDefaults.cardColors(containerColor = Gray800),
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Image(
+                        painter = painterResource(
+                            id = R.drawable.ic_precise_store_checkbox_unselected
+                        ),
+                        contentDescription = stringResource(
+                            id = R.string.precise_store_content_description_checkbox_unchecked
+                        )
+                    )
+                    
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = "서비스 이용안내 동의",
+                        style = Body02,
+                        color = White
+                    )
+                }
+
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.ic_precise_store_unfold),
+                    contentDescription = stringResource(
+                        id = R.string.precise_store_content_description_unfold))
+            }
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 fun PreciseScreenPreview() {
     PreciseStoreScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CheckBoxPreview() {
+    PreciseStoreCheckBox()
 }
