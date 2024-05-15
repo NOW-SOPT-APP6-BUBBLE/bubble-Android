@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">bubble-Android</string>
+
+    <string name="more_top_bar_title">MORE</string>
+    <string name="more_btn_my_bubble">My bubble</string>
+    <string name="more_btn_store">STORE</string>
+    <string name="more_btn_notice">Notice</string>
+    <string name="more_btn_faq">FAQ</string>
 </resources>
