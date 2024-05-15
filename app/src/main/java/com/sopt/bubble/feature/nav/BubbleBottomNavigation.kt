@@ -30,30 +30,27 @@ fun BubbleBottomNavigation(navHostController: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .shadow(
-                elevation = 16.dp ,
+                elevation = 16.dp,
                 shape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp)
             ),
     ) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
-            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+            val isSelected =
+                currentDestination?.hierarchy?.any { it.route == screen.route.toString() } == true
             BottomNavigationItem(
                 icon = {
-                    (if (isSelected) screen.selectedIcon else screen.icon)?.let {
-                        painterResource(
-                            id = it
-                        )
-                    }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = screen.resourceId.toString()
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(
+                            id = (if (isSelected) screen.selectedIcon else screen.icon)
+                        ),
+                        contentDescription = screen.resourceId.toString()
+                    )
                 },
                 selected = isSelected,
                 onClick = {
-                    navHostController.navigate(screen.route) {
+                    navHostController.navigate(screen.route.toString()) {
                         popUpTo(navHostController.graph.findStartDestination().id) {
                             saveState = true
                         }

@@ -15,21 +15,25 @@ fun BubbleAppNavHost(
     startDestination: String,
     modifier: Modifier,
 ) {
-    NavHost(navController = navController, startDestination = startDestination, modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        modifier = modifier
+    ) {
         composable(
-            Screen.Friends.route,
+            Screen.Friends.route.toString(),
         ) {
             FriendsScreen()
         }
 
         composable(
-            Screen.Chat.route,
+            Screen.Chat.route.toString(),
         ) {
             ChatScreen()
         }
 
         composable(
-            Screen.More.route,
+            Screen.More.route.toString(),
         ) {
             MoreScreen()
         }

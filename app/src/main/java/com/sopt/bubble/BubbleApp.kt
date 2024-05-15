@@ -13,13 +13,14 @@ import com.sopt.bubble.feature.nav.Screen
 @Composable
 fun BubbleApp() {
     val navController = rememberNavController()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = { BubbleBottomNavigation(navController) }
     ) { innerPadding ->
         BubbleAppNavHost(
             navController = navController,
-            startDestination = Screen.Friends.route,
+            startDestination = Screen.Friends.route.toString(),
             modifier = Modifier.padding(innerPadding)
         )
     }
