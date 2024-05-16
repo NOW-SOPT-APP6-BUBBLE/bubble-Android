@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -38,14 +39,14 @@ fun BubbleBottomNavigation(navHostController: NavHostController) {
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
             val isSelected =
-                currentDestination?.hierarchy?.any { it.route == screen.route.toString() } == true
+                currentDestination?.hierarchy?.any { it.route == stringResource(id = screen.route) } == true
             BottomNavigationItem(
                 icon = {
                     Icon(
                         painter = painterResource(
                             id = (if (isSelected) screen.selectedIcon else screen.icon)
                         ),
-                        contentDescription = screen.resourceId.toString()
+                        contentDescription = stringResource(id = screen.resourceId)
                     )
                 },
                 selected = isSelected,

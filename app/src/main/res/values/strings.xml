@@ -8,4 +8,9 @@
     <string name="screen_friends_route">friends</string>
     <string name="screen_chat_route">chat</string>
     <string name="screen_more_route">more</string>
+
+    <!--   friends-->
+    <string name="friends_title">Friends</string>
+    <string name="friends_search">search</string>
+    <string name="friends_store">store</string>
 </resources>
