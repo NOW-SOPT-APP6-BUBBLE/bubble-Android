@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.sopt.bubble.feature.chat.ChatScreen
 import com.sopt.bubble.feature.friends.FriendsScreen
 import com.sopt.bubble.feature.more.MoreScreen
+import com.sopt.bubble.feature.test.TestScreen
 
 @Composable
 fun BubbleAppNavHost(
@@ -21,21 +22,31 @@ fun BubbleAppNavHost(
         modifier = modifier
     ) {
         composable(
-            Screen.Friends.route.toString(),
+            BottomScreen.Friends.route,
         ) {
             FriendsScreen()
         }
 
         composable(
-            Screen.Chat.route.toString(),
+            BottomScreen.Chat.route,
         ) {
-            ChatScreen()
+            ChatScreen(
+                onNavigate = navController
+            )
         }
 
         composable(
-            Screen.More.route.toString(),
+            BottomScreen.More.route,
         ) {
             MoreScreen()
+        }
+
+        composable(
+            Screen.Test.route
+        ) {
+            TestScreen(
+                onNavigate = navController
+            )
         }
     }
 }
