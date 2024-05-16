@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
@@ -91,6 +92,9 @@ dependencies {
 
     // timber
     implementation(libs.timber)
+
+    // navigation
+    implementation(libs.navigation)
 }
 
 fun getApiKey(propertyKey: String): String {
