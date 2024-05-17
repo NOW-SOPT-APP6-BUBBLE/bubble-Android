@@ -91,6 +91,9 @@ dependencies {
 
     // timber
     implementation(libs.timber)
+
+    //viewmodel
+    implementation(libs.viewmodel)
 }
 
 fun getApiKey(propertyKey: String): String {
