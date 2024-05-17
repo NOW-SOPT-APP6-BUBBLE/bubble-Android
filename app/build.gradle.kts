@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.timber)
 
     //viewmodel
-    implementation(libs.viewmodel)
+    implementation(libs.compose.viewmodel)
 }
 
 fun getApiKey(propertyKey: String): String {
