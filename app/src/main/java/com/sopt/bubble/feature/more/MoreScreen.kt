@@ -1,4 +1,4 @@
-package com.sopt.bubble.presentation.more
+package com.sopt.bubble.feature.more
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.presentation.more.MoreViewModel.Companion.TOP_BAR_RATIO
+import com.sopt.bubble.feature.more.MoreViewModel.Companion.TOP_BAR_RATIO
 import com.sopt.bubble.ui.theme.Black
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100

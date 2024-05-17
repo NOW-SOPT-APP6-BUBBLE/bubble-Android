@@ -1,4 +1,4 @@
-package com.sopt.bubble.presentation.more
+package com.sopt.bubble.feature.more
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
