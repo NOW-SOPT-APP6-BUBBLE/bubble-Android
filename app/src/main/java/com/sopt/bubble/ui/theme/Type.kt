@@ -50,9 +50,9 @@ val Name03 = TextStyle(
 )
 
 val Body01 = TextStyle(
-    fontFamily = FontFamily(Font(R.font.roboto_bold)),
+    fontFamily = FontFamily(Font(R.font.roboto_medium)),
     fontWeight = FontWeight.Bold,
-    fontSize = 10.sp,
+    fontSize = 11.sp,
 )
 
 val Body02 = TextStyle(
