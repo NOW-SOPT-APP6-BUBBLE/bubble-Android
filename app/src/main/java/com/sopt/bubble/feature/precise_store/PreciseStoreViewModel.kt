@@ -1,15 +1,12 @@
-package com.sopt.bubble.presentation.precise_store
+package com.sopt.bubble.feature.precise_store
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.sopt.bubble.R
-import com.sopt.bubble.presentation.precise_store.model.Ticket
-import com.sopt.bubble.presentation.precise_store.model.mockTicketList1
+import com.sopt.bubble.feature.precise_store.model.Ticket
+import com.sopt.bubble.feature.precise_store.model.mockTicketList1
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import timber.log.Timber
 
 data class PreciseStoreState(
     val isCheckedList: List<Boolean> = listOf(false, false, false),

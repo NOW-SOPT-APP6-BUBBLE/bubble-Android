@@ -1,4 +1,4 @@
-package com.sopt.bubble.presentation.precise_store
+package com.sopt.bubble.feature.precise_store
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -41,11 +41,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.presentation.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX01
-import com.sopt.bubble.presentation.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX02
-import com.sopt.bubble.presentation.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX03
-import com.sopt.bubble.presentation.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_BANNER_IMAGE_RATIO
-import com.sopt.bubble.presentation.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX01
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX02
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX03
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_BANNER_IMAGE_RATIO
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray200

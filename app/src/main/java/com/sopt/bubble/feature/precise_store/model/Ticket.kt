@@ -1,4 +1,4 @@
-package com.sopt.bubble.presentation.precise_store.model
+package com.sopt.bubble.feature.precise_store.model
 
 data class Ticket(
     val number: String,
