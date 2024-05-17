@@ -107,7 +107,8 @@ fun PreciseStoreScreen(
             }
             items(
                 uiState.ticketList.take(
-                    if (uiState.isMore) uiState.ticketList.size else 2
+                    if (uiState.isMore)
+                        uiState.ticketList.size else 2
                 )
             ) { ticket ->
                 PreciseStoreTicket(
@@ -221,7 +222,7 @@ private fun PreciseStoreBottomBar(
                 )
         ) {
             Text(
-                text = "이용권 구매",
+                text = stringResource(id = R.string.precise_store_bottom_bar_purchase),
                 style = Headline04,
                 color = White,
                 modifier = Modifier.padding(vertical = 18.dp)
