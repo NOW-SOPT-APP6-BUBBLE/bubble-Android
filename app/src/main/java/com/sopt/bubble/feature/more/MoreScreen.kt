@@ -42,19 +42,20 @@ import com.sopt.bubble.ui.theme.White
 
 @Composable
 fun MoreScreen(
-    viewModel: MoreViewModel = viewModel()
+    viewModel: MoreViewModel = viewModel(),
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
-        topBar = { MoreTopAppBar() }
+        topBar = { MoreTopAppBar() },
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues)
+            modifier = modifier.padding(paddingValues)
         ) {
             MoreUserProfile(
                 uiState = uiState
             )
-            
+
             Spacer(
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, top = 37.dp, bottom = 6.dp)
@@ -63,10 +64,11 @@ fun MoreScreen(
                     .background(color = Gray100)
             )
 
-            for(menu in menuList){
+            for (menu in menuList) {
                 MoreMenuButton(
                     iconResId = menu.iconResId,
-                    textResId = menu.textResId){
+                    textResId = menu.textResId
+                ) {
                     //onClick
                 }
             }
@@ -104,8 +106,7 @@ private fun MoreUserProfile(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-        ) {
+        Box {
             Image(
                 painter = painterResource(id = R.drawable.ic_more_profile),
                 contentDescription = null
@@ -122,7 +123,7 @@ private fun MoreUserProfile(
                     )
             )
         }
-        
+
         Text(
             text = uiState.nickName,
             style = Headline04,
@@ -145,7 +146,7 @@ fun MoreMenuButton(
     iconResId: Int,
     @StringRes
     textResId: Int,
-    onClick:()->Unit
+    onClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -158,7 +159,7 @@ fun MoreMenuButton(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Image(
                 painter = painterResource(id = iconResId),
                 contentDescription = null
