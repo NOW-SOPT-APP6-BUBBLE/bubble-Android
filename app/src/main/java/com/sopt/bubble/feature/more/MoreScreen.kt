@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.more.MoreViewModel.Companion.TOP_BAR_RATIO
+import com.sopt.bubble.feature.more.MoreViewModel.Companion.menuList
 import com.sopt.bubble.ui.theme.Black
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100
@@ -44,7 +45,6 @@ fun MoreScreen(
     viewModel: MoreViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
     Scaffold(
         topBar = { MoreTopAppBar() }
     ) { paddingValues ->
@@ -63,26 +63,13 @@ fun MoreScreen(
                     .background(color = Gray100)
             )
 
-            MoreMenuButton(
-                iconResId = R.drawable.ic_more_my_bubble,
-                textResId = R.string.more_btn_my_bubble,
-                onClick = {}
-            )
-            MoreMenuButton(
-                iconResId = R.drawable.ic_more_store,
-                textResId = R.string.more_btn_store,
-                onClick = {}
-            )
-            MoreMenuButton(
-                iconResId = R.drawable.ic_more_notice,
-                textResId = R.string.more_btn_notice,
-                onClick = {}
-            )
-            MoreMenuButton(
-                iconResId = R.drawable.ic_more_guide,
-                textResId = R.string.more_btn_faq,
-                onClick = {}
-            )
+            for(menu in menuList){
+                MoreMenuButton(
+                    iconResId = menu.iconResId,
+                    textResId = menu.textResId){
+                    //onClick
+                }
+            }
         }
     }
 }
