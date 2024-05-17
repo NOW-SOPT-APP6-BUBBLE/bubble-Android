@@ -21,11 +21,6 @@ fun BubbleAppNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(
-            BottomScreen.Friends.route,
-        ) {
-            FriendsScreen()
-        }
 
         composable(
             BottomScreen.Chat.route,
@@ -36,9 +31,20 @@ fun BubbleAppNavHost(
         }
 
         composable(
+            BottomScreen.Friends.route,
+        ) {
+            FriendsScreen(
+                onNavigate = navController
+            )
+        }
+
+
+        composable(
             BottomScreen.More.route,
         ) {
-            MoreScreen()
+            MoreScreen(
+                onNavigate = navController
+            )
         }
 
         composable(

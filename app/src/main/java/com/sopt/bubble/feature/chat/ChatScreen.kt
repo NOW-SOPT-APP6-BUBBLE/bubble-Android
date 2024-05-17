@@ -1,25 +1,24 @@
 package com.sopt.bubble.feature.chat
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.sopt.bubble.feature.nav.Screen
-import com.sopt.bubble.ui.theme.Headline01
+import com.sopt.bubble.feature.nav.BubbleBottomNavigation
 
 @Composable
 fun ChatScreen(
     onNavigate: NavHostController,
 ) {
-    Column {
-        Text(
-            modifier = Modifier.clickable {
-                onNavigate.navigate(Screen.Test.route)
-            },
-            text = "Chat",
-            style = Headline01
-        )
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = { BubbleBottomNavigation(navHostController = onNavigate) }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+
+        }
     }
 }
