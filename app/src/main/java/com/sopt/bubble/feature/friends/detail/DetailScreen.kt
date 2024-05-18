@@ -13,20 +13,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import com.sopt.bubble.ui.theme.Gray200
-import com.sopt.bubble.ui.theme.Headline01
+
 
 @Composable
 fun DetailScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
-            DetailTopAppBar()
+            DetailTopBar(modifier)
         },
+        bottomBar = {
+            DetailBottomBar(modifier)
+        }
     ) { paddingValues ->
         Column(
             modifier = modifier
@@ -34,18 +38,15 @@ fun DetailScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .background(Gray200)
         ) {
-            Text(
-                text = "Detail",
-                style = Headline01
-            )
+
         }
     }
 }
 
 @Composable
-private fun DetailTopAppBar() {
+private fun DetailTopBar(modifier: Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(Gray200)
             .padding(horizontal = 31.dp, vertical = 52.dp),
@@ -59,6 +60,21 @@ private fun DetailTopAppBar() {
         Image(
             painter = painterResource(id = R.drawable.ic_detail_empty_star),
             contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun DetailBottomBar(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .background(Color.White)
+            .padding(vertical = 17.dp)
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = "bubble",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
     }
 }
