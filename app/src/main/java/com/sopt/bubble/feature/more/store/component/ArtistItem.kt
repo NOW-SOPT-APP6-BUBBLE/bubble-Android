@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.sopt.bubble.R
+import com.sopt.bubble.ui.theme.Name02
 
 @Composable
 fun ArtistItem(
@@ -63,7 +64,10 @@ fun ArtistItem(
                         contentDescription = null
                     )
                     Spacer(modifier = modifier.padding(4.dp))
-                    Text(text = name)
+                    Text(
+                        text = name,
+                        style = Name02
+                    )
                 }
                 Image(
                     painter = painterResource(id = R.drawable.ic_store_arrow),

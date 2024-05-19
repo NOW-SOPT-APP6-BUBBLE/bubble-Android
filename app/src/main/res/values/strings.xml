@@ -8,4 +8,11 @@
 
     <!--store-->
     <string name="store_top_bar_title">STORE</string>
+    <string name="store_bottom_1">이용약관</string>
+    <string name="store_bottom_2">개인정보처리방침</string>
+    <string name="store_bottom_3">운영정책</string>
+    <string name="store_bottom_4">청소년보호정책</string>
+    <string name="store_bottom_5">사업자정보</string>
+    <string name="store_bottom_to_top">TOP</string>
+
 </resources>
