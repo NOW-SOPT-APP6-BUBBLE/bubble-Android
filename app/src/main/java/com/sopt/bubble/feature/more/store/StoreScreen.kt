@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -39,7 +40,9 @@ fun StoreScreen(
                 contentScale = ContentScale.FillWidth,
             )
             LazyColumn(
-                modifier = modifier.fillMaxSize()
+                modifier = modifier
+                    .fillMaxSize()
+                    .align(Alignment.CenterHorizontally)
             ) {
                 items(storeViewModel.artistList) { artistInfo ->
                     ArtistItem(
