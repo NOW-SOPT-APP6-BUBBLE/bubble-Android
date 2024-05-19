@@ -5,7 +5,7 @@
     <string name="screen_friends">친구</string>
     <string name="screen_chat">채팅</string>
     <string name="screen_more">더 보기</string>
-    <string name="screen_friends_route">friends</string>
-    <string name="screen_chat_route">chat</string>
-    <string name="screen_more_route">more</string>
+
+    <!--detail-->
+    <string name="detail_bottom_title">bubble 친구추가</string>
 </resources>
