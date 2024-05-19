@@ -1,15 +1,19 @@
 package com.sopt.bubble.feature.more.store
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.sopt.bubble.R
 import com.sopt.bubble.feature.more.store.component.StoreTopBar
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
-import com.sopt.bubble.ui.theme.Headline01
 
 @Composable
 fun StoreScreen(
@@ -18,10 +22,16 @@ fun StoreScreen(
     Scaffold(
         topBar = { StoreTopBar(modifier) }
     ) { innerPadding ->
-        Column(modifier = modifier.padding(innerPadding)) {
-            Text(
-                text = "More",
-                style = Headline01
+        Column(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
+            Image(
+                modifier = modifier.fillMaxWidth(),
+                painter = painterResource(id = R.drawable.img_store_banner),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
             )
         }
     }
@@ -29,7 +39,7 @@ fun StoreScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun StorePreview() {
     BubbleAndroidTheme {
         StoreScreen()
     }
