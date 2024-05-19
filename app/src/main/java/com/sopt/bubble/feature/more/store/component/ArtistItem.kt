@@ -27,26 +27,27 @@ import com.sopt.bubble.R
 fun ArtistItem(
     name: String,
     photo: String,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         elevation = 5.dp
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
         ) {
             Image(
                 painter = rememberImagePainter(data = photo),
                 contentDescription = null,
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .aspectRatio(2.3f),
                 contentScale = ContentScale.FillWidth,
             )
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .background(Color.White)
                     .padding(
@@ -61,7 +62,7 @@ fun ArtistItem(
                         painter = painterResource(id = R.drawable.ic_store_bubble),
                         contentDescription = null
                     )
-                    Spacer(modifier = Modifier.padding(4.dp))
+                    Spacer(modifier = modifier.padding(4.dp))
                     Text(text = name)
                 }
                 Image(
