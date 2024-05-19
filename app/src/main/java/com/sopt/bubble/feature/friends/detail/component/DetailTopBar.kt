@@ -20,15 +20,17 @@ fun DetailTopBar(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(Gray200)
-            .padding(horizontal = 20.dp, vertical = 30.dp),
+            .padding(vertical = 30.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
+            modifier = modifier.padding(start = 20.dp),
             painter = painterResource(id = R.drawable.ic_detail_close),
             contentDescription = null
         )
         Image(
+            modifier = modifier.padding(end = 15.dp),
             painter = painterResource(id = R.drawable.ic_detail_empty_star),
             contentDescription = null
         )
