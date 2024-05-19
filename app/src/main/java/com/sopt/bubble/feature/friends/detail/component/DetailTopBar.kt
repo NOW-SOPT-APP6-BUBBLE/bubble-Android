@@ -20,7 +20,7 @@ fun DetailTopBar(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(Gray200)
-            .padding(horizontal = 31.dp, vertical = 52.dp),
+            .padding(horizontal = 20.dp, vertical = 30.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
