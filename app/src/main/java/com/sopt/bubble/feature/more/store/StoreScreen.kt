@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -47,28 +45,34 @@ fun StoreScreen(
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
             )
-            LazyColumn{
-                items(storeViewModel.artistList) { artistInfo ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
-                    ) {
-                        ArtistItem(
-                            name = artistInfo.name,
-                            photo = artistInfo.photo
-                        )
+            LazyColumn {
+                storeViewModel.artistList.forEachIndexed { index, artistInfo ->
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp)
+                        ) {
+                            ArtistItem(
+                                name = artistInfo.name,
+                                photo = artistInfo.photo
+                            )
+                        }
+                        if (index == storeViewModel.artistList.size - 1) {
+                            Spacer(modifier = Modifier.height(24.dp))
+                        } else {
+                            Spacer(modifier = Modifier.height(18.dp))
+                        }
                     }
-                    Spacer(modifier = Modifier.height(18.dp))
                 }
                 item {
                     StoreBottomBar(modifier)
                 }
             }
+
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
