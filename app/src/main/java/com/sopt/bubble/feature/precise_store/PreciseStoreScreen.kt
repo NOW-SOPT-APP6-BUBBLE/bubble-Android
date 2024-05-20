@@ -68,6 +68,7 @@ fun PreciseStoreScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+
     Scaffold(
         topBar = {
             PreciseStoreTopBar(
@@ -433,21 +434,21 @@ private fun PreciseStoreCheckBoxes(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX01) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX01],
             title = R.string.precise_store_checkbox_title01,
-            content = "textbox1"
+            content = R.string.precise_store_checkbox_body01
         )
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX02) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX02],
             title = R.string.precise_store_checkbox_title02,
-            content = "textbox2"
+            content = R.string.precise_store_checkbox_body02
         )
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX03) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX03],
             title = R.string.precise_store_checkbox_title03,
-            content = "textbox3"
+            content = R.string.precise_store_checkbox_body03
         )
     }
 }
@@ -456,7 +457,8 @@ private fun PreciseStoreCheckBoxes(
 private fun PreciseStoreCheckBox(
     @StringRes
     title: Int,
-    content: String,
+    @StringRes
+    content: Int,
     onClickCheckIcon: () -> Unit,
     isChecked: Boolean,
 ) {
@@ -520,7 +522,7 @@ private fun PreciseStoreCheckBox(
 
             if (isTextFolded) {
                 Text(
-                    text = content,
+                    text = stringResource(id = content),
                     style = Body03,
                     color = White,
                     modifier = Modifier.padding(
