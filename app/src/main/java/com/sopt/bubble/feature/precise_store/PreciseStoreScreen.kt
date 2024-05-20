@@ -1,6 +1,9 @@
 package com.sopt.bubble.feature.precise_store
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -86,12 +89,12 @@ fun PreciseStoreScreen(
                 isChecked = uiState.isPurchasable,
                 onClick = {}
             )
-        }
+        },
+        modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
                 .background(Gray700)
         ) {
             item {
@@ -490,6 +493,12 @@ private fun PreciseStoreCheckBox(
         colors = CardDefaults.cardColors(containerColor = Gray800),
         modifier = Modifier
             .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp)
@@ -534,9 +543,7 @@ private fun PreciseStoreCheckBox(
                         Text(
                             text = stringResource(id = content.content),
                             style = Body03,
-                            color = content.textColor,
-
-                            )
+                            color = content.textColor,)
                     }
                 }
             }
