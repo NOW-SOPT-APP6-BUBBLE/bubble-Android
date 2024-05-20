@@ -56,8 +56,8 @@ val Body01 = TextStyle(
 )
 
 val Body02 = TextStyle(
-    fontFamily = FontFamily(Font(R.font.roboto_medium)),
-    fontWeight = FontWeight.Medium,
+    fontFamily = FontFamily(Font(R.font.roboto_bold)),
+    fontWeight = FontWeight.Bold,
     fontSize = 10.sp,
 )
 
@@ -65,6 +65,7 @@ val Body03 = TextStyle(
     fontFamily = FontFamily(Font(R.font.roboto_medium)),
     fontWeight = FontWeight.Medium,
     fontSize = 10.sp,
+    letterSpacing = (-0.3).sp
 )
 
 val BubbleButton = TextStyle(

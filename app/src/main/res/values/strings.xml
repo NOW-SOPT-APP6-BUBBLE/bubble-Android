@@ -6,6 +6,16 @@
     <string name="screen_chat">채팅</string>
     <string name="screen_more">더 보기</string>
 
+    <!--store-->
+    <string name="store_top_bar_title">STORE</string>
+    <string name="store_bottom_1">이용약관</string>
+    <string name="store_bottom_2">개인정보처리방침</string>
+    <string name="store_bottom_3">운영정책</string>
+    <string name="store_bottom_4">청소년보호정책</string>
+    <string name="store_bottom_5">사업자정보</string>
+    <string name="store_bottom_to_top">TOP</string>
+
+    <!--precise_store-->
     <string name="precise_store_app_bar_header">bubble</string>
     <string name="app_bar_content_description_close">close</string>
     <string name="app_bar_content_description_back">back</string>
@@ -59,9 +69,11 @@ ARTIST의 라인업 및 혜택은 ARTIST와 기획사 사정으로 변경될  �
 (서비스 이용약관: MORE > 설정 > 서비스 이용약관
     </string>
 
+    <!--more-->
     <string name="more_top_bar_title">MORE</string>
     <string name="more_btn_my_bubble">My bubble</string>
     <string name="more_btn_store">STORE</string>
     <string name="more_btn_notice">Notice</string>
     <string name="more_btn_faq">FAQ</string>
+
 </resources>
