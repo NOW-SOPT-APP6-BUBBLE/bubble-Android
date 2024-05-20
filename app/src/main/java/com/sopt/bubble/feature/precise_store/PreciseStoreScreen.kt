@@ -49,6 +49,8 @@ import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.IND
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX03
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_BANNER_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
+import com.sopt.bubble.feature.precise_store.component.PreciseStoreBottomBar
+import com.sopt.bubble.feature.precise_store.component.PreciseStoreTopBar
 import com.sopt.bubble.feature.precise_store.model.TermsContent
 import com.sopt.bubble.feature.precise_store.model.terms01
 import com.sopt.bubble.feature.precise_store.model.terms02
@@ -169,76 +171,7 @@ fun PreciseStoreScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PreciseStoreTopBar(
-    onClickBackIcon: () -> Unit,
-    onClickCloseIcon: () -> Unit,
-) {
-    TopAppBar(
-        title = {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 20.dp, bottom = 20.dp, end = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = stringResource(id = R.string.app_bar_content_description_back),
-                        modifier = Modifier.noRippleClickable { onClickBackIcon() }
 
-                    )
-                    Text(
-                        text = stringResource(id = R.string.precise_store_app_bar_header),
-                        style = Headline02,
-                        modifier = Modifier.padding(start = 15.dp)
-                    )
-                }
-
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_close),
-                    contentDescription = stringResource(id = R.string.app_bar_content_description_close),
-                    modifier = Modifier.noRippleClickable { onClickCloseIcon() }
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun PreciseStoreBottomBar(
-    isChecked: Boolean,
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .background(Gray700) // Transparent background
-            .noRippleClickable { onClick() }
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    shape = RoundedCornerShape(topEnd = 18.dp),
-                    color = if (isChecked) JYPBLUE
-                    else Gray200
-                )
-        ) {
-            Text(
-                text = stringResource(id = R.string.precise_store_bottom_bar_purchase),
-                style = Headline04,
-                color = White,
-                modifier = Modifier.padding(vertical = 18.dp)
-            )
-        }
-    }
-}
 
 @Composable
 private fun PreciseStoreArtistDescription(
