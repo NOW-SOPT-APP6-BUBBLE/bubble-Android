@@ -2,6 +2,7 @@ package com.sopt.bubble.feature.more.store.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,7 @@ import com.sopt.bubble.ui.theme.Gray200
 @Composable
 fun StoreBottomBar(
     modifier: Modifier = Modifier,
+    onScrollToTop: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -72,7 +74,8 @@ fun StoreBottomBar(
             Text(
                 text = stringResource(id = R.string.store_bottom_to_top),
                 style = Body02,
-                color = Gray200
+                color = Gray200,
+                modifier = modifier.clickable { onScrollToTop() }
             )
         }
         Spacer(modifier = modifier.padding(bottom = 23.dp))
