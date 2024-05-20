@@ -6,6 +6,11 @@
     <string name="screen_chat">채팅</string>
     <string name="screen_more">더 보기</string>
 
+    <!--detail-->
+    <string name="detail_bottom_title">bubble 친구추가</string>
+    <string name="detail_name">팔불출❤️</string>
+    <string name="detail_sub_name">이제 떨어질 일 없다아❤️️</string>
+
     <!--store-->
     <string name="store_top_bar_title">STORE</string>
     <string name="store_bottom_1">이용약관</string>
