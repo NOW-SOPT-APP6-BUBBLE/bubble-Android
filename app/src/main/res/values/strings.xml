@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">bubble-Android</string>
 
+    <!--    bottom navigation-->
+    <string name="screen_friends">친구</string>
+    <string name="screen_chat">채팅</string>
+    <string name="screen_more">더 보기</string>
+
     <string name="precise_store_app_bar_header">bubble</string>
     <string name="app_bar_content_description_close">close</string>
     <string name="app_bar_content_description_back">back</string>
     <string name="precise_store_bottom_bar_purchase">이용권 구매</string>
-
     <string name="precise_store_artist_lineup">ARTIST 라인업</string>
     <string name="precise_store_artist_coming_soon">Coming soon</string>
     <string name="precise_store_bubble_introduction">소개</string>
@@ -14,17 +18,13 @@
     <string name="precise_store_ticket_month">/월</string>
     <string name="precise_store_button_more">더보기</string>
     <string name="precise_store_button_more_close">닫기</string>
-
-
     <string name="precise_store_content_description_checkbox_unchecked">unchecked</string>
     <string name="precise_store_content_description_checkbox_checked">checked</string>
     <string name="precise_store_content_description_fold">fold</string>
     <string name="precise_store_content_description_unfold">unfold</string>
-
     <string name="precise_store_checkbox_title01">서비스 이용안내 동의</string>
     <string name="precise_store_checkbox_title02">콘텐츠 관련 유의사항 동의</string>
     <string name="precise_store_checkbox_title03">답장 작성 시 유의사항 동의</string>
-
     <string name="precise_store_checkbox_body01">
         이용권의 인원 수 만큼, bubble 메시지를 수신할 ARTIST를 선택할 수 있습니다.
 
@@ -39,7 +39,6 @@ bubble for JYPnation의 회원 닉네임으로 ARTIST가 메시지를 보낼 수
 
 ARTIST의 라인업 및 혜택은 ARTIST와 기획사 사정으로 변경될  수 있습니다.
     </string>
-
     <string name="precise_store_checkbox_body02">
         bubble for JYPnation에서 제공되는 ARTIST의 메시지, 사진, 영상, 음성 등 모든 콘텐츠는 유료회원만을 위한 독점 콘텐츠로, 외부로 유출할 경우 법적 책임을 질 수 있습니다.
 
@@ -47,7 +46,6 @@ ARTIST의 라인업 및 혜택은 ARTIST와 기획사 사정으로 변경될  �
 
 부적절한 활동을 하는 사용자는 자격이 제한되거나, 회원자격이 박탈될 수 있습니다.
     </string>
-
     <string name="precise_store_checkbox_body03">
         회원의 답장 기능 사용 시 법적으로 금지되는 발송 내용은 아래와 같습니다.
 - 음란한 부호·문언
