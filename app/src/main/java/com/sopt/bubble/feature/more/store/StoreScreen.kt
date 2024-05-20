@@ -78,7 +78,7 @@ fun StoreScreen(
                     StoreBottomBar(modifier = modifier,
                         onScrollToTop = {
                             coroutineScope.launch {
-                                scrollState.animateScrollToItem(0)
+                                scrollState.animateScrollToItem(index = 0)
                             }
                         }
                     )
