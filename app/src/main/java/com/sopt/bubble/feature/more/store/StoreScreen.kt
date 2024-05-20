@@ -45,9 +45,12 @@ fun StoreScreen(
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
             )
-            LazyColumn() {
+            LazyColumn {
                 storeViewModel.artistList.forEachIndexed { index, artistInfo ->
                     item {
+                        if (index == 0) {
+                            Spacer(modifier = Modifier.height(24.dp))
+                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
