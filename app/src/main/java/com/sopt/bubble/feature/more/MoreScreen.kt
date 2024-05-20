@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.more.MoreViewModel.Companion.menuList
 import com.sopt.bubble.feature.more.component.MoreTopAppBar
@@ -38,15 +40,20 @@ import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline04
 import com.sopt.bubble.ui.theme.JYPBLUE
 import com.sopt.bubble.ui.theme.White
+import androidx.navigation.NavHostController
+import com.sopt.bubble.feature.nav.BubbleBottomNavigation
 
 @Composable
 fun MoreScreen(
+    onNavigate: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: MoreViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = { MoreTopAppBar() },
+        bottomBar = { BubbleBottomNavigation(navHostController = onNavigate) }
     ) { paddingValues ->
         Column(
             modifier = modifier.padding(paddingValues)

@@ -15,7 +15,10 @@ appcompat = "1.6.1"
 coil = "2.5.0"
 timber = "5.0.1"
 bom = "4.11.0"
-viewmodel = "2.7.0"
+compose-viewmodel = "2.7.0"
+navigation = "2.7.7"
+material = "1.6.7"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,7 +44,9 @@ squareup-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = 
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 squareup-okhttp3-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "bom" }
-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodel"}
+compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "compose-viewmodel"}
+navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-material = { group = "androidx.compose.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
