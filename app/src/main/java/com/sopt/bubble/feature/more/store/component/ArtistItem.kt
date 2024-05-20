@@ -33,7 +33,7 @@ fun ArtistItem(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        elevation = 5.dp
+        elevation = 3.dp
     ) {
         Column(
             modifier = modifier
