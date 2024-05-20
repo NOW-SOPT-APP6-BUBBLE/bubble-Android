@@ -95,6 +95,9 @@ dependencies {
 
     // navigation
     implementation(libs.navigation)
+
+    //viewmodel
+    implementation(libs.compose.viewmodel)
 }
 
 fun getApiKey(propertyKey: String): String {

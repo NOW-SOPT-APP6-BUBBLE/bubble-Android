@@ -15,6 +15,7 @@ serialization = "1.5.1"
 appcompat = "1.6.1"
 timber = "5.0.1"
 bom = "4.11.0"
+compose-viewmodel = "2.7.0"
 navigation = "2.7.7"
 material = "1.6.7"
 
@@ -42,6 +43,7 @@ squareup-okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp" }
 squareup-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 squareup-okhttp3-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "bom" }
+compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "compose-viewmodel"}
 navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-material = { group = "androidx.compose.material", name = "material", version.ref = "material" }
 
