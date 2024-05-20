@@ -29,21 +29,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.feature.more.MoreViewModel.Companion.TOP_BAR_RATIO
 import com.sopt.bubble.feature.more.MoreViewModel.Companion.menuList
+import com.sopt.bubble.feature.more.component.MoreTopAppBar
 import com.sopt.bubble.ui.theme.Black
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray200
-import com.sopt.bubble.ui.theme.Headline01
 import com.sopt.bubble.ui.theme.Headline04
 import com.sopt.bubble.ui.theme.JYPBLUE
 import com.sopt.bubble.ui.theme.White
 
 @Composable
 fun MoreScreen(
+    modifier: Modifier = Modifier,
     viewModel: MoreViewModel = viewModel(),
-    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
@@ -76,27 +75,7 @@ fun MoreScreen(
     }
 }
 
-@Composable
-private fun MoreTopAppBar() {
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(TOP_BAR_RATIO)
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = stringResource(id = R.string.more_top_bar_title),
-            style = Headline01
-        )
-        Image(
-            painter = painterResource(id = R.drawable.ic_more_btn_setting),
-            contentDescription = null
-        )
-    }
-}
 
 @Composable
 private fun MoreUserProfile(
