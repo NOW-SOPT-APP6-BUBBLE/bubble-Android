@@ -22,7 +22,7 @@ import com.sopt.bubble.ui.theme.Gray200
 
 @Composable
 fun StoreBottomBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

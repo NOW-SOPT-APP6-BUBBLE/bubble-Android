@@ -28,7 +28,7 @@ import com.sopt.bubble.ui.theme.Name02
 fun ArtistItem(
     name: String,
     photo: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
