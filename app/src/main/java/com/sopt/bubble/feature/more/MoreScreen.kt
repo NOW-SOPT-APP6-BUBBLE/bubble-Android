@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +32,7 @@ import androidx.navigation.NavHostController
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.more.MoreViewModel.Companion.menuList
 import com.sopt.bubble.feature.more.component.MoreTopAppBar
+import com.sopt.bubble.feature.nav.BubbleBottomNavigation
 import com.sopt.bubble.ui.theme.Black
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100
@@ -40,8 +40,6 @@ import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline04
 import com.sopt.bubble.ui.theme.JYPBLUE
 import com.sopt.bubble.ui.theme.White
-import androidx.navigation.NavHostController
-import com.sopt.bubble.feature.nav.BubbleBottomNavigation
 
 @Composable
 fun MoreScreen(
@@ -167,7 +165,7 @@ fun MoreMenuButton(
 @Preview(showBackground = true)
 @Composable
 fun MoreScreenPreview() {
-    MoreScreen()
+    //MoreScreen()
 }
 
 @Preview(showBackground = true)
