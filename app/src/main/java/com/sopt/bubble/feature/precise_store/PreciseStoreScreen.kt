@@ -46,6 +46,10 @@ import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.IND
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.INDEX_CHECKBOX03
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_BANNER_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
+import com.sopt.bubble.feature.precise_store.model.TermsContent
+import com.sopt.bubble.feature.precise_store.model.terms01
+import com.sopt.bubble.feature.precise_store.model.terms02
+import com.sopt.bubble.feature.precise_store.model.terms03
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray200
@@ -61,6 +65,7 @@ import com.sopt.bubble.ui.theme.Name02
 import com.sopt.bubble.ui.theme.Name03
 import com.sopt.bubble.ui.theme.White
 import com.sopt.bubble.util.extension.noRippleClickable
+import kotlinx.serialization.json.JsonNull.content
 
 @Composable
 fun PreciseStoreScreen(
@@ -434,21 +439,21 @@ private fun PreciseStoreCheckBoxes(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX01) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX01],
             title = R.string.precise_store_checkbox_title01,
-            content = R.string.precise_store_checkbox_body01
-        )
+            contents = terms01)
+
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX02) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX02],
             title = R.string.precise_store_checkbox_title02,
-            content = R.string.precise_store_checkbox_body02
+            contents = terms02
         )
         Spacer(modifier = Modifier.height(6.dp))
         PreciseStoreCheckBox(
             onClickCheckIcon = { onClickCheckBox(INDEX_CHECKBOX03) },
             isChecked = uiState.isCheckedList[INDEX_CHECKBOX03],
             title = R.string.precise_store_checkbox_title03,
-            content = R.string.precise_store_checkbox_body03
+            contents = terms03
         )
     }
 }
@@ -457,8 +462,7 @@ private fun PreciseStoreCheckBoxes(
 private fun PreciseStoreCheckBox(
     @StringRes
     title: Int,
-    @StringRes
-    content: Int,
+    contents: List<TermsContent>,
     onClickCheckIcon: () -> Unit,
     isChecked: Boolean,
 ) {
@@ -521,14 +525,20 @@ private fun PreciseStoreCheckBox(
             }
 
             if (isTextFolded) {
-                Text(
-                    text = stringResource(id = content),
-                    style = Body03,
-                    color = White,
+                Column (
                     modifier = Modifier.padding(
                         top = 12.dp, start = 1.dp, end = 1.dp, bottom = 11.dp
                     )
-                )
+                ) {
+                    for (content in contents) {
+                        Text(
+                            text = stringResource(id = content.content),
+                            style = Body03,
+                            color = content.textColor,
+
+                            )
+                    }
+                }
             }
         }
     }
