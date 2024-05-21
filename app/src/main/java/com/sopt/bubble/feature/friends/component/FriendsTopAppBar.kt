@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.friends.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,9 +21,7 @@ import com.sopt.bubble.feature.more.MoreViewModel
 import com.sopt.bubble.ui.theme.Headline01
 
 @Composable
-fun FriendsTopAppBar(
-    isCollapsed: Boolean,
-) {
+fun FriendsTopAppBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()

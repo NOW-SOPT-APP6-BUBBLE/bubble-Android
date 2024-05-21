@@ -75,7 +75,7 @@ fun FriendsScreen(
                 modifier = modifier.padding(paddingValues),
                 state = listState
             ) {
-                item { FriendsTopAppBar(isCollapsed) }
+                item { FriendsTopAppBar() }
                 item {
                     Text(
                         text = stringResource(R.string.friends_my_profile),
