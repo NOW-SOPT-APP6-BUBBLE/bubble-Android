@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.more.store
+package com.sopt.bubble.feature.store
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
 import com.sopt.bubble.data.dataclass.StoreArtist
-import com.sopt.bubble.feature.more.store.component.ArtistItem
-import com.sopt.bubble.feature.more.store.component.StoreBottomBar
-import com.sopt.bubble.feature.more.store.component.StoreTopBar
+import com.sopt.bubble.feature.store.component.ArtistItem
+import com.sopt.bubble.feature.store.component.StoreBottomBar
+import com.sopt.bubble.feature.store.component.StoreTopBar
 import kotlinx.coroutines.launch
 
 @Composable

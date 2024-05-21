@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail.component
+package com.sopt.bubble.feature.frienddetail.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,7 +18,7 @@ import com.sopt.bubble.R
 import com.sopt.bubble.ui.theme.Gray200
 
 @Composable
-fun DetailTopBar(
+fun FriendDetailTopBar(
     modifier: Modifier,
     onStarClick: () -> Unit = {}
 ) {

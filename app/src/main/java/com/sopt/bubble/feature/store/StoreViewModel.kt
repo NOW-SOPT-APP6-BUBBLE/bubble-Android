@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.more.store
+package com.sopt.bubble.feature.store
 
 import androidx.lifecycle.ViewModel
 import com.sopt.bubble.data.dataclass.StoreArtist
