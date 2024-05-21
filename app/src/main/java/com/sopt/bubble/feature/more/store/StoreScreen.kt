@@ -18,20 +18,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
+import com.sopt.bubble.data.dataclass.StoreArtist
 import com.sopt.bubble.feature.more.store.component.ArtistItem
 import com.sopt.bubble.feature.more.store.component.StoreBottomBar
 import com.sopt.bubble.feature.more.store.component.StoreTopBar
-import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import kotlinx.coroutines.launch
+
+@Composable
+fun StoreRout(
+    modifier: Modifier = Modifier,
+    storeViewModel: StoreViewModel = viewModel()
+) {
+
+    val artistList = storeViewModel.artistList
+
+    StoreScreen(
+        modifier = modifier,
+        artistList = artistList
+    )
+}
 
 @Composable
 fun StoreScreen(
     modifier: Modifier = Modifier,
-    storeViewModel: StoreViewModel = viewModel()
+    artistList: List<StoreArtist>
+
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -52,7 +66,7 @@ fun StoreScreen(
                 contentScale = ContentScale.FillWidth,
             )
             LazyColumn(state = scrollState) {
-                storeViewModel.artistList.forEachIndexed { index, artistInfo ->
+                artistList.forEachIndexed { index, artistInfo ->
                     item {
                         if (index == 0) {
                             Spacer(modifier = Modifier.height(24.dp))
@@ -67,7 +81,7 @@ fun StoreScreen(
                                 photo = artistInfo.photo
                             )
                         }
-                        if (index == storeViewModel.artistList.size - 1) {
+                        if (index == artistList.size - 1) {
                             Spacer(modifier = Modifier.height(24.dp))
                         } else {
                             Spacer(modifier = Modifier.height(18.dp))
@@ -85,13 +99,5 @@ fun StoreScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun StorePreview() {
-    BubbleAndroidTheme {
-        StoreScreen()
     }
 }

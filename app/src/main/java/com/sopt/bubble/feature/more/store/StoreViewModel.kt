@@ -5,6 +5,11 @@ import com.sopt.bubble.data.dataclass.StoreArtist
 
 class StoreViewModel : ViewModel() {
 
+
+
+
+
+
     val artistList = listOf(
         StoreArtist(
             name = "YAOCHEN",
