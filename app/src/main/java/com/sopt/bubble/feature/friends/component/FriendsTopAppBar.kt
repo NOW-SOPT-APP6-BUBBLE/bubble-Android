@@ -1,11 +1,13 @@
 package com.sopt.bubble.feature.friends.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -20,12 +22,15 @@ import com.sopt.bubble.feature.more.MoreViewModel
 import com.sopt.bubble.ui.theme.Headline01
 
 @Composable
-fun FriendsTopAppBar() {
+fun FriendsTopAppBar(
+    isCollapsed: Boolean,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(MoreViewModel.TOP_BAR_RATIO)
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 20.dp)
+            .height(EXPANDED_TOP_BAR_HEIGHT - COLLAPSED_TOP_BAR_HEIGHT),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -46,3 +51,6 @@ fun FriendsTopAppBar() {
         }
     }
 }
+
+val COLLAPSED_TOP_BAR_HEIGHT = 56.dp
+val EXPANDED_TOP_BAR_HEIGHT = 200.dp
