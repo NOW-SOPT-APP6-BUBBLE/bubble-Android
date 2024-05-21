@@ -47,7 +47,7 @@ fun FriendProfile(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(start = 16.dp, end = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(name, style = Name01)
