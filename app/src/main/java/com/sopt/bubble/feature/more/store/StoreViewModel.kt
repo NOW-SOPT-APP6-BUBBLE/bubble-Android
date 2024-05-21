@@ -24,7 +24,7 @@ class StoreViewModel : ViewModel() {
         ),
         StoreArtist(
             name = "J.Y. Park",
-            photo = "https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/b486ec10-6d0b-4415-a740-c34c86c2cda4"
+            photo = "https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/5f0079cf-8f3d-4600-b51e-8ca90d959c6c"
         ),
         StoreArtist(
             name = "Stray Kids",

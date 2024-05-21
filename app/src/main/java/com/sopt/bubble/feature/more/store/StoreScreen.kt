@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,12 +26,16 @@ import com.sopt.bubble.feature.more.store.component.ArtistItem
 import com.sopt.bubble.feature.more.store.component.StoreBottomBar
 import com.sopt.bubble.feature.more.store.component.StoreTopBar
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun StoreScreen(
     modifier: Modifier = Modifier,
     storeViewModel: StoreViewModel = viewModel()
 ) {
+    val scrollState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         topBar = { StoreTopBar(modifier) }
     ) { innerPadding ->
@@ -45,7 +51,7 @@ fun StoreScreen(
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
             )
-            LazyColumn {
+            LazyColumn(state = scrollState) {
                 storeViewModel.artistList.forEachIndexed { index, artistInfo ->
                     item {
                         if (index == 0) {
@@ -69,10 +75,15 @@ fun StoreScreen(
                     }
                 }
                 item {
-                    StoreBottomBar(modifier)
+                    StoreBottomBar(modifier = modifier,
+                        onScrollToTop = {
+                            coroutineScope.launch {
+                                scrollState.animateScrollToItem(index = 0)
+                            }
+                        }
+                    )
                 }
             }
-
         }
     }
 }
