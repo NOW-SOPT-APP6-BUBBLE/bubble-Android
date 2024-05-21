@@ -13,6 +13,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,19 +25,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.data.dataclass.StoreArtist
+import com.sopt.bubble.data.dto.response.StoreResponseDto
 import com.sopt.bubble.feature.store.component.ArtistItem
 import com.sopt.bubble.feature.store.component.StoreBottomBar
 import com.sopt.bubble.feature.store.component.StoreTopBar
 import kotlinx.coroutines.launch
 
 @Composable
-fun StoreRout(
+fun StoreRoute(
     modifier: Modifier = Modifier,
     storeViewModel: StoreViewModel = viewModel()
 ) {
 
-    val artistList = storeViewModel.artistList
+    val artistList by remember { mutableStateOf<List<StoreResponseDto.Result.Artist>>(emptyList()) }
+
+    LaunchedEffect(true) {
+        storeViewModel.getArtistInfo()
+    }
 
     StoreScreen(
         modifier = modifier,
@@ -44,8 +52,7 @@ fun StoreRout(
 @Composable
 fun StoreScreen(
     modifier: Modifier = Modifier,
-    artistList: List<StoreArtist>
-
+    artistList: List<StoreResponseDto.Result.Artist>
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
