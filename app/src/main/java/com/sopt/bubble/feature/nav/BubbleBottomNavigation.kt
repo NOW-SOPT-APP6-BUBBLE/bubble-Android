@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -21,9 +20,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 @Composable
 fun BubbleBottomNavigation(navHostController: NavHostController) {
     val items = listOf(
-        Screen.Friends,
-        Screen.Chat,
-        Screen.More
+        BottomScreen.Friends,
+        BottomScreen.Chat,
+        BottomScreen.More
     )
 
     BottomNavigation(
@@ -32,26 +31,31 @@ fun BubbleBottomNavigation(navHostController: NavHostController) {
             .fillMaxWidth()
             .shadow(
                 elevation = 16.dp,
-                shape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp)
+                shape = RoundedCornerShape(
+                    topStart = 10.dp,
+                    topEnd = 10.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
             ),
     ) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
             val isSelected =
-                currentDestination?.hierarchy?.any { it.route == stringResource(id = screen.route) } == true
+                currentDestination?.hierarchy?.any { it.route == screen.route } == true
             BottomNavigationItem(
                 icon = {
                     Icon(
                         painter = painterResource(
                             id = (if (isSelected) screen.selectedIcon else screen.icon)
                         ),
-                        contentDescription = stringResource(id = screen.resourceId)
+                        contentDescription = screen.resourceId.toString()
                     )
                 },
                 selected = isSelected,
                 onClick = {
-                    navHostController.navigate(screen.route.toString()) {
+                    navHostController.navigate(screen.route) {
                         popUpTo(navHostController.graph.findStartDestination().id) {
                             saveState = true
                         }

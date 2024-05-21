@@ -88,13 +88,16 @@ dependencies {
     implementation(libs.squareup.okhttp3.logging.interceptor)
 
     // coil
-    implementation(libs.coil)
+    implementation (libs.coil.compose)
 
     // timber
     implementation(libs.timber)
 
     // navigation
     implementation(libs.navigation)
+
+    //viewmodel
+    implementation(libs.compose.viewmodel)
 }
 
 fun getApiKey(propertyKey: String): String {
