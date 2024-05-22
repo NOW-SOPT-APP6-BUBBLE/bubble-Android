@@ -1,4 +1,4 @@
-package com.sopt.bubble.data.dto
+package com.sopt.bubble.data.dto.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
