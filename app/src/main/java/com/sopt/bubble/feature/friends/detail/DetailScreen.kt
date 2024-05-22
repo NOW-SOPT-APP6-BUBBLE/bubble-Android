@@ -30,6 +30,13 @@ import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
 
+@Composable
+fun DetailRoute(modifier: Modifier = Modifier) {
+
+
+
+    DetailScreen(modifier)
+}
 
 @Composable
 fun DetailScreen(modifier: Modifier = Modifier) {
