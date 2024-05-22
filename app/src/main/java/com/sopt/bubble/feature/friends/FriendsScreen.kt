@@ -55,14 +55,14 @@ fun FriendsScreen(
         derivedStateOf { listState.firstVisibleItemIndex > 0 }
     }
 
-    var isStarFolded: Boolean by remember { mutableStateOf(false) }
+    var isStarFold: Boolean by remember { mutableStateOf(false) }
     val foldStarImageDrawRes =
-        if (isStarFolded) R.drawable.ic_precise_store_fold
+        if (isStarFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
 
-    var isRecommendFolded: Boolean by remember { mutableStateOf(false) }
+    var isRecommendFold: Boolean by remember { mutableStateOf(false) }
     val foldRecommendImageDrawRes =
-        if (isRecommendFolded) R.drawable.ic_precise_store_fold
+        if (isRecommendFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
 
     Scaffold(
@@ -106,15 +106,14 @@ fun FriendsScreen(
                         )
                         Icon(
                             modifier = Modifier.noRippleClickable {
-                                isStarFolded = !isStarFolded
+                                isStarFold = !isStarFold
                             },
                             painter = painterResource(id = foldStarImageDrawRes),
                             contentDescription = null
                         )
                     }
                 }
-
-                if (isStarFolded) {
+                if (isStarFold) {
                     items(starFriendsState) { starFriends ->
                         FriendProfile(
                             profileImage = starFriends.profileImage,
@@ -142,7 +141,7 @@ fun FriendsScreen(
                         )
                         Icon(
                             modifier = Modifier.noRippleClickable {
-                                isRecommendFolded = !isRecommendFolded
+                                isRecommendFold = !isRecommendFold
                             },
                             painter = painterResource(id = foldRecommendImageDrawRes),
                             contentDescription = null
@@ -150,7 +149,7 @@ fun FriendsScreen(
                     }
                 }
 
-                if (isRecommendFolded) items(friendsArtistState) { friendsArtist ->
+                if (isRecommendFold) items(friendsArtistState) { friendsArtist ->
                     FriendProfile(
                         profileImage = friendsArtist.profileImage,
                         name = friendsArtist.name,

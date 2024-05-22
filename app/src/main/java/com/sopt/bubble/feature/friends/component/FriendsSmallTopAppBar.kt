@@ -21,7 +21,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
-import com.sopt.bubble.feature.more.MoreViewModel
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.COLLAPSED_TOP_BAR_HEIGHT
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.ENTER_EXPAND_FROM_TOP_INITIAL_HEIGHT
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.EXIT_SHRINK_DIVISOR
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.EXPANDED_TOP_BAR_HEIGHT
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.TOP_BAR_RATIO
 import com.sopt.bubble.ui.theme.Headline02
 
 @Composable
@@ -30,15 +34,15 @@ fun FriendsSmallTopAppBar(
 ) {
     AnimatedVisibility(
         visible = isCollapsed,
-        enter = expandVertically(expandFrom = Alignment.Top) { 20 },
+        enter = expandVertically(expandFrom = Alignment.Top) { ENTER_EXPAND_FROM_TOP_INITIAL_HEIGHT },
         exit = shrinkVertically(animationSpec = tween()) { fullHeight ->
-            fullHeight / 2
+            fullHeight / EXIT_SHRINK_DIVISOR
         },
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(MoreViewModel.TOP_BAR_RATIO)
+                .aspectRatio(TOP_BAR_RATIO)
                 .padding(horizontal = 20.dp)
                 .height(EXPANDED_TOP_BAR_HEIGHT - COLLAPSED_TOP_BAR_HEIGHT),
             horizontalArrangement = Arrangement.SpaceBetween,

@@ -17,6 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.COLLAPSED_TOP_BAR_HEIGHT
+import com.sopt.bubble.feature.friends.FriendsViewModel.FriendsComponentConstants.EXPANDED_TOP_BAR_HEIGHT
 import com.sopt.bubble.feature.more.MoreViewModel
 import com.sopt.bubble.ui.theme.Headline01
 
@@ -48,6 +50,3 @@ fun FriendsTopAppBar() {
         }
     }
 }
-
-val COLLAPSED_TOP_BAR_HEIGHT = 56.dp
-val EXPANDED_TOP_BAR_HEIGHT = 200.dp
