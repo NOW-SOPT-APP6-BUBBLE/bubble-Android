@@ -41,6 +41,8 @@ class PreciseStoreViewModel: ViewModel() {
         const val INDEX_CHECKBOX02 = 1
         const val INDEX_CHECKBOX03 = 2
 
+        const val CHECK_BUTTON_NUM = 3
+
         const val PRECISE_STORE_TOP_IMAGE_RATIO = 360 / 182f
         const val PRECISE_STORE_BANNER_IMAGE_RATIO = 320 / 64f
     }
