@@ -37,7 +37,6 @@ class PreciseStoreViewModel: ViewModel() {
     }
 
     companion object{
-        const val CHECK_BUTTON_NUM = 3
         const val INDEX_CHECKBOX01 = 0
         const val INDEX_CHECKBOX02 = 1
         const val INDEX_CHECKBOX03 = 2
