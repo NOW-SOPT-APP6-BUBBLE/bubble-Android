@@ -13,6 +13,8 @@ data class CheckBoxContent(
     var onClickCheckBox:() -> Unit = {}
 )
 
+const val CHECK_BUTTON_NUM = 3
+
 val checkBoxList: List<CheckBoxContent> = listOf(
     CheckBoxContent(
         title = R.string.precise_store_checkbox_title01,

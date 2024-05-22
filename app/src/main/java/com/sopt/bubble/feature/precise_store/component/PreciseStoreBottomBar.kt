@@ -26,7 +26,7 @@ fun PreciseStoreBottomBar(
 ) {
     Box(
         modifier = Modifier
-            .background(Gray700) // Transparent background
+            .background(Gray700)
             .noRippleClickable { onClick() }
     ) {
         Box(
