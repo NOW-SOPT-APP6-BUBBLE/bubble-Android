@@ -1,5 +1,6 @@
 package com.sopt.bubble.feature.store
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,8 +22,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
 import com.sopt.bubble.data.dto.response.StoreResponseDto
@@ -39,8 +43,35 @@ fun StoreRoute(
 
     val artistList by remember { mutableStateOf<List<StoreResponseDto.Result.Artist>>(emptyList()) }
 
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+
     LaunchedEffect(true) {
         storeViewModel.getArtistInfo()
+    }
+
+    LaunchedEffect(storeViewModel.sideEffect, lifecycleOwner) {
+        storeViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { searchSideEffect ->
+                when (searchSideEffect) {
+                    is StoreSideEffect.Success -> {
+//                        followerList = searchSideEffect.followerList
+                        Toast.makeText(
+                            context,
+                            "서버통신 성공",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    StoreSideEffect.Failure -> Toast.makeText(
+                        context,
+                        "서버통신 실패",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+            }
     }
 
     StoreScreen(
