@@ -31,12 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.CHECK_BUTTON_NUM
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreBottomBar
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreCheckBox
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreMoreButton
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreTicket
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreTopBar
-import com.sopt.bubble.feature.precise_store.model.CHECK_BUTTON_NUM
 import com.sopt.bubble.feature.precise_store.model.checkBoxList
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
@@ -60,14 +61,12 @@ fun PreciseStoreScreen(
         topBar = {
             PreciseStoreTopBar(
                 onClickBackIcon = {},
-                onClickCloseIcon = {}
-            )
+                onClickCloseIcon = {})
         },
         bottomBar = {
             PreciseStoreBottomBar(
                 isChecked = uiState.isPurchasable,
-                onClick = {}
-            )
+                onClick = {})
         },
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
@@ -83,14 +82,15 @@ fun PreciseStoreScreen(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(PreciseStoreViewModel.PRECISE_STORE_TOP_IMAGE_RATIO)
+                    .aspectRatio(PRECISE_STORE_TOP_IMAGE_RATIO)
             )
-
 
             PreciseStoreArtistDescription(
                 uiState = uiState,
                 modifier = Modifier.padding(
-                    start = 20.dp, end = 20.dp, top = 16.dp
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 16.dp
                 )
             )
 
@@ -104,9 +104,10 @@ fun PreciseStoreScreen(
             )
 
             PreciseStoreBubbleDescription(
-                uiState = uiState,
-                modifier = Modifier.padding(
-                    start = 20.dp, end = 20.dp, top = 24.dp
+                uiState = uiState, modifier = Modifier.padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 24.dp
                 )
             )
 
@@ -115,7 +116,10 @@ fun PreciseStoreScreen(
                 onClickCheckBox = { viewModel.onClickCheckBox(it) },
                 uiState = uiState,
                 modifier = Modifier.padding(
-                    start = 20.dp, end = 20.dp, top = 32.dp, bottom = 47.dp
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 32.dp,
+                    bottom = 47.dp
                 )
             )
         }
@@ -189,10 +193,9 @@ private fun PreciseStoreArtistDescription(
 
 @Composable
 private fun PreciseMoreView(
-    uiState: PreciseStoreState,
-    moreIndex: Int = 2
+    uiState: PreciseStoreState, moreIndex: Int = 2
 ) {
-    var isMorePressed by remember{ mutableStateOf(false) }
+    var isMorePressed by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .wrapContentSize()
@@ -208,24 +211,19 @@ private fun PreciseMoreView(
                 title = ticket.number,
                 price = ticket.price,
                 originalPrice = ticket.originalPrice,
-                modifier =
-                if (uiState.ticketList.indexOf(ticket) != 0)
-                    Modifier.padding(top = 14.dp)
+                modifier = if (uiState.ticketList.indexOf(ticket) != 0) Modifier.padding(top = 14.dp)
                 else Modifier.padding(top = 26.dp)
             )
         }
         if (isMorePressed) {
             for (ticket in uiState.ticketList.subList(
-                moreIndex,
-                uiState.ticketList.size
+                moreIndex, uiState.ticketList.size
             )) {
                 PreciseStoreTicket(
                     title = ticket.number,
                     price = ticket.price,
                     originalPrice = ticket.originalPrice,
-                    modifier =
-                    if (uiState.ticketList.indexOf(ticket) != 0)
-                        Modifier.padding(top = 14.dp)
+                    modifier = if (uiState.ticketList.indexOf(ticket) != 0) Modifier.padding(top = 14.dp)
                     else Modifier.padding(top = 26.dp)
                 )
             }
@@ -242,8 +240,7 @@ private fun PreciseMoreView(
 
 @Composable
 private fun PreciseStoreBubbleDescription(
-    modifier: Modifier = Modifier,
-    uiState: PreciseStoreState
+    modifier: Modifier = Modifier, uiState: PreciseStoreState
 ) {
     Column(
         modifier = modifier
@@ -276,31 +273,28 @@ private fun PreciseStoreBubbleDescription(
 
 @Composable
 private fun PreciseStoreCheckBoxes(
-    uiState: PreciseStoreState,
-    onClickCheckBox: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    uiState: PreciseStoreState, onClickCheckBox: (Int) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
 
-        for(index in 0..<CHECK_BUTTON_NUM) {
+        for (index in 0..<CHECK_BUTTON_NUM) {
             with(checkBoxList[index]) {
-                this.onClickCheckBox = {onClickCheckBox(index)}
+                this.onClickCheckBox = { onClickCheckBox(index) }
                 this.isChecked = uiState.isCheckedList[index]
 
                 PreciseStoreCheckBox(
                     checkBoxContent = checkBoxList[index]
                 )
 
-                if(index < CHECK_BUTTON_NUM-1) {
+                if (index < CHECK_BUTTON_NUM - 1) {
                     Spacer(modifier = Modifier.height(6.dp))
                 }
             }
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
