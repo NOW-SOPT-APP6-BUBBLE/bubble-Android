@@ -19,8 +19,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //BubbleScreen(modifier = Modifier)
-                    PreciseStoreScreen()
+                    BubbleScreen(modifier = Modifier)
                 }
             }
         }

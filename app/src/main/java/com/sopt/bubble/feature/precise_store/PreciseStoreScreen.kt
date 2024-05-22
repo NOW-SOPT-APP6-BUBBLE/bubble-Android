@@ -42,9 +42,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.CHECK_BUTTON_NUM
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreBottomBar
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreTopBar
+import com.sopt.bubble.feature.precise_store.model.CheckBoxContent
 import com.sopt.bubble.feature.precise_store.model.TermsContent
+import com.sopt.bubble.feature.precise_store.model.checkBoxList
 import com.sopt.bubble.feature.precise_store.model.terms01
 import com.sopt.bubble.feature.precise_store.model.terms02
 import com.sopt.bubble.feature.precise_store.model.terms03
@@ -99,6 +102,7 @@ fun PreciseStoreScreen(
                     .aspectRatio(PreciseStoreViewModel.PRECISE_STORE_TOP_IMAGE_RATIO)
             )
 
+
             PreciseStoreArtistDescription(
                 uiState = uiState,
                 modifier = Modifier.padding(
@@ -147,12 +151,13 @@ fun PreciseStoreArtistDescription(
             text = uiState.artistName,
             color = White,
             style = Headline04,
-            modifier = Modifier.height(32.dp)
+            modifier = Modifier.padding(top = 16.dp)
         )
 
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(top = 16.dp)
                 .height(1.dp)
                 .background(color = Gray800)
         )
@@ -160,42 +165,41 @@ fun PreciseStoreArtistDescription(
         /*아티스트 버블 소개 텍스트*/
         Text(
             text = uiState.bubbleDescription,
-            modifier = Modifier.padding(top = 20.dp),
             color = Gray300,
-            style = Body03
+            style = Body03,
+            modifier = Modifier.padding(top = 20.dp)
         )
 
         /*아티스트 라인업 텍스트*/
         Text(
             text = stringResource(id = R.string.precise_store_artist_lineup),
-            modifier = Modifier.padding(top = 18.dp),
             color = White,
-            style = Body02
+            style = Body02,
+            modifier = Modifier.padding(top = 18.dp),
         )
+
         Text(
             text = uiState.artistLineup,
-            modifier = Modifier.padding(top = 6.dp),
             color = White,
-            style = Body03
+            style = Body03,
+            modifier = Modifier.padding(top = 6.dp)
         )
 
         /*아티스트 커밍순 텍스트*/
         if (uiState.artistComingSoon != null) {
             Text(
                 text = stringResource(id = R.string.precise_store_artist_coming_soon),
-                modifier = Modifier.padding(top = 18.dp),
                 color = Gray500,
-                style = Body02
+                style = Body02,
+                modifier = Modifier.padding(top = 18.dp)
             )
             Text(
                 text = uiState.artistComingSoon,
-                modifier = Modifier.padding(top = 6.dp),
                 color = Gray500,
-                style = Body03
+                style = Body03,
+                modifier = Modifier.padding(top = 6.dp)
             )
         }
-
-
     }
 }
 
@@ -287,12 +291,13 @@ fun PreciseStoreTicket(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (originalPrice != null)
+                if (originalPrice != null) {
                     Text(
                         text = originalPrice,
                         color = Gray500,
                         style = Body03,
                     )
+                }
                 Text(
                     text = stringResource(id = R.string.precise_store_ticket_price, price),
                     color = White,
@@ -349,7 +354,6 @@ fun PreciseStoreBubbleDescription(
     modifier: Modifier = Modifier,
     uiState: PreciseStoreState
 ) {
-
     Column(
         modifier = modifier
     ) {
@@ -388,53 +392,36 @@ fun PreciseStoreCheckBoxes(
     Column(
         modifier = modifier
     ) {
-        PreciseStoreCheckBox(
-            onClickCheckIcon = { onClickCheckBox(PreciseStoreViewModel.INDEX_CHECKBOX01) },
-            isChecked = uiState.isCheckedList[PreciseStoreViewModel.INDEX_CHECKBOX01],
-            title = R.string.precise_store_checkbox_title01,
-            contents = terms01
-        )
 
-        Spacer(modifier = Modifier.height(6.dp))
-        PreciseStoreCheckBox(
-            onClickCheckIcon = { onClickCheckBox(PreciseStoreViewModel.INDEX_CHECKBOX02) },
-            isChecked = uiState.isCheckedList[PreciseStoreViewModel.INDEX_CHECKBOX02],
-            title = R.string.precise_store_checkbox_title02,
-            contents = terms02
-        )
-        Spacer(modifier = Modifier.height(6.dp))
-        PreciseStoreCheckBox(
-            onClickCheckIcon = { onClickCheckBox(PreciseStoreViewModel.INDEX_CHECKBOX03) },
-            isChecked = uiState.isCheckedList[PreciseStoreViewModel.INDEX_CHECKBOX03],
-            title = R.string.precise_store_checkbox_title03,
-            contents = terms03
-        )
+        for(index in 0..<CHECK_BUTTON_NUM) {
+            with(checkBoxList[index]) {
+                this.onClickCheckBox = {onClickCheckBox(index)}
+                this.isChecked = uiState.isCheckedList[index]
+
+                PreciseStoreCheckBox(
+                    checkBoxContent = checkBoxList[index]
+                )
+
+                if(index < CHECK_BUTTON_NUM-1) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                }
+            }
+        }
     }
 }
 
 @Composable
 private fun PreciseStoreCheckBox(
-    @StringRes
-    title: Int,
-    contents: List<TermsContent>,
-    onClickCheckIcon: () -> Unit,
-    isChecked: Boolean,
+    checkBoxContent: CheckBoxContent
 ) {
     var isTextFolded: Boolean by remember { mutableStateOf(false) }
 
     val foldImageDrawRes =
         if (isTextFolded) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
-    val foldStringRes =
-        if (isTextFolded) R.string.precise_store_content_description_fold
-        else R.string.precise_store_content_description_unfold
-
     val checkImageRes =
-        if (isChecked) R.drawable.ic_precise_store_checkbox_selected
+        if (checkBoxContent.isChecked) R.drawable.ic_precise_store_checkbox_selected
         else R.drawable.ic_precise_store_checkbox_unselected
-    val checkStringRes =
-        if (isChecked) R.string.precise_store_content_description_checkbox_checked
-        else R.string.precise_store_content_description_checkbox_unchecked
 
     Card(
         shape = RoundedCornerShape(
@@ -466,12 +453,12 @@ private fun PreciseStoreCheckBox(
                 ) {
                     Image(
                         painter = painterResource(id = checkImageRes),
-                        contentDescription = stringResource(id = checkStringRes),
-                        modifier = Modifier.noRippleClickable { onClickCheckIcon() }
+                        contentDescription = stringResource(id = R.string.precise_store_content_description_checkbox_checked),
+                        modifier = Modifier.noRippleClickable { checkBoxContent.onClickCheckBox }
                     )
 
                     Text(
-                        text = stringResource(id = title),
+                        text = stringResource(id = checkBoxContent.title),
                         style = Body02,
                         color = White,
                         modifier = Modifier.padding(start = 8.dp)
@@ -480,7 +467,7 @@ private fun PreciseStoreCheckBox(
 
                 Image(
                     painter = painterResource(id = foldImageDrawRes),
-                    contentDescription = stringResource(id = foldStringRes),
+                    contentDescription = stringResource(id = R.string.precise_store_content_description_fold),
                 )
             }
 
@@ -490,7 +477,7 @@ private fun PreciseStoreCheckBox(
                         top = 12.dp, start = 1.dp, end = 1.dp, bottom = 11.dp
                     )
                 ) {
-                    for (content in contents) {
+                    for (content in checkBoxContent.content) {
                         Text(
                             text = stringResource(id = content.content),
                             style = Body03,
