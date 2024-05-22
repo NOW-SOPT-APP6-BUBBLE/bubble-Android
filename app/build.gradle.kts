@@ -88,7 +88,7 @@ dependencies {
     implementation(libs.squareup.okhttp3.logging.interceptor)
 
     // coil
-    implementation(libs.coil)
+    implementation (libs.coil.compose)
 
     // timber
     implementation(libs.timber)

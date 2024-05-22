@@ -6,6 +6,21 @@
     <string name="screen_chat">채팅</string>
     <string name="screen_more">더 보기</string>
 
+    <!--detail-->
+    <string name="detail_bottom_title">bubble 친구추가</string>
+    <string name="detail_name">팔불출❤️</string>
+    <string name="detail_sub_name">이제 떨어질 일 없다아❤️️</string>
+
+    <!--store-->
+    <string name="store_top_bar_title">STORE</string>
+    <string name="store_bottom_1">이용약관</string>
+    <string name="store_bottom_2">개인정보처리방침</string>
+    <string name="store_bottom_3">운영정책</string>
+    <string name="store_bottom_4">청소년보호정책</string>
+    <string name="store_bottom_5">사업자정보</string>
+    <string name="store_bottom_to_top">TOP</string>
+
+    <!--precise_store-->
     <string name="precise_store_app_bar_header">bubble</string>
     <string name="app_bar_content_description_close">close</string>
     <string name="app_bar_content_description_back">back</string>
@@ -36,4 +51,12 @@
         \n\n이용자가 본 내용을 위반할 시, 서비스 이용약관에 의한 제재 및 관련 법률에 의해 처벌을 받을 수 있습니다. 또한 아티스트 또는 아티스트의 대리인에 의해 소 제기 시 회사는 법률에 따라 이용자의 정보를 해당 기관에 제공할 수 있습니다.
         \n(서비스 이용약관: MORE > 설정 > 서비스 이용약관
     </string>
+
+    <!--more-->
+    <string name="more_top_bar_title">MORE</string>
+    <string name="more_btn_my_bubble">My bubble</string>
+    <string name="more_btn_store">STORE</string>
+    <string name="more_btn_notice">Notice</string>
+    <string name="more_btn_faq">FAQ</string>
+
 </resources>
