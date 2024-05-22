@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,10 +18,10 @@ import com.sopt.bubble.ui.theme.Gray200
 @Composable
 fun DetailTopBar(
     modifier: Modifier,
-    onStarClick: () -> Unit = {}
+    isStarFilled: Boolean,
+    onPostStarClick: () -> Unit = {},
+    onDeleteStarClick: () -> Unit = {}
 ) {
-    val isStarFilled = remember { mutableStateOf(false) }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -37,28 +35,22 @@ fun DetailTopBar(
             painter = painterResource(id = R.drawable.ic_detail_close),
             contentDescription = null,
         )
-        if (isStarFilled.value) {
-            Image(
-                modifier = modifier
-                    .padding(end = 15.dp)
-                    .clickable {
-                        isStarFilled.value = !isStarFilled.value
-                        onStarClick()
-                    },
-                painter = painterResource(id = R.drawable.ic_detail_star_full),
-                contentDescription = null
-            )
-        } else {
-            Image(
-                modifier = modifier
-                    .padding(end = 15.dp)
-                    .clickable {
-                        isStarFilled.value = !isStarFilled.value
-                        onStarClick()
-                    },
-                painter = painterResource(id = R.drawable.ic_detail_start_empty),
-                contentDescription = null
-            )
-        }
+        Image(
+            modifier = modifier
+                .padding(end = 15.dp)
+                .clickable {
+                    if (isStarFilled) {
+                        onDeleteStarClick()
+                    } else {
+                        onPostStarClick()
+                    }
+                },
+            painter = if (isStarFilled) {
+                painterResource(id = R.drawable.ic_detail_star_full)
+            } else {
+                painterResource(id = R.drawable.ic_detail_start_empty)
+            },
+            contentDescription = null
+        )
     }
 }

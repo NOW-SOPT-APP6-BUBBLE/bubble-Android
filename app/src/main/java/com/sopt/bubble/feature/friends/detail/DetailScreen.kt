@@ -1,5 +1,6 @@
 package com.sopt.bubble.feature.friends.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,35 +15,99 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
 import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
 import com.sopt.bubble.ui.theme.Body01
-import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
+import kotlinx.coroutines.launch
 
 @Composable
-fun DetailRoute(modifier: Modifier = Modifier) {
+fun DetailRoute(
+    modifier: Modifier = Modifier,
+    friendDetailViewModel: FriendDetailViewModel = viewModel()
+) {
 
+    var isStarFilled by remember { mutableStateOf(false) }
 
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val scope = rememberCoroutineScope()
 
-    DetailScreen(modifier)
+    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
+        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FriendDetailSideEffect.Success -> {
+                        isStarFilled = true
+
+                        Toast.makeText(
+                            context,
+                            "서버통신 성공",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    FriendDetailSideEffect.Failure -> Toast.makeText(
+                        context,
+                        "서버통신 실패",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+            }
+    }
+
+    DetailScreen(
+        modifier = modifier,
+        isStarFilled = isStarFilled,
+        onPostStarClick = {
+            scope.launch {
+                friendDetailViewModel.postStar()
+            }
+        },
+        onDeleteStarClick = {
+            scope.launch {
+                friendDetailViewModel.deleteStar()
+             //   isStarFilled = false
+            }
+        }
+    )
 }
 
 @Composable
-fun DetailScreen(modifier: Modifier = Modifier) {
+fun DetailScreen(
+    modifier: Modifier = Modifier,
+    isStarFilled: Boolean,
+    onPostStarClick: () -> Unit,
+    onDeleteStarClick: () -> Unit
+) {
     Scaffold(
         topBar = {
-            DetailTopBar(modifier)
+            DetailTopBar(
+                modifier = modifier,
+                isStarFilled = isStarFilled,
+                onPostStarClick = { onPostStarClick() },
+                onDeleteStarClick = { onDeleteStarClick() }
+            )
         },
         bottomBar = {
             DetailBottomBar(modifier)
@@ -96,13 +161,5 @@ fun DetailScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = modifier.weight(2f))
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BubbleAndroidTheme {
-        DetailScreen()
     }
 }
