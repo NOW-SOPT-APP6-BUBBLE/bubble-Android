@@ -139,7 +139,7 @@ fun PreciseStoreScreen(
 }
 
 @Composable
-fun PreciseStoreArtistDescription(
+private fun PreciseStoreArtistDescription(
     modifier: Modifier = Modifier,
     uiState: PreciseStoreState
 ) {
@@ -204,7 +204,7 @@ fun PreciseStoreArtistDescription(
 }
 
 @Composable
-fun PreciseMoreView(
+private fun PreciseMoreView(
     uiState: PreciseStoreState,
     moreIndex: Int = 2
 ) {
@@ -260,7 +260,7 @@ fun PreciseMoreView(
 
 
 @Composable
-fun PreciseStoreTicket(
+private fun PreciseStoreTicket(
     title: String,
     price: String,
     modifier: Modifier = Modifier,
@@ -315,7 +315,7 @@ fun PreciseStoreTicket(
 }
 
 @Composable
-fun PreciseStoreMoreButton(
+private fun PreciseStoreMoreButton(
     isMore: Boolean,
     onClick: () -> Unit
 ) {
@@ -350,7 +350,7 @@ fun PreciseStoreMoreButton(
 }
 
 @Composable
-fun PreciseStoreBubbleDescription(
+private fun PreciseStoreBubbleDescription(
     modifier: Modifier = Modifier,
     uiState: PreciseStoreState
 ) {
@@ -384,7 +384,7 @@ fun PreciseStoreBubbleDescription(
 }
 
 @Composable
-fun PreciseStoreCheckBoxes(
+private fun PreciseStoreCheckBoxes(
     uiState: PreciseStoreState,
     onClickCheckBox: (Int) -> Unit,
     modifier: Modifier = Modifier
