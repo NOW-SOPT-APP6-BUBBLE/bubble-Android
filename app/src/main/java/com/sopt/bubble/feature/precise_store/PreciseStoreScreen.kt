@@ -266,11 +266,10 @@ private fun PreciseMoreView(
         }
     }
 
-    if (subscribeList.size > 3) {
-        PreciseStoreMoreButton(
-            isMore = isMorePressed,
-            onClick = { isMorePressed = !isMorePressed },
-        )
+    if (!isMorePressed && subscribeList.size > 3) {
+            PreciseStoreMoreButton(onClick = { isMorePressed = !isMorePressed })
+    } else {
+        Spacer(modifier = Modifier.height(26.dp))
     }
 }
 

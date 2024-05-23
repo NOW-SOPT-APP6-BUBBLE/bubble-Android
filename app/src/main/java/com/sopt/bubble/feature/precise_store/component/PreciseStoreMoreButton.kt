@@ -20,34 +20,30 @@ import com.sopt.bubble.util.extension.noRippleClickable
 
 @Composable
 fun PreciseStoreMoreButton(
-    isMore: Boolean,
     onClick: () -> Unit
 ) {
-    val isMoreStringRes =
-        if (isMore) R.string.precise_store_button_more_close
-        else R.string.precise_store_button_more
-
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp)
-            .drawBehind {
-                val strokeWidth = 1.dp.toPx() // Border 두께
-                drawLine(
-                    brush = SolidColor(Gray800),
-                    strokeWidth = strokeWidth,
-                    start = Offset(0f, strokeWidth / 2),
-                    end = Offset(size.width, strokeWidth / 2)
-                )
-            }
-            .noRippleClickable { onClick() }
-    ) {
-        Text(
-            text = stringResource(id = isMoreStringRes),
-            color = Gray400,
-            style = Body03,
-            modifier = Modifier.padding(vertical = 22.dp)
-        )
-    }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp)
+                .drawBehind {
+                    val strokeWidth = 1.dp.toPx() // Border 두께
+                    drawLine(
+                        brush = SolidColor(Gray800),
+                        strokeWidth = strokeWidth,
+                        start = Offset(0f, strokeWidth / 2),
+                        end = Offset(size.width, strokeWidth / 2)
+                    )
+                }
+                .noRippleClickable { onClick() }
+        ) {
+            Text(
+                text = stringResource(id = R.string.precise_store_button_more),
+                color = Gray400,
+                style = Body03,
+                modifier = Modifier.padding(vertical = 22.dp)
+            )
+        }
+    
 }
