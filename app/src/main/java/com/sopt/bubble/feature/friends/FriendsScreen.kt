@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material3.Icon
@@ -51,7 +52,8 @@ fun FriendsScreen(
     modifier: Modifier = Modifier,
     viewModel: FriendsViewModel = viewModel(),
 ) {
-    var artistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
+    var subsArtistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
+    var notSubsArtistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
 
     val listState = rememberLazyListState()
     val isCollapsed: Boolean by remember {
@@ -81,7 +83,8 @@ fun FriendsScreen(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is FriendSideEffect.Success -> {
-                        artistList = sideEffect.artistList
+                        subsArtistList = sideEffect.subsArtistList
+                        notSubsArtistList = sideEffect.notSubsArtistList
                     }
 
                     FriendSideEffect.Failure -> context.toast(R.string.server_fail)
@@ -124,7 +127,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_star)} ${artistList.size}",
+                            text = "${stringResource(R.string.friends_my_star)} ${notSubsArtistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -138,14 +141,15 @@ fun FriendsScreen(
                     }
                 }
                 if (isStarFold) {
-                    artistList.forEachIndexed { index, artist ->
-                        item(index) {
-                            FriendProfile(
-                                profileImage = artist.imageURL,
-                                name = artist.name,
-                                description = artist.introduction
-                            )
-                        }
+                    items(
+                        items = notSubsArtistList,
+                        key = { it.artistMemberId }
+                    ) { artist ->
+                        FriendProfile(
+                            profileImage = artist.imageURL,
+                            name = artist.name,
+                            description = artist.introduction
+                        )
                     }
                 }
                 item {
@@ -161,7 +165,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_recommend)} ${artistList.size}",
+                            text = "${stringResource(R.string.friends_my_recommend)} ${subsArtistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -175,14 +179,15 @@ fun FriendsScreen(
                     }
                 }
                 if (isRecommendFold) {
-                    artistList.forEachIndexed { index, artist ->
-                        item(index) {
-                            FriendProfile(
-                                profileImage = artist.imageURL,
-                                name = artist.name,
-                                description = artist.introduction
-                            )
-                        }
+                    items(
+                        items = subsArtistList,
+                        key = { it.artistMemberId }
+                    ) { artist ->
+                        FriendProfile(
+                            profileImage = artist.imageURL,
+                            name = artist.name,
+                            description = artist.introduction
+                        )
                     }
                 }
             }
