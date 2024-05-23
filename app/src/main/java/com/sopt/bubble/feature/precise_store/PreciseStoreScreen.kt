@@ -86,9 +86,28 @@ fun PreciseStoreScreen(
                 )
             }
 
-            is PreciseStoreState.LoadingState -> {}
-            is PreciseStoreState.ErrorState -> {}
+            is PreciseStoreState.LoadingState -> {
+                PreciseStoreFailureScreen(
+                    modifier = modifier.padding(paddingValues)
+                )
+            }
+            is PreciseStoreState.ErrorState -> {
+                PreciseStoreFailureScreen(
+                    modifier = modifier.padding(paddingValues)
+                )
+            }
         }
+    }
+}
+
+@Composable
+fun PreciseStoreFailureScreen(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize().background(Gray700)
+    ) {
+
     }
 }
 
