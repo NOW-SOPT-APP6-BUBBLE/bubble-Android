@@ -61,13 +61,14 @@ fun PreciseStoreScreen(
     LaunchedEffect(key1 = null) {
         viewModel.getPreciseArtistInformation()
     }
+
     Scaffold(
         topBar = {
             PreciseStoreTopBar(
                 onClickBackIcon = {},
                 onClickCloseIcon = {})
         }
-    ) {paddingValues ->
+    ) { paddingValues ->
         when (uiState) {
             is PreciseStoreState.SuccessState -> {
                 PreciseStoreSuccessScreen(
@@ -80,9 +81,8 @@ fun PreciseStoreScreen(
             is PreciseStoreState.ErrorState -> {}
         }
     }
-
-
 }
+
 @Composable
 fun PreciseStoreSuccessScreen(
     modifier: Modifier = Modifier,
@@ -122,7 +122,7 @@ fun PreciseStoreSuccessScreen(
                 )
             )
 
-            PreciseMoreView(subscribeList = uiState.artistInformation.subscribes)
+            PreciseMoreView(subscribeList = uiState.subscribes)
 
             Spacer(
                 modifier = Modifier
@@ -132,7 +132,8 @@ fun PreciseStoreSuccessScreen(
             )
 
             PreciseStoreBubbleDescription(
-                uiState = uiState, modifier = Modifier.padding(
+                uiState = uiState,
+                modifier = Modifier.padding(
                     start = 20.dp,
                     end = 20.dp,
                     top = 24.dp
@@ -164,7 +165,7 @@ private fun PreciseStoreArtistDescription(
     ) {
         /*아티스트 이름 텍스트*/
         Text(
-            text = uiState.artistInformation.name.ifEmpty { " " },
+            text = uiState.name.ifEmpty { " " },
             color = White,
             style = Headline04,
             modifier = Modifier.padding(top = 16.dp)
@@ -195,18 +196,14 @@ private fun PreciseStoreArtistDescription(
         )
 
         Text(
-            text = uiState.artistInformation.isServiceMember.toString()
-                .substring(
-                    startIndex = 1,
-                    endIndex = uiState.artistInformation.isServiceMember.toString().length-1
-                ),
+            text = uiState.isServiceMember,
             color = White,
             style = Body03,
             modifier = Modifier.padding(top = 6.dp)
         )
 
         /*아티스트 커밍순 텍스트*/
-        if (uiState.artistInformation.isNotServiceMember.isNotEmpty()) {
+        if (uiState.isNotServiceMember.isNotEmpty()) {
             Text(
                 text = stringResource(id = R.string.precise_store_artist_coming_soon),
                 color = Gray500,
@@ -214,11 +211,7 @@ private fun PreciseStoreArtistDescription(
                 modifier = Modifier.padding(top = 18.dp)
             )
             Text(
-                text = uiState.artistInformation.isNotServiceMember.toString()
-                    .substring(
-                        startIndex = 1,
-                        endIndex = uiState.artistInformation.isNotServiceMember.toString().length-1
-                    ),
+                text = uiState.isNotServiceMember,
                 color = Gray500,
                 style = Body03,
                 modifier = Modifier.padding(top = 6.dp)
@@ -243,7 +236,7 @@ private fun PreciseMoreView(
             )
     ) {
         val moreIndex =
-            if(subscribeList.size < 3 || isMorePressed) subscribeList.size
+            if (subscribeList.size < 3 || isMorePressed) subscribeList.size
             else 3
 
         for (subscribe in subscribeList.subList(0, moreIndex)) {
@@ -291,7 +284,7 @@ private fun PreciseStoreBubbleDescription(
         )
 
         Text(
-            text = uiState.artistInformation.description,
+            text = uiState.description,
             color = Gray400,
             style = Body03,
             modifier = Modifier.padding(top = 8.dp)
@@ -314,7 +307,7 @@ private fun PreciseStoreCheckBoxes(
                 PreciseStoreCheckBox(
                     checkBoxContent = this,
                     isChecked = uiState.isCheckedList[index],
-                    onClickCheckBox = {onClickCheckBox(index)}
+                    onClickCheckBox = { onClickCheckBox(index) }
                 )
 
                 if (index < CHECK_BUTTON_NUM - 1) {

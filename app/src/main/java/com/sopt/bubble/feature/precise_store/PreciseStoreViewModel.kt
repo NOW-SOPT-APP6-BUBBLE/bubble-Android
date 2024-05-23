@@ -15,35 +15,6 @@ import kotlinx.coroutines.launch
 
 class PreciseStoreViewModel: ViewModel() {
     private val _uiState = MutableStateFlow<PreciseStoreState>(PreciseStoreState.LoadingState)
-    /*private val _uiState = MutableStateFlow<PreciseStoreState>(PreciseStoreState.SuccessState(
-        artistInformation = ResponsePreciseArtistDto.Result.Artist(
-            name =  "DAY6",
-        description= "선물처럼 찾아오는 최애의 메시지와 함께하는 설레이는 일상!\n최애 아티스트와 나만의 특별한 프라이빗 메시지, bubble for JYPnation",
-        photo = "https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Server/assets/109809242/a5df04be-a193-4bc6-8d0f-0085f9f7b190",
-        subscribes = listOf(
-            ResponsePreciseArtistDto.Result.Artist.Subscribe(
-                name = "1인권",
-                previousPrice = 4500,
-                price = 4500
-            ),
-            ResponsePreciseArtistDto.Result.Artist.Subscribe(
-                name = "2인권",
-                previousPrice = 9000,
-                price = 8000
-            ),
-        ),
-            isServiceMembers= listOf(
-
-
-    "WONPIL",
-    "DOWOON"
-            ),
-    "isNotServiceMembers": [
-    "SUNGJIN",
-    "YOUNGK"
-    ]
-        )
-    ))*/
     val uiState: StateFlow<PreciseStoreState> = _uiState.asStateFlow()
 
     fun getPreciseArtistInformation()  = viewModelScope.launch {
@@ -53,15 +24,23 @@ class PreciseStoreViewModel: ViewModel() {
                 artistId = 2
             )
         }.onSuccess {
-            val artist = it.result.artist
-            _uiState.value = PreciseStoreState.SuccessState(
-                artistInformation = artist
-            )
-            Log.d("PreciseStore", artist.toString())
-        }.onFailure {
-
-            Log.d("PreciseStoreError", "..")
-        }
+            with(it.result.artist) {
+                _uiState.value = PreciseStoreState.SuccessState(
+                    name = this.name,
+                    description = this.description,
+                    photo = this.photo,
+                    subscribes = this.subscribes,
+                    isServiceMember = this.isServiceMember.toString().substring(
+                        startIndex = 1,
+                        endIndex = this.isServiceMember.toString().length - 1
+                    ),
+                    isNotServiceMember = this.isNotServiceMember.toString().substring(
+                        startIndex = 1,
+                        endIndex = this.isNotServiceMember.toString().length - 1
+                    )
+                )
+            }
+        }.onFailure {}
     }
 
     fun onClickCheckBox(index: Int) {
