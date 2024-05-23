@@ -65,9 +65,10 @@ fun PreciseStoreScreen(
     navController: NavController = rememberNavController(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val artistId: Long = 3
 
-    LaunchedEffect(key1 = null) {
-        viewModel.getPreciseArtistInformation(artistId = 2)
+    LaunchedEffect(key1 = artistId) {
+        viewModel.getPreciseArtistInformation(artistId = artistId)
     }
 
     Scaffold(
@@ -277,8 +278,8 @@ private fun PreciseMoreView(
         for (subscribe in subscribeList.subList(0, moreIndex)) {
             PreciseStoreTicket(
                 title = subscribe.name,
-                price = subscribe.price.toString(),
-                originalPrice = subscribe.previousPrice.toString(),
+                price = subscribe.price,
+                originalPrice = subscribe.previousPrice,
                 modifier = if (subscribeList.indexOf(subscribe) != 0) Modifier.padding(top = 14.dp)
                 else Modifier.padding(top = 26.dp)
             )

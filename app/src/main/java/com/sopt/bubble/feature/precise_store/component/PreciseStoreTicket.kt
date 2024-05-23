@@ -20,14 +20,17 @@ import com.sopt.bubble.ui.theme.Gray800
 import com.sopt.bubble.ui.theme.Name02
 import com.sopt.bubble.ui.theme.Name03
 import com.sopt.bubble.ui.theme.White
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun PreciseStoreTicket(
     title: String,
-    price: String,
+    price: Int,
     modifier: Modifier = Modifier,
-    originalPrice: String? = null,
+    originalPrice: Int? = null,
 ) {
+    val formatter = NumberFormat.getNumberInstance(Locale.KOREA)
     Card(
         shape = RoundedCornerShape(
             topStart = 10.dp, topEnd = 10.dp,
@@ -55,13 +58,13 @@ fun PreciseStoreTicket(
             ) {
                 if (originalPrice != null) {
                     Text(
-                        text = originalPrice,
+                        text = formatter.format(originalPrice).toString(),
                         color = Gray500,
                         style = Body03,
                     )
                 }
                 Text(
-                    text = stringResource(id = R.string.precise_store_ticket_price, price),
+                    text = stringResource(id = R.string.precise_store_ticket_price, formatter.format(price).toString()),
                     color = White,
                     style = Name02,
                     modifier = Modifier.padding(horizontal = 5.dp)
