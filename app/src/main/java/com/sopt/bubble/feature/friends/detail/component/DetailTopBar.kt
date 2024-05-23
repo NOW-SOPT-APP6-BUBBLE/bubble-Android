@@ -16,28 +16,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
-import com.sopt.bubble.ui.theme.Gray200
+import com.sopt.bubble.ui.theme.GrayBackground
 
 @Composable
 fun DetailTopBar(
     modifier: Modifier,
     onNavigate: NavHostController,
-    onStarClick: () -> Unit = {}
+    onStarClick: () -> Unit = {},
 ) {
     val isStarFilled = remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Gray200)
+            .background(GrayBackground)
             .padding(vertical = 30.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = modifier.padding(start = 20.dp).clickable {
-                onNavigate.popBackStack()
-            },
+            modifier = modifier
+                .padding(start = 20.dp)
+                .clickable {
+                    onNavigate.popBackStack()
+                },
             painter = painterResource(id = R.drawable.ic_detail_close),
             contentDescription = null,
         )

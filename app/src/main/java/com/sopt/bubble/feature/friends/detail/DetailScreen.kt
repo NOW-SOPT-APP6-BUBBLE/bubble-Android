@@ -1,8 +1,8 @@
 package com.sopt.bubble.feature.friends.detail
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,8 +36,11 @@ import com.sopt.bubble.R
 import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
 import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
 import com.sopt.bubble.ui.theme.Body01
+import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
+import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray200
+import com.sopt.bubble.ui.theme.GrayBackground
 import com.sopt.bubble.ui.theme.Headline03
 
 
@@ -80,7 +85,9 @@ fun DetailScreen(
             modifier = modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .background(Gray200)
+                .background(GrayBackground),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(4f))
             AsyncImage(
@@ -117,11 +124,27 @@ fun DetailScreen(
                 color = Color.White
             )
             Spacer(modifier = modifier.weight(1f))
-            Image(
-                modifier = modifier.align(Alignment.CenterHorizontally),
-                painter = painterResource(id = R.drawable.ic_detail_music),
-                contentDescription = null
-            )
+            Row(
+                modifier = Modifier
+                    .border(
+                        width = 0.5.dp,
+                        color = Gray200,
+                        shape = RoundedCornerShape(size = 100.dp)
+                    )
+                    .wrapContentSize()
+                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp,
+                    Alignment.CenterHorizontally
+                ),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "${artistDetail.artistName}  · ${artistDetail.artistMemberName}",
+                    style = Body03,
+                    color = Color.White
+                )
+            }
             Spacer(modifier = modifier.weight(2f))
         }
     }
