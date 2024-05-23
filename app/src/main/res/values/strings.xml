@@ -64,7 +64,4 @@
     <string name="friends_my_profile">내 프로필</string>
     <string name="friends_my_star">즐겨찾기</string>
     <string name="friends_my_recommend">추천 친구</string>
-
-    <!--    server-->
-    <string name="server_fail">서버 통신 실패</string>
 </resources>

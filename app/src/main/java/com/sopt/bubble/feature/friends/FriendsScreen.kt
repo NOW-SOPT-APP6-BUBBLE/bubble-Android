@@ -45,7 +45,6 @@ import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray400
 import com.sopt.bubble.util.extension.noRippleClickable
-import com.sopt.bubble.util.extension.toast
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -80,16 +79,18 @@ fun FriendsScreen(
         viewModel.getFriends()
     }
 
-    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
-        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is FriendSideEffect.Success -> {
+    LaunchedEffect(viewModel.uiState, lifecycleOwner) {
+        viewModel.uiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { uiState ->
+                when (uiState) {
+                    is FriendState.Success -> {
                         subsArtistList
                         notSubsArtistList
                     }
 
-                    FriendSideEffect.Failure -> context.toast(R.string.server_fail)
+                    is FriendState.Loading -> {}
+
+                    is FriendState.Failure -> {}
                 }
             }
     }

@@ -13,9 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FriendsViewModel : ViewModel() {
-    private val _sideEffect: MutableSharedFlow<FriendSideEffect> = MutableSharedFlow()
-    val sideEffect: SharedFlow<FriendSideEffect> get() = _sideEffect
-
+    private val _uiState = MutableStateFlow<FriendState>(FriendState.Loading)
+    val uiState: StateFlow<FriendState> = _uiState.asStateFlow()
 
     private val _subsArtistList = MutableStateFlow<List<Artist>>(emptyList())
     val subsArtistList: StateFlow<List<Artist>> = _subsArtistList.asStateFlow()
@@ -30,8 +29,8 @@ class FriendsViewModel : ViewModel() {
                 friendService.getFriends(MEMBER_ID)
             }
                 .onSuccess {
-                    _sideEffect.emit(
-                        FriendSideEffect.Success(
+                    _uiState.emit(
+                        FriendState.Success(
                             it.result.isSubsArtists,
                             it.result.isNotSubsArtists
                         )
@@ -40,7 +39,7 @@ class FriendsViewModel : ViewModel() {
                     _notSubsArtistList.value = it.result.isNotSubsArtists
                 }
                 .onFailure {
-                    _sideEffect.emit(FriendSideEffect.Failure)
+                    _uiState.emit(FriendState.Failure)
                 }
         }
     }
