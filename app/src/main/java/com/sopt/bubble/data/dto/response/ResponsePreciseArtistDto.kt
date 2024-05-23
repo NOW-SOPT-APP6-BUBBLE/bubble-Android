@@ -17,7 +17,7 @@ data class ResponsePreciseArtistDto(
     @Serializable
     data class Result(
         @SerialName("artist")
-        val artistList: List<Artist>
+        val artist: Artist
     ) {
         @Serializable
         data class Artist(

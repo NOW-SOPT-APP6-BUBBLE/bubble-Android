@@ -7,11 +7,11 @@ data class PreciseStoreState(
     val isMore: Boolean = false,
     val isPurchasable: Boolean = false,
 
-    val artistName: String = "DAY6",
+    val artistName: String = "",
     val bubbleDescription:String = "선물처럼 찾아오는 최애의 메시지와 함께하는 설레이는 일상!\n" +
             "최애 아티스트와 나만의 특별한 프라이빗 메시지, bubble for JYPnation",
-    val artistLineup: String = "WONPIL, DOWOON",
-    val artistComingSoon: String? = "SUNGJIN, Young K",
+    val artistLineup: String = "",
+    val artistComingSoon: String? = null,
 
     val bubbleIntroduction: String = "bubble for JYPnation DAY6는 DAY6 팬들을 위한 특별한 서비스입니다.\n" +
 "\n" +
