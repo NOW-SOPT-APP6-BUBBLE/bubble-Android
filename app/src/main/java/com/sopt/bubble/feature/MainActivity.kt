@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.sopt.bubble.feature.store.StoreRoute
-import com.sopt.bubble.feature.store.StoreScreen
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +18,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    StoreRoute(modifier = Modifier)
+                    BubbleScreen(modifier = Modifier)
                 }
             }
         }
