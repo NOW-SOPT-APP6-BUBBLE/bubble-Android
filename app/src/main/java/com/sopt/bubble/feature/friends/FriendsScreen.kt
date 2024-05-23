@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -148,9 +147,11 @@ fun FriendsScreen(
                         key = { it.artistMemberId }
                     ) { artist ->
                         FriendProfile(
+                            modifier = modifier,
                             profileImage = artist.imageURL,
                             name = artist.name,
-                            description = artist.introduction
+                            description = artist.introduction,
+                            onNavigate = onNavigate,
                         )
                     }
                 }
@@ -186,9 +187,11 @@ fun FriendsScreen(
                         key = { it.artistMemberId }
                     ) { artist ->
                         FriendProfile(
+                            modifier = modifier,
                             profileImage = artist.imageURL,
                             name = artist.name,
-                            description = artist.introduction
+                            description = artist.introduction,
+                            onNavigate = onNavigate,
                         )
                     }
                 }

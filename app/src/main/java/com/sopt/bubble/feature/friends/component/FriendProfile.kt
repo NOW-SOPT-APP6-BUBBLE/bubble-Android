@@ -1,5 +1,6 @@
 package com.sopt.bubble.feature.friends.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,17 +15,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.sopt.bubble.feature.nav.Screen
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Name01
 
 @Composable
 fun FriendProfile(
+    modifier: Modifier,
     profileImage: String,
     name: String,
     description: String,
+    onNavigate: NavHostController,
 ) {
-    Column {
+    Column(modifier.clickable {
+        onNavigate.navigate(Screen.Detail.route)
+    }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
