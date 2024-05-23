@@ -53,17 +53,17 @@ class PreciseStoreViewModel : ViewModel() {
     }
 
     private fun checkPurchasable(isCheckedList: List<Boolean>): Boolean = with(isCheckedList) {
-        this[INDEX_CHECKBOX01] && this[INDEX_CHECKBOX02] && this[INDEX_CHECKBOX03]
+        var result = true
+        for(index in 0..< CHECK_BUTTON_NUM) {
+            result = result && this[index]
+        }
+        result
     }
 
     companion object {
-        const val INDEX_CHECKBOX01 = 0
-        const val INDEX_CHECKBOX02 = 1
-        const val INDEX_CHECKBOX03 = 2
+        const val FIXED_MEMBER_ID = "1"
 
         const val CHECK_BUTTON_NUM = 3
-
-        const val FIXED_MEMBER_ID = "1"
 
         const val MORE_UNFOLD_ITEM_LIMIT = 3
 

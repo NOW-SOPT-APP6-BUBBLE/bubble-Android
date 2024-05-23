@@ -92,6 +92,7 @@ fun PreciseStoreScreen(
                     modifier = modifier.padding(paddingValues)
                 )
             }
+
             is PreciseStoreState.ErrorState -> {
                 PreciseStoreFailureScreen(
                     modifier = modifier.padding(paddingValues)
@@ -106,7 +107,9 @@ fun PreciseStoreFailureScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize().background(Gray700)
+        modifier = modifier
+            .fillMaxSize()
+            .background(Gray700)
     ) {
 
     }
@@ -286,8 +289,8 @@ private fun PreciseMoreView(
         }
     }
 
-    if (!isMorePressed && subscribeList.size > 3) {
-            PreciseStoreMoreButton(onClick = { isMorePressed = !isMorePressed })
+    if (!isMorePressed && subscribeList.size > MORE_UNFOLD_ITEM_LIMIT) {
+        PreciseStoreMoreButton(onClick = { isMorePressed = !isMorePressed })
     } else {
         Spacer(modifier = Modifier.height(26.dp))
     }
