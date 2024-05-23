@@ -28,11 +28,11 @@ class DetailViewModel : ViewModel() {
     val artistDetail: StateFlow<ArtistMemberDetail> = _artistDetail.asStateFlow()
 
 
-    fun artistMemberInfo(artistMemberId: Long) = viewModelScope.launch {
+    fun artistMemberInfo(artistMemberId: String) = viewModelScope.launch {
         runCatching {
             friendDetailService.artistMemberInfo(
                 memberId = MEMBER_ID,
-                artistMemberId = artistMemberId,
+                artistMemberId = artistMemberId.toLong(),
             )
         }.onSuccess {
             _uiState.emit(

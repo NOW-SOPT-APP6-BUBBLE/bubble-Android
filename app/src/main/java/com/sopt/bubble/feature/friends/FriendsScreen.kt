@@ -61,12 +61,12 @@ fun FriendsScreen(
         derivedStateOf { listState.firstVisibleItemIndex > 0 }
     }
 
-    var isStarFold: Boolean by remember { mutableStateOf(false) }
+    var isStarFold: Boolean by remember { mutableStateOf(true) }
     val foldStarImageDrawRes =
         if (isStarFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
 
-    var isRecommendFold: Boolean by remember { mutableStateOf(false) }
+    var isRecommendFold: Boolean by remember { mutableStateOf(true) }
     val foldRecommendImageDrawRes =
         if (isRecommendFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
@@ -85,16 +85,12 @@ fun FriendsScreen(
                     is FriendState.Success -> {
                         subsArtistList
                         notSubsArtistList
-                        Log.d("gdgd", "${uiState}")
                     }
 
                     is FriendState.Loading -> {
-                        Log.d("gdgd", "${uiState}")
                     }
 
                     is FriendState.Failure -> {
-                        Log.d("gdgd", "${uiState}")
-
                     }
                 }
             }
@@ -158,6 +154,7 @@ fun FriendsScreen(
                             profileImage = artist.imageURL,
                             name = artist.name,
                             description = artist.introduction,
+                            artistMemberId = artist.artistMemberId,
                             onNavigate = onNavigate,
                         )
                     }
@@ -198,8 +195,10 @@ fun FriendsScreen(
                             profileImage = artist.imageURL,
                             name = artist.name,
                             description = artist.introduction,
+                            artistMemberId = artist.artistMemberId,
                             onNavigate = onNavigate,
                         )
+
                     }
                 }
             }

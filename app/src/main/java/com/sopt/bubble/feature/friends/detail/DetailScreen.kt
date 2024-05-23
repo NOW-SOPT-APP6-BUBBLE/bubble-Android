@@ -1,5 +1,6 @@
 package com.sopt.bubble.feature.friends.detail
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
@@ -44,10 +44,9 @@ fun DetailScreen(
     modifier: Modifier = Modifier,
     onNavigate: NavHostController,
     viewModel: DetailViewModel = viewModel(),
-    artistMemberId: Long,
+    artistMemberId: String,
 ) {
     val artistDetail by viewModel.artistDetail.collectAsState()
-
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
@@ -85,7 +84,7 @@ fun DetailScreen(
         ) {
             Spacer(modifier = Modifier.weight(4f))
             AsyncImage(
-                model = artistDetail?.imageURL,
+                model = artistDetail.imageURL,
                 contentDescription = null,
                 modifier = modifier
                     .align(Alignment.CenterHorizontally)
