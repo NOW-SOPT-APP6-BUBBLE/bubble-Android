@@ -1,11 +1,7 @@
 package com.sopt.bubble.feature.precise_store
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.bubble.data.dto.response.ResponsePreciseArtistDto
-import com.sopt.bubble.feature.precise_store.model.Ticket
-import com.sopt.bubble.feature.precise_store.model.mockTicketList1
 import com.sopt.bubble.module.ServicePool
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,15 +9,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PreciseStoreViewModel: ViewModel() {
+class PreciseStoreViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<PreciseStoreState>(PreciseStoreState.LoadingState)
     val uiState: StateFlow<PreciseStoreState> = _uiState.asStateFlow()
 
-    fun getPreciseArtistInformation()  = viewModelScope.launch {
+    fun getPreciseArtistInformation(artistId: Long) = viewModelScope.launch {
         runCatching {
             ServicePool.preciseStoreService.getPreciseArtistInformation(
                 memberId = FIXED_MEMBER_ID,
-                artistId = 2
+                artistId = artistId
             )
         }.onSuccess {
             with(it.result.artist) {
@@ -56,11 +52,11 @@ class PreciseStoreViewModel: ViewModel() {
         }
     }
 
-    private fun checkPurchasable(isCheckedList: List<Boolean>):Boolean = with(isCheckedList) {
+    private fun checkPurchasable(isCheckedList: List<Boolean>): Boolean = with(isCheckedList) {
         this[INDEX_CHECKBOX01] && this[INDEX_CHECKBOX02] && this[INDEX_CHECKBOX03]
     }
 
-    companion object{
+    companion object {
         const val INDEX_CHECKBOX01 = 0
         const val INDEX_CHECKBOX02 = 1
         const val INDEX_CHECKBOX03 = 2

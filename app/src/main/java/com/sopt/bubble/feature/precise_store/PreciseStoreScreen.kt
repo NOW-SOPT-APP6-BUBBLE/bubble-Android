@@ -59,7 +59,7 @@ fun PreciseStoreScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(key1 = null) {
-        viewModel.getPreciseArtistInformation()
+        viewModel.getPreciseArtistInformation(artistId = 2)
     }
 
     Scaffold(
@@ -77,6 +77,7 @@ fun PreciseStoreScreen(
                     modifier = modifier.padding(paddingValues)
                 )
             }
+
             is PreciseStoreState.LoadingState -> {}
             is PreciseStoreState.ErrorState -> {}
         }
