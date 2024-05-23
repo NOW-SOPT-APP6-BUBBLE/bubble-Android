@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface FriendDetailService {
-    @POST("/api/v1/artists/artist-members/friend/{artistMemberId}")
+    @POST("api/v1/artists/artist-members/friend/{artistMemberId}")
     suspend fun postStar(
         @Header("memberId") memberId: String,
         @Path("artistMemberId") artistMemberId: Long,

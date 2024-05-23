@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.friends.detail
 
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.bubble.module.ServicePool.friendDetailService
@@ -10,15 +9,15 @@ import kotlinx.coroutines.launch
 
 class FriendDetailViewModel : ViewModel() {
 
-    // sharedFlow 수정 필요
-
     private val _sideEffect: MutableSharedFlow<FriendDetailSideEffect> = MutableSharedFlow()
     val sideEffect: SharedFlow<FriendDetailSideEffect> get() = _sideEffect
+
+    var artistMemberId: Long = 1
 
     fun postStar() {
         viewModelScope.launch {
             runCatching {
-                friendDetailService.postStar("1", 1)
+                friendDetailService.postStar(MEMBER_ID, artistMemberId)
             }
                 .onSuccess {
                     _sideEffect.emit(FriendDetailSideEffect.Success)
@@ -31,5 +30,9 @@ class FriendDetailViewModel : ViewModel() {
 
     fun deleteStar() {
 
+    }
+
+    companion object {
+        private const val MEMBER_ID = "1"
     }
 }

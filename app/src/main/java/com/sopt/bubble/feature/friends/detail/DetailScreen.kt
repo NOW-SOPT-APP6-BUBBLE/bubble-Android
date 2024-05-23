@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.friends.detail
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +37,7 @@ import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
 import com.sopt.bubble.ui.theme.Body01
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
+import com.sopt.bubble.util.extension.toast
 import kotlinx.coroutines.launch
 
 @Composable
@@ -58,20 +58,10 @@ fun DetailRoute(
                 when (sideEffect) {
                     is FriendDetailSideEffect.Success -> {
                         isStarFilled = true
-
-                        Toast.makeText(
-                            context,
-                            "서버통신 성공",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        context.toast(R.string.server_success)
                     }
 
-                    FriendDetailSideEffect.Failure -> Toast.makeText(
-                        context,
-                        "서버통신 실패",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+                    FriendDetailSideEffect.Failure -> context.toast(R.string.server_failure)
                 }
             }
     }
@@ -87,7 +77,7 @@ fun DetailRoute(
         onDeleteStarClick = {
             scope.launch {
                 friendDetailViewModel.deleteStar()
-             //   isStarFilled = false
+                //   isStarFilled = false
             }
         }
     )
