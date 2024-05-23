@@ -72,7 +72,6 @@ fun FriendsScreen(
         else R.drawable.ic_precise_store_unfold
 
 
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
