@@ -62,8 +62,7 @@ fun BubbleAppNavHost(
         ) {
             DetailScreen(
                 onNavigate = navController,
-                artistMemberId = 1,
-                viewModel = DetailViewModel()
+                artistMemberId = 22,
             )
         }
     }

@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package com.sopt.bubble.feature.friends.detail
 
 import androidx.compose.foundation.Image
@@ -29,7 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
 import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
@@ -43,7 +43,7 @@ import com.sopt.bubble.ui.theme.Headline03
 fun DetailScreen(
     modifier: Modifier = Modifier,
     onNavigate: NavHostController,
-    viewModel: DetailViewModel,
+    viewModel: DetailViewModel = viewModel(),
     artistMemberId: Long,
 ) {
     val artistDetail by viewModel.artistDetail.collectAsState()
@@ -51,7 +51,7 @@ fun DetailScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
-        viewModel.artistMemberInfo(artistMemberId = 22)
+        viewModel.artistMemberInfo(artistMemberId = artistMemberId)
     }
 
     LaunchedEffect(viewModel.uiState, lifecycleOwner) {
@@ -59,7 +59,7 @@ fun DetailScreen(
             .collect { uiState ->
                 when (uiState) {
                     is DetailState.Success -> {
-                        artistDetail
+                        uiState.artistDetail
                     }
 
                     is DetailState.Loading -> {}
@@ -84,8 +84,8 @@ fun DetailScreen(
                 .background(Gray200)
         ) {
             Spacer(modifier = Modifier.weight(4f))
-            Image(
-                painter = painterResource(id = R.drawable.img_detail_profile),
+            AsyncImage(
+                model = artistDetail?.imageURL,
                 contentDescription = null,
                 modifier = modifier
                     .align(Alignment.CenterHorizontally)
@@ -105,14 +105,14 @@ fun DetailScreen(
                 )
                 Spacer(modifier = modifier.padding(5.dp))
                 Text(
-                    text = stringResource(id = R.string.detail_name),
+                    text = artistDetail.nickname,
                     color = Color.White,
                     style = Headline03
                 )
             }
             Spacer(modifier = modifier.padding(4.dp))
             Text(
-                text = stringResource(id = R.string.detail_sub_name),
+                text = artistDetail.introduction,
                 style = Body01,
                 modifier = modifier.align(Alignment.CenterHorizontally),
                 color = Color.White

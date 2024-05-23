@@ -14,28 +14,37 @@ class DetailViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<DetailState>(DetailState.Loading)
     val uiState: StateFlow<DetailState> = _uiState.asStateFlow()
 
-    private val _artistDetail = MutableStateFlow(ArtistMemberDetail())
+    private val _artistDetail = MutableStateFlow(
+        ArtistMemberDetail(
+            artistMemberId = 0,
+            nickname = "",
+            imageURL = "",
+            introduction = "",
+            isSubscribed = false,
+            artistName = "",
+            artistMemberName = ""
+        )
+    )
     val artistDetail: StateFlow<ArtistMemberDetail> = _artistDetail.asStateFlow()
 
-    fun artistMemberInfo(artistMemberId: Long) {
-        viewModelScope.launch {
-            runCatching {
-                friendDetailService.artistMemberInfo(
-                    memberId = MEMBER_ID,
-                    artistMemberId = artistMemberId
+
+    fun artistMemberInfo(artistMemberId: Long) = viewModelScope.launch {
+        runCatching {
+            friendDetailService.artistMemberInfo(
+                memberId = MEMBER_ID,
+                artistMemberId = artistMemberId,
+            )
+        }.onSuccess {
+            _uiState.emit(
+                DetailState.Success(
+                    it.result
                 )
-            }
-                .onSuccess {
-                    _uiState.emit(
-                        DetailState.Success(
-                            it.result
-                        )
-                    )
-                    _artistDetail.value = it.result
-                }
-                .onFailure {
-                    _uiState.emit(DetailState.Failure)
-                }
+            )
+            _artistDetail.value = it.result
         }
+            .onFailure {
+                _uiState.emit(DetailState.Failure)
+            }
     }
+
 }

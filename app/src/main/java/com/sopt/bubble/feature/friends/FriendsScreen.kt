@@ -2,6 +2,7 @@
 
 package com.sopt.bubble.feature.friends
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.layout.Arrangement
@@ -84,11 +85,17 @@ fun FriendsScreen(
                     is FriendState.Success -> {
                         subsArtistList
                         notSubsArtistList
+                        Log.d("gdgd", "${uiState}")
                     }
 
-                    is FriendState.Loading -> {}
+                    is FriendState.Loading -> {
+                        Log.d("gdgd", "${uiState}")
+                    }
 
-                    is FriendState.Failure -> {}
+                    is FriendState.Failure -> {
+                        Log.d("gdgd", "${uiState}")
+
+                    }
                 }
             }
     }

@@ -17,11 +17,18 @@ data class FriendsArtistDetailDto(
 
 @Serializable
 data class ArtistMemberDetail(
-    val artistMemberId: Int = 0,
-    val nickname: String = "",
-    val imageURL: String = "",
-    val introduction: String = "",
-    val isSubscribed: Boolean = false,
-    val artistName: String? = "",
-    val artistMemberName: String = "",
+    @SerialName("artistMemberId")
+    val artistMemberId: Int,
+    @SerialName("nickname")
+    val nickname: String,
+    @SerialName("imageURL")
+    val imageURL: String,
+    @SerialName("introduction")
+    val introduction: String,
+    @SerialName("isSubscribed")
+    val isSubscribed: Boolean,
+    @SerialName("artistName")
+    val artistName: String?,
+    @SerialName("artistMemberName")
+    val artistMemberName: String,
 )
