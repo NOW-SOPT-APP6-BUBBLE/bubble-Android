@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
@@ -52,10 +54,12 @@ fun DetailRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
-        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
+//    val state by friendDetailViewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(friendDetailViewModel.state, lifecycleOwner) {
+        friendDetailViewModel.state.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { state ->
+                when (state) {
                     FriendDetailState.Success -> {
                         isStarFilled = true
                         context.toast(R.string.server_success)
@@ -68,6 +72,25 @@ fun DetailRoute(
             }
     }
 
+
+    LaunchedEffect(friendDetailViewModel.deleteState, lifecycleOwner) {
+        friendDetailViewModel.deleteState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { state ->
+                when (state) {
+                    FriendDetailState.Success -> {
+                        isStarFilled = false
+                        context.toast(R.string.server_success)
+                    }
+
+                    FriendDetailState.Failure -> context.toast(R.string.server_failure)
+
+                    FriendDetailState.Empty -> return@collect
+                }
+            }
+    }
+
+
+
     DetailScreen(
         modifier = modifier,
         isStarFilled = isStarFilled,
@@ -79,7 +102,6 @@ fun DetailRoute(
         onDeleteStarClick = {
             scope.launch {
                 friendDetailViewModel.deleteStar()
-                //   isStarFilled = false
             }
         }
     )
