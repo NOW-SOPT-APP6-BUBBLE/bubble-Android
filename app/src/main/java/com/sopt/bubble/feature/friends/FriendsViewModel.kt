@@ -3,14 +3,26 @@ package com.sopt.bubble.feature.friends
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sopt.bubble.data.dto.Artist
 import com.sopt.bubble.module.ServicePool.friendService
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FriendsViewModel : ViewModel() {
     private val _sideEffect: MutableSharedFlow<FriendSideEffect> = MutableSharedFlow()
     val sideEffect: SharedFlow<FriendSideEffect> get() = _sideEffect
+
+
+    private val _subsArtistList = MutableStateFlow<List<Artist>>(emptyList())
+    val subsArtistList: StateFlow<List<Artist>> = _subsArtistList.asStateFlow()
+
+    private val _notSubsArtistList = MutableStateFlow<List<Artist>>(emptyList())
+    val notSubsArtistList: StateFlow<List<Artist>> = _notSubsArtistList.asStateFlow()
+
 
     fun getFriends() {
         viewModelScope.launch {
@@ -24,6 +36,8 @@ class FriendsViewModel : ViewModel() {
                             it.result.isNotSubsArtists
                         )
                     )
+                    _subsArtistList.value = it.result.isSubsArtists
+                    _notSubsArtistList.value = it.result.isNotSubsArtists
                 }
                 .onFailure {
                     _sideEffect.emit(FriendSideEffect.Failure)

@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.sopt.bubble.feature.friends
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -17,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +36,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
-import com.sopt.bubble.data.dto.Artist
 import com.sopt.bubble.feature.friends.component.FriendProfile
 import com.sopt.bubble.feature.friends.component.FriendsSmallTopAppBar
 import com.sopt.bubble.feature.friends.component.FriendsTopAppBar
@@ -52,8 +54,8 @@ fun FriendsScreen(
     modifier: Modifier = Modifier,
     viewModel: FriendsViewModel = viewModel(),
 ) {
-    var subsArtistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
-    var notSubsArtistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
+    val subsArtistList by viewModel.subsArtistList.collectAsState()
+    val notSubsArtistList by viewModel.notSubsArtistList.collectAsState()
 
     val listState = rememberLazyListState()
     val isCollapsed: Boolean by remember {
@@ -83,8 +85,8 @@ fun FriendsScreen(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is FriendSideEffect.Success -> {
-                        subsArtistList = sideEffect.subsArtistList
-                        notSubsArtistList = sideEffect.notSubsArtistList
+                        subsArtistList
+                        notSubsArtistList
                     }
 
                     FriendSideEffect.Failure -> context.toast(R.string.server_fail)
