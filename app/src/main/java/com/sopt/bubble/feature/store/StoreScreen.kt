@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.store
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -33,6 +33,7 @@ import com.sopt.bubble.data.dto.response.StoreResponseDto
 import com.sopt.bubble.feature.store.component.ArtistItem
 import com.sopt.bubble.feature.store.component.StoreBottomBar
 import com.sopt.bubble.feature.store.component.StoreTopBar
+import com.sopt.bubble.util.extension.toast
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,11 +42,10 @@ fun StoreRoute(
     storeViewModel: StoreViewModel = viewModel()
 ) {
 
-    val artistList by remember { mutableStateOf<List<StoreResponseDto.Result.Artist>>(emptyList()) }
+    var artistList by remember { mutableStateOf<List<StoreResponseDto.Result.Artist>>(emptyList()) }
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
 
     LaunchedEffect(true) {
         storeViewModel.getArtistInfo()
@@ -53,23 +53,14 @@ fun StoreRoute(
 
     LaunchedEffect(storeViewModel.sideEffect, lifecycleOwner) {
         storeViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { searchSideEffect ->
-                when (searchSideEffect) {
+            .collect { sideEffect ->
+                when (sideEffect) {
                     is StoreSideEffect.Success -> {
-//                        followerList = searchSideEffect.followerList
-                        Toast.makeText(
-                            context,
-                            "서버통신 성공",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        artistList = sideEffect.artistList
+                        context.toast(R.string.server_success)
                     }
 
-                    StoreSideEffect.Failure -> Toast.makeText(
-                        context,
-                        "서버통신 실패",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+                    StoreSideEffect.Failure -> context.toast(R.string.server_failure)
                 }
             }
     }
