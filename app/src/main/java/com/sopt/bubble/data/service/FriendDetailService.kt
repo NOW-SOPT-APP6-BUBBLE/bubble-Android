@@ -1,7 +1,7 @@
 package com.sopt.bubble.data.service
 
 import com.sopt.bubble.data.dto.response.FriendDetailResponseDto
-import retrofit2.http.Body
+import retrofit2.Response
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -11,5 +11,5 @@ interface FriendDetailService {
     suspend fun postStar(
         @Header("memberId") memberId: String,
         @Path("artistMemberId") artistMemberId: Long,
-    ): FriendDetailResponseDto
+    ): Response<FriendDetailResponseDto>
 }

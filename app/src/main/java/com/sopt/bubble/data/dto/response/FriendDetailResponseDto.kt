@@ -12,5 +12,5 @@ data class FriendDetailResponseDto(
     @SerialName("message")
     val message: String,
     @SerialName("result")
-    val result: Boolean,
+    val result: String?
 )

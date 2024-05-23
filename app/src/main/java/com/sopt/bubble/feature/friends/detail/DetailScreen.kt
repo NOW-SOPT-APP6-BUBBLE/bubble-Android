@@ -56,7 +56,7 @@ fun DetailRoute(
         friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is FriendDetailSideEffect.Success -> {
+                    FriendDetailSideEffect.Success -> {
                         isStarFilled = true
                         context.toast(R.string.server_success)
                     }
