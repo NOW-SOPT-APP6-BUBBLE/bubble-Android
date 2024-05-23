@@ -27,11 +27,11 @@ data class ResponsePreciseArtistDto(
             val description: String,
             @SerialName("photo")
             val photo: String,
-            @SerialName("subscribes")
+            @SerialName("subscribe")
             val subscribes: List<Subscribe>,
-            @SerialName("isServiceMember")
+            @SerialName("isServiceMembers")
             val isServiceMember: List<String>,
-            @SerialName("isNotServiceMember")
+            @SerialName("isNotServiceMembers")
             val isNotServiceMember: List<String>
         ) {
             @Serializable

@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,14 +56,46 @@ fun PreciseStoreScreen(
     viewModel: PreciseStoreViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val scrollState = rememberScrollState()
 
+    LaunchedEffect(key1 = null) {
+        viewModel.getPreciseArtistInformation()
+    }
     Scaffold(
         topBar = {
             PreciseStoreTopBar(
                 onClickBackIcon = {},
                 onClickCloseIcon = {})
-        },
+        }
+    ) {paddingValues ->
+        when (uiState) {
+            is PreciseStoreState.SuccessState -> {
+                PreciseStoreSuccessScreen(
+                    uiState = uiState as PreciseStoreState.SuccessState,
+                    viewModel = viewModel,
+                    modifier = modifier.padding(paddingValues)
+                )
+            }
+
+            is PreciseStoreState.LoadingState -> {
+
+            }
+
+            is PreciseStoreState.ErrorState -> {
+
+            }
+        }
+    }
+
+
+}
+@Composable
+fun PreciseStoreSuccessScreen(
+    modifier: Modifier = Modifier,
+    uiState: PreciseStoreState.SuccessState,
+    viewModel: PreciseStoreViewModel
+) {
+    val scrollState = rememberScrollState()
+    Scaffold(
         bottomBar = {
             PreciseStoreBottomBar(
                 isChecked = uiState.isPurchasable,
@@ -94,7 +127,7 @@ fun PreciseStoreScreen(
                 )
             )
 
-            PreciseMoreView(uiState = uiState)
+            //PreciseMoreView(uiState = uiState)
 
             Spacer(
                 modifier = Modifier
@@ -129,14 +162,14 @@ fun PreciseStoreScreen(
 @Composable
 private fun PreciseStoreArtistDescription(
     modifier: Modifier = Modifier,
-    uiState: PreciseStoreState
+    uiState: PreciseStoreState.SuccessState
 ) {
     Column(
         modifier = modifier
     ) {
         /*아티스트 이름 텍스트*/
         Text(
-            text = uiState.artistName,
+            text = uiState.artistInformation.name.ifEmpty { " " },
             color = White,
             style = Headline04,
             modifier = Modifier.padding(top = 16.dp)
@@ -167,14 +200,18 @@ private fun PreciseStoreArtistDescription(
         )
 
         Text(
-            text = uiState.artistLineup,
+            text = uiState.artistInformation.isServiceMember.toString()
+                .substring(
+                    startIndex = 1,
+                    endIndex = uiState.artistInformation.isServiceMember.toString().length-1
+                ),
             color = White,
             style = Body03,
             modifier = Modifier.padding(top = 6.dp)
         )
 
         /*아티스트 커밍순 텍스트*/
-        if (uiState.artistComingSoon != null) {
+        if (uiState.artistInformation.isNotServiceMember.isNotEmpty()) {
             Text(
                 text = stringResource(id = R.string.precise_store_artist_coming_soon),
                 color = Gray500,
@@ -182,7 +219,11 @@ private fun PreciseStoreArtistDescription(
                 modifier = Modifier.padding(top = 18.dp)
             )
             Text(
-                text = uiState.artistComingSoon,
+                text = uiState.artistInformation.isNotServiceMember.toString()
+                    .substring(
+                        startIndex = 1,
+                        endIndex = uiState.artistInformation.isNotServiceMember.toString().length-1
+                    ),
                 color = Gray500,
                 style = Body03,
                 modifier = Modifier.padding(top = 6.dp)
@@ -193,7 +234,8 @@ private fun PreciseStoreArtistDescription(
 
 @Composable
 private fun PreciseMoreView(
-    uiState: PreciseStoreState, moreIndex: Int = 2
+    uiState: PreciseStoreState.SuccessState,
+    moreIndex: Int = 2
 ) {
     var isMorePressed by remember { mutableStateOf(false) }
     Column(
@@ -240,7 +282,8 @@ private fun PreciseMoreView(
 
 @Composable
 private fun PreciseStoreBubbleDescription(
-    modifier: Modifier = Modifier, uiState: PreciseStoreState
+    modifier: Modifier = Modifier,
+    uiState: PreciseStoreState.SuccessState
 ) {
     Column(
         modifier = modifier
@@ -263,7 +306,7 @@ private fun PreciseStoreBubbleDescription(
         )
 
         Text(
-            text = uiState.bubbleIntroduction,
+            text = uiState.artistInformation.description,
             color = Gray400,
             style = Body03,
             modifier = Modifier.padding(top = 8.dp)
@@ -273,7 +316,9 @@ private fun PreciseStoreBubbleDescription(
 
 @Composable
 private fun PreciseStoreCheckBoxes(
-    uiState: PreciseStoreState, onClickCheckBox: (Int) -> Unit, modifier: Modifier = Modifier
+    uiState: PreciseStoreState.SuccessState,
+    onClickCheckBox: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
