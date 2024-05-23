@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
+import com.sopt.bubble.data.dto.response.ResponsePreciseArtistDto
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.CHECK_BUTTON_NUM
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreBottomBar
@@ -127,7 +128,7 @@ fun PreciseStoreSuccessScreen(
                 )
             )
 
-            //PreciseMoreView(uiState = uiState)
+            PreciseMoreView(subscribeList = uiState.artistInformation.subscribes)
 
             Spacer(
                 modifier = Modifier
@@ -234,8 +235,7 @@ private fun PreciseStoreArtistDescription(
 
 @Composable
 private fun PreciseMoreView(
-    uiState: PreciseStoreState.SuccessState,
-    moreIndex: Int = 2
+    subscribeList: List<ResponsePreciseArtistDto.Result.Artist.Subscribe>
 ) {
     var isMorePressed by remember { mutableStateOf(false) }
     Column(
@@ -248,31 +248,22 @@ private fun PreciseMoreView(
                 )
             )
     ) {
-        for (ticket in uiState.ticketList.subList(0, moreIndex)) {
+        val moreIndex =
+            if(subscribeList.size < 3 || isMorePressed) subscribeList.size
+            else 3
+
+        for (subscribe in subscribeList.subList(0, moreIndex)) {
             PreciseStoreTicket(
-                title = ticket.number,
-                price = ticket.price,
-                originalPrice = ticket.originalPrice,
-                modifier = if (uiState.ticketList.indexOf(ticket) != 0) Modifier.padding(top = 14.dp)
+                title = subscribe.name,
+                price = subscribe.price.toString(),
+                originalPrice = subscribe.previousPrice.toString(),
+                modifier = if (subscribeList.indexOf(subscribe) != 0) Modifier.padding(top = 14.dp)
                 else Modifier.padding(top = 26.dp)
             )
         }
-        if (isMorePressed) {
-            for (ticket in uiState.ticketList.subList(
-                moreIndex, uiState.ticketList.size
-            )) {
-                PreciseStoreTicket(
-                    title = ticket.number,
-                    price = ticket.price,
-                    originalPrice = ticket.originalPrice,
-                    modifier = if (uiState.ticketList.indexOf(ticket) != 0) Modifier.padding(top = 14.dp)
-                    else Modifier.padding(top = 26.dp)
-                )
-            }
-        }
     }
 
-    if (uiState.ticketList.size > moreIndex) {
+    if (subscribeList.size > 3) {
         PreciseStoreMoreButton(
             isMore = isMorePressed,
             onClick = { isMorePressed = !isMorePressed },

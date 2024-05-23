@@ -46,7 +46,7 @@ fun PreciseStoreTicket(
                 .padding(vertical = 22.5.dp, horizontal = 12.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.precise_store_ticket_number, title),
+                text = title,
                 color = White,
                 style = Name03
             )

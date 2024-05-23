@@ -50,7 +50,7 @@ class PreciseStoreViewModel: ViewModel() {
         runCatching {
             ServicePool.preciseStoreService.getPreciseArtistInformation(
                 memberId = FIXED_MEMBER_ID,
-                artistId = 1
+                artistId = 2
             )
         }.onSuccess {
             val artist = it.result.artist
