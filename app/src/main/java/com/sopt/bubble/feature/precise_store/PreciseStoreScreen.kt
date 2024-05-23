@@ -71,19 +71,13 @@ fun PreciseStoreScreen(
         when (uiState) {
             is PreciseStoreState.SuccessState -> {
                 PreciseStoreSuccessScreen(
-                    uiState = uiState as PreciseStoreState.SuccessState,
                     viewModel = viewModel,
+                    uiState = uiState as PreciseStoreState.SuccessState,
                     modifier = modifier.padding(paddingValues)
                 )
             }
-
-            is PreciseStoreState.LoadingState -> {
-
-            }
-
-            is PreciseStoreState.ErrorState -> {
-
-            }
+            is PreciseStoreState.LoadingState -> {}
+            is PreciseStoreState.ErrorState -> {}
         }
     }
 
@@ -317,11 +311,10 @@ private fun PreciseStoreCheckBoxes(
 
         for (index in 0..<CHECK_BUTTON_NUM) {
             with(checkBoxList[index]) {
-                this.onClickCheckBox = { onClickCheckBox(index) }
-                this.isChecked = uiState.isCheckedList[index]
-
                 PreciseStoreCheckBox(
-                    checkBoxContent = checkBoxList[index]
+                    checkBoxContent = this,
+                    isChecked = uiState.isCheckedList[index],
+                    onClickCheckBox = {onClickCheckBox(index)}
                 )
 
                 if (index < CHECK_BUTTON_NUM - 1) {

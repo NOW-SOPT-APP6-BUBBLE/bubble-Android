@@ -8,9 +8,7 @@ import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel
 data class CheckBoxContent(
     @StringRes
     val title: Int,
-    val content: List<TermsContent>,
-    var isChecked: Boolean = false,
-    var onClickCheckBox:() -> Unit = {}
+    val content: List<TermsContent>
 )
 
 val checkBoxList: List<CheckBoxContent> = listOf(
