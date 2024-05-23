@@ -56,12 +56,14 @@ fun DetailRoute(
         friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    FriendDetailSideEffect.Success -> {
+                    FriendDetailState.Success -> {
                         isStarFilled = true
                         context.toast(R.string.server_success)
                     }
 
-                    FriendDetailSideEffect.Failure -> context.toast(R.string.server_failure)
+                    FriendDetailState.Failure -> context.toast(R.string.server_failure)
+
+                    FriendDetailState.Empty -> return@collect
                 }
             }
     }

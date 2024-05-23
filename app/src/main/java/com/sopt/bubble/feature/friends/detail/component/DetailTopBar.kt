@@ -2,7 +2,6 @@ package com.sopt.bubble.feature.friends.detail.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
 import com.sopt.bubble.ui.theme.Gray200
+import com.sopt.bubble.util.extension.noRippleClickable
 
 @Composable
 fun DetailTopBar(
@@ -38,7 +38,7 @@ fun DetailTopBar(
         Image(
             modifier = modifier
                 .padding(end = 15.dp)
-                .clickable {
+                .noRippleClickable {
                     if (isStarFilled) {
                         onDeleteStarClick()
                     } else {

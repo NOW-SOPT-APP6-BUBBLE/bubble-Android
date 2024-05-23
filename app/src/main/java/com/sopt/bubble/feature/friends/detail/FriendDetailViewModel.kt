@@ -3,14 +3,16 @@ package com.sopt.bubble.feature.friends.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.bubble.module.ServicePool.friendDetailService
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FriendDetailViewModel : ViewModel() {
 
-    private val _sideEffect: MutableSharedFlow<FriendDetailSideEffect> = MutableSharedFlow()
-    val sideEffect: SharedFlow<FriendDetailSideEffect> get() = _sideEffect
+    private val _sideEffect: MutableStateFlow<FriendDetailState> =
+        MutableStateFlow(FriendDetailState.Empty)
+    val sideEffect: StateFlow<FriendDetailState> get() = _sideEffect.asStateFlow()
 
     var artistMemberId: Long = 1
 
@@ -20,10 +22,10 @@ class FriendDetailViewModel : ViewModel() {
                 friendDetailService.postStar(MEMBER_ID, artistMemberId)
             }
                 .onSuccess {
-                    _sideEffect.emit(FriendDetailSideEffect.Success)
+                    _sideEffect.emit(FriendDetailState.Success)
                 }
                 .onFailure {
-                    _sideEffect.emit(FriendDetailSideEffect.Failure)
+                    _sideEffect.emit(FriendDetailState.Failure)
                 }
         }
     }
