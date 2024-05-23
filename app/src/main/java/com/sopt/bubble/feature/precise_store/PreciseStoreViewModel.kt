@@ -65,6 +65,8 @@ class PreciseStoreViewModel : ViewModel() {
 
         const val FIXED_MEMBER_ID = "1"
 
+        const val MORE_UNFOLD_ITEM_LIMIT = 3
+
         const val PRECISE_STORE_TOP_IMAGE_RATIO = 360 / 182f
         const val PRECISE_STORE_BANNER_IMAGE_RATIO = 320 / 64f
     }

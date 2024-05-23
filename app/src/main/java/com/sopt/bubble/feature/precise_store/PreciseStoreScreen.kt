@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.precise_store
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -33,11 +32,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sopt.bubble.R
 import com.sopt.bubble.data.dto.response.ResponsePreciseArtistDto
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.CHECK_BUTTON_NUM
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.MORE_UNFOLD_ITEM_LIMIT
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_BANNER_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreBottomBar
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreCheckBox
@@ -58,7 +61,8 @@ import com.sopt.bubble.ui.theme.White
 @Composable
 fun PreciseStoreScreen(
     modifier: Modifier = Modifier,
-    viewModel: PreciseStoreViewModel = viewModel()
+    viewModel: PreciseStoreViewModel = viewModel(),
+    navController: NavController = rememberNavController(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -69,16 +73,16 @@ fun PreciseStoreScreen(
     Scaffold(
         topBar = {
             PreciseStoreTopBar(
-                onClickBackIcon = {},
-                onClickCloseIcon = {})
+                onClickBackIcon = { navController.navigateUp() },
+                onClickCloseIcon = { navController.navigateUp() })
         }
     ) { paddingValues ->
         when (uiState) {
             is PreciseStoreState.SuccessState -> {
                 PreciseStoreSuccessScreen(
-                    viewModel = viewModel,
+                    modifier = modifier.padding(paddingValues),
                     uiState = uiState as PreciseStoreState.SuccessState,
-                    modifier = modifier.padding(paddingValues)
+                    onClickCheckBox = { viewModel.onClickCheckBox(it) }
                 )
             }
 
@@ -92,14 +96,16 @@ fun PreciseStoreScreen(
 fun PreciseStoreSuccessScreen(
     modifier: Modifier = Modifier,
     uiState: PreciseStoreState.SuccessState,
-    viewModel: PreciseStoreViewModel
+    onClickCheckBox: (Int) -> Unit,
+    onClickBottomBar: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
+
     Scaffold(
         bottomBar = {
             PreciseStoreBottomBar(
                 isChecked = uiState.isPurchasable,
-                onClick = {})
+                onClick = { onClickBottomBar() })
         },
         modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
@@ -118,15 +124,17 @@ fun PreciseStoreSuccessScreen(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(PRECISE_STORE_TOP_IMAGE_RATIO))
+                    .aspectRatio(PRECISE_STORE_TOP_IMAGE_RATIO)
+            )
 
             PreciseStoreArtistDescription(
-                uiState = uiState,
-                modifier = Modifier.padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 16.dp
-                )
+                artistName = uiState.name,
+                bubbleDescription = uiState.bubbleDescription,
+                serviceMember = uiState.isServiceMember,
+                nonServiceMember = uiState.isNotServiceMember,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 16.dp)
             )
 
             PreciseMoreView(subscribeList = uiState.subscribes)
@@ -139,24 +147,22 @@ fun PreciseStoreSuccessScreen(
             )
 
             PreciseStoreBubbleDescription(
-                uiState = uiState,
-                modifier = Modifier.padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 24.dp
-                )
+                description = uiState.description,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 24.dp)
             )
 
 
             PreciseStoreCheckBoxes(
-                onClickCheckBox = { viewModel.onClickCheckBox(it) },
-                uiState = uiState,
-                modifier = Modifier.padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 32.dp,
-                    bottom = 47.dp
-                )
+                onClickCheckBox = { onClickCheckBox(it) },
+                isCheckedList = uiState.isCheckedList,
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(
+                        top = 32.dp,
+                        bottom = 47.dp
+                    )
             )
         }
     }
@@ -164,15 +170,18 @@ fun PreciseStoreSuccessScreen(
 
 @Composable
 private fun PreciseStoreArtistDescription(
-    modifier: Modifier = Modifier,
-    uiState: PreciseStoreState.SuccessState
+    artistName: String,
+    bubbleDescription: String,
+    serviceMember: String,
+    nonServiceMember: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         /*아티스트 이름 텍스트*/
         Text(
-            text = uiState.name.ifEmpty { " " },
+            text = artistName.ifEmpty { "" },
             color = White,
             style = Headline04,
             modifier = Modifier.padding(top = 16.dp)
@@ -188,7 +197,7 @@ private fun PreciseStoreArtistDescription(
 
         /*아티스트 버블 소개 텍스트*/
         Text(
-            text = uiState.bubbleDescription,
+            text = bubbleDescription,
             color = Gray300,
             style = Body03,
             modifier = Modifier.padding(top = 20.dp)
@@ -203,14 +212,14 @@ private fun PreciseStoreArtistDescription(
         )
 
         Text(
-            text = uiState.isServiceMember,
+            text = serviceMember,
             color = White,
             style = Body03,
             modifier = Modifier.padding(top = 6.dp)
         )
 
         /*아티스트 커밍순 텍스트*/
-        if (uiState.isNotServiceMember.isNotEmpty()) {
+        if (nonServiceMember.isNotBlank()) {
             Text(
                 text = stringResource(id = R.string.precise_store_artist_coming_soon),
                 color = Gray500,
@@ -218,7 +227,7 @@ private fun PreciseStoreArtistDescription(
                 modifier = Modifier.padding(top = 18.dp)
             )
             Text(
-                text = uiState.isNotServiceMember,
+                text = nonServiceMember,
                 color = Gray500,
                 style = Body03,
                 modifier = Modifier.padding(top = 6.dp)
@@ -232,6 +241,10 @@ private fun PreciseMoreView(
     subscribeList: List<ResponsePreciseArtistDto.Result.Artist.Subscribe>
 ) {
     var isMorePressed by remember { mutableStateOf(false) }
+    val moreIndex =
+        if (subscribeList.size < MORE_UNFOLD_ITEM_LIMIT || isMorePressed) subscribeList.size
+        else MORE_UNFOLD_ITEM_LIMIT
+
     Column(
         modifier = Modifier
             .wrapContentSize()
@@ -242,10 +255,6 @@ private fun PreciseMoreView(
                 )
             )
     ) {
-        val moreIndex =
-            if (subscribeList.size < 3 || isMorePressed) subscribeList.size
-            else 3
-
         for (subscribe in subscribeList.subList(0, moreIndex)) {
             PreciseStoreTicket(
                 title = subscribe.name,
@@ -267,8 +276,8 @@ private fun PreciseMoreView(
 
 @Composable
 private fun PreciseStoreBubbleDescription(
-    modifier: Modifier = Modifier,
-    uiState: PreciseStoreState.SuccessState
+    description: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -278,7 +287,7 @@ private fun PreciseStoreBubbleDescription(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(PreciseStoreViewModel.PRECISE_STORE_BANNER_IMAGE_RATIO),
+                .aspectRatio(PRECISE_STORE_BANNER_IMAGE_RATIO),
             contentScale = ContentScale.Crop
         )
 
@@ -291,7 +300,7 @@ private fun PreciseStoreBubbleDescription(
         )
 
         Text(
-            text = uiState.description,
+            text = description,
             color = Gray400,
             style = Body03,
             modifier = Modifier.padding(top = 8.dp)
@@ -301,7 +310,7 @@ private fun PreciseStoreBubbleDescription(
 
 @Composable
 private fun PreciseStoreCheckBoxes(
-    uiState: PreciseStoreState.SuccessState,
+    isCheckedList: List<Boolean>,
     onClickCheckBox: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -313,7 +322,7 @@ private fun PreciseStoreCheckBoxes(
             with(checkBoxList[index]) {
                 PreciseStoreCheckBox(
                     checkBoxContent = this,
-                    isChecked = uiState.isCheckedList[index],
+                    isChecked = isCheckedList[index],
                     onClickCheckBox = { onClickCheckBox(index) }
                 )
 

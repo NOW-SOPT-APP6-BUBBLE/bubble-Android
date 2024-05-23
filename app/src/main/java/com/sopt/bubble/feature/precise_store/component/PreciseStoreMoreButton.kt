@@ -42,7 +42,6 @@ fun PreciseStoreMoreButton(
                 )
             }
             .noRippleClickable { onClick() }
-
     ) {
         Text(
             text = stringResource(id = isMoreStringRes),
