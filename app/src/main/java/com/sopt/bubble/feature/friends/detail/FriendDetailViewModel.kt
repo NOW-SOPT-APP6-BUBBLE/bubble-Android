@@ -2,20 +2,27 @@ package com.sopt.bubble.feature.friends.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sopt.bubble.R
 import com.sopt.bubble.module.ServicePool.friendDetailService
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class FriendDetailViewModel : ViewModel() {
 
-    private val _state: MutableStateFlow<FriendDetailState> =
+    private val _postState: MutableStateFlow<FriendDetailState> =
         MutableStateFlow(FriendDetailState.Empty)
-    val state: StateFlow<FriendDetailState> get() = _state
+    val postState: StateFlow<FriendDetailState> get() = _postState
 
     private val _deleteState: MutableStateFlow<FriendDetailState> =
         MutableStateFlow(FriendDetailState.Empty)
     val deleteState: StateFlow<FriendDetailState> get() = _deleteState
+
+
+    private val _sideEffect: MutableSharedFlow<FriendDetailSideEffect> = MutableSharedFlow()
+    val sideEffect: SharedFlow<FriendDetailSideEffect> = _sideEffect
 
     var artistMemberId: Long = 1
 
@@ -25,10 +32,12 @@ class FriendDetailViewModel : ViewModel() {
                 friendDetailService.postStar(MEMBER_ID, artistMemberId)
             }
                 .onSuccess {
-                    _state.value = FriendDetailState.Success
+//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_success))
+                    _postState.value = FriendDetailState.Success
                 }
                 .onFailure {
-                    _state.value = FriendDetailState.Failure
+//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
+                    _postState.value = FriendDetailState.Failure
                 }
         }
     }
@@ -42,6 +51,7 @@ class FriendDetailViewModel : ViewModel() {
                     _deleteState.value = FriendDetailState.Success
                 }
                 .onFailure {
+//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
                     _deleteState.value = FriendDetailState.Failure
                 }
         }

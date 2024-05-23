@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +46,8 @@ fun DetailRoute(
     modifier: Modifier = Modifier,
     friendDetailViewModel: FriendDetailViewModel = viewModel()
 ) {
+//    val postState by friendDetailViewModel.postState.collectAsStateWithLifecycle()
+//    val deleteState by friendDetailViewModel.deleteState.collectAsStateWithLifecycle()
 
     var isStarFilled by remember { mutableStateOf(false) }
 
@@ -54,24 +55,43 @@ fun DetailRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
 
-//    val state by friendDetailViewModel.state.collectAsStateWithLifecycle()
+//    when (postState) {
+//        FriendDetailState.Empty -> {
+//
+//        }
+////        FriendDetailState.Failure -> return
+//        FriendDetailState.Success -> isStarFilled = true
+//    }
+//
+//    when (deleteState) {
+//        FriendDetailState.Empty -> {}
+////        FriendDetailState.Failure -> return
+//        FriendDetailState.Success -> isStarFilled = false
+//    }
 
-    LaunchedEffect(friendDetailViewModel.state, lifecycleOwner) {
-        friendDetailViewModel.state.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+//    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
+//        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+//            .collect { sideEffect ->
+//                when (sideEffect) {
+//                    is FriendDetailSideEffect.Toast -> context.toast(sideEffect.message)
+//                }
+//            }
+//    }
+
+    LaunchedEffect(friendDetailViewModel.postState, lifecycleOwner) {
+        friendDetailViewModel.postState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { state ->
                 when (state) {
                     FriendDetailState.Success -> {
                         isStarFilled = true
-                        context.toast(R.string.server_success)
+                        context.toast(R.string.artist_profile_post_star_success)
                     }
 
-                    FriendDetailState.Failure -> context.toast(R.string.server_failure)
-
+                    FriendDetailState.Failure -> context.toast(R.string.artist_profile_post_star_failure)
                     FriendDetailState.Empty -> return@collect
                 }
             }
     }
-
 
     LaunchedEffect(friendDetailViewModel.deleteState, lifecycleOwner) {
         friendDetailViewModel.deleteState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
@@ -79,17 +99,15 @@ fun DetailRoute(
                 when (state) {
                     FriendDetailState.Success -> {
                         isStarFilled = false
-                        context.toast(R.string.server_success)
+                        context.toast(R.string.artist_profile_delete_star_success)
                     }
 
-                    FriendDetailState.Failure -> context.toast(R.string.server_failure)
+                    FriendDetailState.Failure -> context.toast(R.string.artist_profile_delete_star_failure)
 
                     FriendDetailState.Empty -> return@collect
                 }
             }
     }
-
-
 
     DetailScreen(
         modifier = modifier,
