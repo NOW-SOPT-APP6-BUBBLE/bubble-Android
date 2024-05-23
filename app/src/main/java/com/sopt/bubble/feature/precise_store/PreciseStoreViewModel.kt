@@ -3,6 +3,7 @@ package com.sopt.bubble.feature.precise_store
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.bubble.module.ServicePool
+import com.sopt.bubble.module.ServicePool.preciseStoreService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ class PreciseStoreViewModel : ViewModel() {
 
     fun getPreciseArtistInformation(artistId: Long) = viewModelScope.launch {
         runCatching {
-            ServicePool.preciseStoreService.getPreciseArtistInformation(
+            preciseStoreService.getPreciseArtistInformation(
                 memberId = FIXED_MEMBER_ID,
                 artistId = artistId
             )
@@ -54,7 +55,7 @@ class PreciseStoreViewModel : ViewModel() {
 
     private fun checkPurchasable(isCheckedList: List<Boolean>): Boolean = with(isCheckedList) {
         var result = true
-        for(index in 0..< CHECK_BUTTON_NUM) {
+        for (index in 0..<CHECK_BUTTON_NUM) {
             result = result && this[index]
         }
         result
