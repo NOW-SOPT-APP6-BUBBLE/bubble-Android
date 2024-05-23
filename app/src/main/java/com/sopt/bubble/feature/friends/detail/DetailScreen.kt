@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.sopt.bubble.feature.friends.detail
 
 import androidx.compose.foundation.Image
@@ -14,14 +16,19 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
 import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
@@ -33,7 +40,35 @@ import com.sopt.bubble.ui.theme.Headline03
 
 
 @Composable
-fun DetailScreen(modifier: Modifier = Modifier, onNavigate: NavHostController) {
+fun DetailScreen(
+    modifier: Modifier = Modifier,
+    onNavigate: NavHostController,
+    viewModel: DetailViewModel,
+    artistMemberId: Long,
+) {
+    val artistDetail by viewModel.artistDetail.collectAsState()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(true) {
+        viewModel.artistMemberInfo(artistMemberId = 22)
+    }
+
+    LaunchedEffect(viewModel.uiState, lifecycleOwner) {
+        viewModel.uiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { uiState ->
+                when (uiState) {
+                    is DetailState.Success -> {
+                        artistDetail
+                    }
+
+                    is DetailState.Loading -> {}
+
+                    is DetailState.Failure -> {}
+                }
+            }
+    }
+
     Scaffold(
         topBar = {
             DetailTopBar(modifier, onNavigate = onNavigate)

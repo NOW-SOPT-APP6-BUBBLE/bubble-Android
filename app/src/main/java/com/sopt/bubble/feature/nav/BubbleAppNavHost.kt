@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.sopt.bubble.feature.chat.ChatScreen
 import com.sopt.bubble.feature.friends.FriendsScreen
 import com.sopt.bubble.feature.friends.detail.DetailScreen
+import com.sopt.bubble.feature.friends.detail.DetailViewModel
 import com.sopt.bubble.feature.more.MoreScreen
 import com.sopt.bubble.feature.test.TestScreen
 
@@ -57,9 +58,13 @@ fun BubbleAppNavHost(
         }
 
         composable(
-            Screen.Detail.route
+            Screen.Detail.route,
         ) {
-            DetailScreen(onNavigate = navController)
+            DetailScreen(
+                onNavigate = navController,
+                artistMemberId = 1,
+                viewModel = DetailViewModel()
+            )
         }
     }
 }

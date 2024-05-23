@@ -3,7 +3,7 @@ package com.sopt.bubble.feature.friends
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.bubble.data.dto.Artist
+import com.sopt.bubble.data.dto.FriendsResponseDto
 import com.sopt.bubble.module.ServicePool.friendService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +14,15 @@ class FriendsViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<FriendState>(FriendState.Loading)
     val uiState: StateFlow<FriendState> = _uiState.asStateFlow()
 
-    private val _subsArtistList = MutableStateFlow<List<Artist>>(emptyList())
-    val subsArtistList: StateFlow<List<Artist>> = _subsArtistList.asStateFlow()
+    private val _subsArtistList =
+        MutableStateFlow<List<FriendsResponseDto.Result.Artist>>(emptyList())
+    val subsArtistList: StateFlow<List<FriendsResponseDto.Result.Artist>> =
+        _subsArtistList.asStateFlow()
 
-    private val _notSubsArtistList = MutableStateFlow<List<Artist>>(emptyList())
-    val notSubsArtistList: StateFlow<List<Artist>> = _notSubsArtistList.asStateFlow()
+    private val _notSubsArtistList =
+        MutableStateFlow<List<FriendsResponseDto.Result.Artist>>(emptyList())
+    val notSubsArtistList: StateFlow<List<FriendsResponseDto.Result.Artist>> =
+        _notSubsArtistList.asStateFlow()
 
 
     fun getFriends() {
@@ -41,7 +45,6 @@ class FriendsViewModel : ViewModel() {
                 }
         }
     }
-
 
 
     companion object FriendsComponentConstants {
