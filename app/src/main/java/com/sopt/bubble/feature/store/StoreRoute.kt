@@ -15,10 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
@@ -41,8 +39,7 @@ fun StoreRoute(
     modifier: Modifier = Modifier,
     storeViewModel: StoreViewModel = viewModel()
 ) {
-
-    var artistList by remember { mutableStateOf<List<StoreResponseDto.Result.Artist>>(emptyList()) }
+    val state by storeViewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -53,22 +50,23 @@ fun StoreRoute(
 
     LaunchedEffect(storeViewModel.sideEffect, lifecycleOwner) {
         storeViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { state ->
-                when (state) {
-                    is StoreState.Success -> {
-                        artistList = state.artistList
-                        context.toast(R.string.server_success)
-                    }
-
-                    StoreState.Failure -> context.toast(R.string.server_failure)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is StoreSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
 
-    StoreScreen(
-        modifier = modifier,
-        artistList = artistList
-    )
+    when (state) {
+        StoreState.Empty -> {}
+        StoreState.Loading -> {}
+        is StoreState.Success -> {
+            StoreScreen(
+                modifier = modifier,
+                artistList = (state as StoreState.Success).artistList
+            )
+        }
+    }
 }
 
 @Composable
