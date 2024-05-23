@@ -16,12 +16,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Name01
 
 @Composable
 fun FriendProfile(
-    profileImage: Int,
+    profileImage: String,
     name: String,
     description: String,
 ) {
@@ -32,15 +33,13 @@ fun FriendProfile(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = profileImage),
+            AsyncImage(
+                model = profileImage,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(36.dp)
-                    .clip(
-                        RoundedCornerShape(50.dp),
-                    ),
-                contentScale = ContentScale.Crop
+                    .size(44.dp)
+                    .clip(RoundedCornerShape(50.dp)),
+                contentScale = ContentScale.Crop,
             )
             Row(
                 modifier = Modifier

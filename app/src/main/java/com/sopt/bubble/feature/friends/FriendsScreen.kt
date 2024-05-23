@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material3.Icon
@@ -16,7 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,12 +23,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
+import com.sopt.bubble.data.dto.Artist
 import com.sopt.bubble.feature.friends.component.FriendProfile
 import com.sopt.bubble.feature.friends.component.FriendsSmallTopAppBar
 import com.sopt.bubble.feature.friends.component.FriendsTopAppBar
@@ -39,6 +42,7 @@ import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray400
 import com.sopt.bubble.util.extension.noRippleClickable
+import com.sopt.bubble.util.extension.toast
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -47,8 +51,7 @@ fun FriendsScreen(
     modifier: Modifier = Modifier,
     viewModel: FriendsViewModel = viewModel(),
 ) {
-    val starFriendsState by viewModel.starFriendsState.collectAsState()
-    val friendsArtistState by viewModel.friendsArtistState.collectAsState()
+    var artistList by remember { mutableStateOf<List<Artist>>(emptyList()) }
 
     val listState = rememberLazyListState()
     val isCollapsed: Boolean by remember {
@@ -64,6 +67,27 @@ fun FriendsScreen(
     val foldRecommendImageDrawRes =
         if (isRecommendFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
+
+
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(true) {
+        viewModel.getFriends()
+    }
+
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FriendSideEffect.Success -> {
+                        artistList = sideEffect.artistList
+                    }
+
+                    FriendSideEffect.Failure -> context.toast(R.string.server_fail)
+                }
+            }
+    }
 
     Scaffold(
         topBar = { FriendsSmallTopAppBar(isCollapsed) },
@@ -100,7 +124,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_star)} ${starFriendsState.size}",
+                            text = "${stringResource(R.string.friends_my_star)} ${artistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -114,12 +138,14 @@ fun FriendsScreen(
                     }
                 }
                 if (isStarFold) {
-                    items(starFriendsState) { starFriends ->
-                        FriendProfile(
-                            profileImage = starFriends.profileImage,
-                            name = starFriends.name,
-                            description = starFriends.description
-                        )
+                    artistList.forEachIndexed { index, artist ->
+                        item(index) {
+                            FriendProfile(
+                                profileImage = artist.imageURL,
+                                name = artist.name,
+                                description = artist.introduction
+                            )
+                        }
                     }
                 }
                 item {
@@ -135,7 +161,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_recommend)} ${friendsArtistState.size}",
+                            text = "${stringResource(R.string.friends_my_recommend)} ${artistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -148,13 +174,16 @@ fun FriendsScreen(
                         )
                     }
                 }
-
-                if (isRecommendFold) items(friendsArtistState) { friendsArtist ->
-                    FriendProfile(
-                        profileImage = friendsArtist.profileImage,
-                        name = friendsArtist.name,
-                        description = friendsArtist.description
-                    )
+                if (isRecommendFold) {
+                    artistList.forEachIndexed { index, artist ->
+                        item(index) {
+                            FriendProfile(
+                                profileImage = artist.imageURL,
+                                name = artist.name,
+                                description = artist.introduction
+                            )
+                        }
+                    }
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.sopt.bubble.module
 
-object ServicePool {
+import com.sopt.bubble.data.service.FriendsService
 
+object ServicePool {
+    val friendService = ApiFactory.create<FriendsService>()
 }
