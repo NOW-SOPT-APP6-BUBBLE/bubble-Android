@@ -47,20 +47,20 @@ fun StoreRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(true) {
+    LaunchedEffect(key1 = true) {
         storeViewModel.getArtistInfo()
     }
 
     LaunchedEffect(storeViewModel.sideEffect, lifecycleOwner) {
         storeViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { sideEffect ->
-                when (sideEffect) {
-                    is StoreSideEffect.Success -> {
-                        artistList = sideEffect.artistList
+            .collect { state ->
+                when (state) {
+                    is StoreState.Success -> {
+                        artistList = state.artistList
                         context.toast(R.string.server_success)
                     }
 
-                    StoreSideEffect.Failure -> context.toast(R.string.server_failure)
+                    StoreState.Failure -> context.toast(R.string.server_failure)
                 }
             }
     }

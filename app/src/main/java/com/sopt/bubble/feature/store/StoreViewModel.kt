@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 
 class StoreViewModel : ViewModel() {
 
-    private val _sideEffect: MutableSharedFlow<StoreSideEffect> = MutableSharedFlow()
-    val sideEffect: SharedFlow<StoreSideEffect> get() = _sideEffect
+    private val _sideEffect: MutableSharedFlow<StoreState> = MutableSharedFlow()
+    val sideEffect: SharedFlow<StoreState> get() = _sideEffect
 
     fun getArtistInfo() {
         viewModelScope.launch {
@@ -18,10 +18,10 @@ class StoreViewModel : ViewModel() {
                 storeService.getArtistListFromServer(MEMBER_ID)
             }
                 .onSuccess {
-                    _sideEffect.emit(StoreSideEffect.Success(it.result.artists))
+                    _sideEffect.emit(StoreState.Success(it.result.artists))
                 }
                 .onFailure {
-                    _sideEffect.emit(StoreSideEffect.Failure)
+                    _sideEffect.emit(StoreState.Failure)
                 }
         }
     }
