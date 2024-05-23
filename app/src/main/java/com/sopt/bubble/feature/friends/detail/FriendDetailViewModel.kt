@@ -8,17 +8,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class FriendDetailViewModel : ViewModel() {
 
     private val _postState: MutableStateFlow<FriendDetailState> =
         MutableStateFlow(FriendDetailState.Empty)
-    val postState: StateFlow<FriendDetailState> get() = _postState
+    val postState: StateFlow<FriendDetailState> get() = _postState.asStateFlow()
 
     private val _deleteState: MutableStateFlow<FriendDetailState> =
         MutableStateFlow(FriendDetailState.Empty)
-    val deleteState: StateFlow<FriendDetailState> get() = _deleteState
+    val deleteState: StateFlow<FriendDetailState> get() = _deleteState.asStateFlow()
 
 
     private val _sideEffect: MutableSharedFlow<FriendDetailSideEffect> = MutableSharedFlow()
@@ -29,15 +30,15 @@ class FriendDetailViewModel : ViewModel() {
     fun postStar() {
         viewModelScope.launch {
             runCatching {
+                _postState.value = FriendDetailState.Loading
                 friendDetailService.postStar(MEMBER_ID, artistMemberId)
             }
                 .onSuccess {
-//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_success))
+                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_success))
                     _postState.value = FriendDetailState.Success
                 }
                 .onFailure {
-//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
-                    _postState.value = FriendDetailState.Failure
+                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
                 }
         }
     }
@@ -45,14 +46,15 @@ class FriendDetailViewModel : ViewModel() {
     fun deleteStar() {
         viewModelScope.launch {
             runCatching {
+                _deleteState.value = FriendDetailState.Loading
                 friendDetailService.deleteStar(MEMBER_ID, artistMemberId)
             }
                 .onSuccess {
+                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_delete_star_success))
                     _deleteState.value = FriendDetailState.Success
                 }
                 .onFailure {
-//                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
-                    _deleteState.value = FriendDetailState.Failure
+                    _sideEffect.emit(FriendDetailSideEffect.Toast(R.string.artist_profile_post_star_failure))
                 }
         }
     }

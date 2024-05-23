@@ -18,7 +18,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,72 +38,37 @@ import com.sopt.bubble.ui.theme.Body01
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
 import com.sopt.bubble.util.extension.toast
-import kotlinx.coroutines.launch
 
 @Composable
 fun DetailRoute(
     modifier: Modifier = Modifier,
     friendDetailViewModel: FriendDetailViewModel = viewModel()
 ) {
-//    val postState by friendDetailViewModel.postState.collectAsStateWithLifecycle()
-//    val deleteState by friendDetailViewModel.deleteState.collectAsStateWithLifecycle()
+    val postState by friendDetailViewModel.postState.collectAsStateWithLifecycle()
+    val deleteState by friendDetailViewModel.deleteState.collectAsStateWithLifecycle()
 
     var isStarFilled by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val scope = rememberCoroutineScope()
 
-//    when (postState) {
-//        FriendDetailState.Empty -> {
-//
-//        }
-////        FriendDetailState.Failure -> return
-//        FriendDetailState.Success -> isStarFilled = true
-//    }
-//
-//    when (deleteState) {
-//        FriendDetailState.Empty -> {}
-////        FriendDetailState.Failure -> return
-//        FriendDetailState.Success -> isStarFilled = false
-//    }
-
-//    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
-//        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-//            .collect { sideEffect ->
-//                when (sideEffect) {
-//                    is FriendDetailSideEffect.Toast -> context.toast(sideEffect.message)
-//                }
-//            }
-//    }
-
-    LaunchedEffect(friendDetailViewModel.postState, lifecycleOwner) {
-        friendDetailViewModel.postState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { state ->
-                when (state) {
-                    FriendDetailState.Success -> {
-                        isStarFilled = true
-                        context.toast(R.string.artist_profile_post_star_success)
-                    }
-
-                    FriendDetailState.Failure -> context.toast(R.string.artist_profile_post_star_failure)
-                    FriendDetailState.Empty -> return@collect
-                }
-            }
+    LaunchedEffect(postState) {
+        if (postState is FriendDetailState.Success) {
+            isStarFilled = true
+        }
     }
 
-    LaunchedEffect(friendDetailViewModel.deleteState, lifecycleOwner) {
-        friendDetailViewModel.deleteState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
-            .collect { state ->
-                when (state) {
-                    FriendDetailState.Success -> {
-                        isStarFilled = false
-                        context.toast(R.string.artist_profile_delete_star_success)
-                    }
+    LaunchedEffect(deleteState) {
+        if (deleteState is FriendDetailState.Success) {
+            isStarFilled = false
+        }
+    }
 
-                    FriendDetailState.Failure -> context.toast(R.string.artist_profile_delete_star_failure)
-
-                    FriendDetailState.Empty -> return@collect
+    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
+        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FriendDetailSideEffect.Toast -> context.toast(sideEffect.message)
                 }
             }
     }
@@ -113,14 +77,10 @@ fun DetailRoute(
         modifier = modifier,
         isStarFilled = isStarFilled,
         onPostStarClick = {
-            scope.launch {
-                friendDetailViewModel.postStar()
-            }
+            friendDetailViewModel.postStar()
         },
         onDeleteStarClick = {
-            scope.launch {
-                friendDetailViewModel.deleteStar()
-            }
+            friendDetailViewModel.deleteStar()
         }
     )
 }
