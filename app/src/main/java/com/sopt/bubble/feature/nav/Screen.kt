@@ -5,4 +5,5 @@ sealed class Screen(
 ) {
     data object Store : Screen("store")
     data object Detail : Screen("detail")
+    data object Precise : Screen("precise")
 }

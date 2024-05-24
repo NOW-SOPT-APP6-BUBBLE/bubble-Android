@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
 import com.sopt.bubble.data.dto.response.StoreResponseDto
+import com.sopt.bubble.feature.nav.Screen
 import com.sopt.bubble.feature.store.component.ArtistItem
 import com.sopt.bubble.feature.store.component.StoreBottomBar
 import com.sopt.bubble.feature.store.component.StoreTopBar
@@ -120,7 +121,7 @@ fun StoreScreen(
                                 name = artistInfo.name,
                                 photo = artistInfo.photo,
                                 modifier = Modifier.clickable {
-                                    onItemClick()
+                                    onNavigator.navigate("${Screen.Precise.route}/${artistInfo.artistId}")
                                 }
                             )
                         }
