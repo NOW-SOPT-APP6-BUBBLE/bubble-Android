@@ -2,7 +2,7 @@
 합동세미나 앱 6팀 bubble 리디자인 프로젝트🫧
 
 ## 🎥 구현 영상
-https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/b1c98842-37ab-44ce-aec2-6476080e67c4
+https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/772301ef-203e-4f7f-be01-10c0985d189f
 
 
 ## 💚 Contributors
