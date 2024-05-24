@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.more.store.component
+package com.sopt.bubble.feature.store.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
