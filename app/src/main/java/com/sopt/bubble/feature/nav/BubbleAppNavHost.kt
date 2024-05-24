@@ -10,7 +10,7 @@ import com.sopt.bubble.feature.chat.ChatScreen
 import com.sopt.bubble.feature.frienddetail.FriendDetailScreen
 import com.sopt.bubble.feature.friends.FriendsScreen
 import com.sopt.bubble.feature.more.MoreScreen
-import com.sopt.bubble.feature.test.TestScreen
+import com.sopt.bubble.feature.store.StoreRoute
 
 @Composable
 fun BubbleAppNavHost(
@@ -50,11 +50,9 @@ fun BubbleAppNavHost(
         }
 
         composable(
-            Screen.Test.route,
+            Screen.Store.route,
         ) {
-            TestScreen(
-                onNavigate = navController
-            )
+            StoreRoute(onNavigator = navController, onItemClick = {})
         }
 
         composable(
