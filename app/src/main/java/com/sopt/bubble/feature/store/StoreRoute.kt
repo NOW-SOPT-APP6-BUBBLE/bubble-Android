@@ -56,9 +56,9 @@ fun StoreRoute(
     LaunchedEffect(storeViewModel.sideEffect, lifecycleOwner) {
         storeViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
             .collect { sideEffect ->
-//                when (sideEffect) {
-//                    is StoreSideEffect.Toast -> context.toast(sideEffect.message)
-//                }
+                when (sideEffect) {
+                    is StoreSideEffect.Toast -> context.toast(sideEffect.message)
+                }
             }
     }
 
