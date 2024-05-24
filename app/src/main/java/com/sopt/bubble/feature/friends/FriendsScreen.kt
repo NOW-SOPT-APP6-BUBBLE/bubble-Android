@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.sopt.bubble.feature.friends
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -16,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -24,9 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.sopt.bubble.R
@@ -47,8 +53,8 @@ fun FriendsScreen(
     modifier: Modifier = Modifier,
     viewModel: FriendsViewModel = viewModel(),
 ) {
-    val starFriendsState by viewModel.starFriendsState.collectAsState()
-    val friendsArtistState by viewModel.friendsArtistState.collectAsState()
+    val subsArtistList by viewModel.subsArtistList.collectAsState()
+    val notSubsArtistList by viewModel.notSubsArtistList.collectAsState()
 
     val listState = rememberLazyListState()
     val isCollapsed: Boolean by remember {
@@ -64,6 +70,29 @@ fun FriendsScreen(
     val foldRecommendImageDrawRes =
         if (isRecommendFold) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
+
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(true) {
+        viewModel.getFriends()
+    }
+
+    LaunchedEffect(viewModel.uiState, lifecycleOwner) {
+        viewModel.uiState.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { uiState ->
+                when (uiState) {
+                    is FriendState.Success -> {
+                        subsArtistList
+                        notSubsArtistList
+                    }
+
+                    is FriendState.Loading -> {}
+
+                    is FriendState.Failure -> {}
+                }
+            }
+    }
 
     Scaffold(
         topBar = { FriendsSmallTopAppBar(isCollapsed) },
@@ -100,7 +129,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_star)} ${starFriendsState.size}",
+                            text = "${stringResource(R.string.friends_my_star)} ${notSubsArtistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -114,11 +143,14 @@ fun FriendsScreen(
                     }
                 }
                 if (isStarFold) {
-                    items(starFriendsState) { starFriends ->
+                    items(
+                        items = notSubsArtistList,
+                        key = { it.artistMemberId }
+                    ) { artist ->
                         FriendProfile(
-                            profileImage = starFriends.profileImage,
-                            name = starFriends.name,
-                            description = starFriends.description
+                            profileImage = artist.imageURL,
+                            name = artist.name,
+                            description = artist.introduction
                         )
                     }
                 }
@@ -135,7 +167,7 @@ fun FriendsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${stringResource(R.string.friends_my_recommend)} ${friendsArtistState.size}",
+                            text = "${stringResource(R.string.friends_my_recommend)} ${subsArtistList.size}",
                             style = Body02,
                             color = Gray400,
                         )
@@ -148,13 +180,17 @@ fun FriendsScreen(
                         )
                     }
                 }
-
-                if (isRecommendFold) items(friendsArtistState) { friendsArtist ->
-                    FriendProfile(
-                        profileImage = friendsArtist.profileImage,
-                        name = friendsArtist.name,
-                        description = friendsArtist.description
-                    )
+                if (isRecommendFold) {
+                    items(
+                        items = subsArtistList,
+                        key = { it.artistMemberId }
+                    ) { artist ->
+                        FriendProfile(
+                            profileImage = artist.imageURL,
+                            name = artist.name,
+                            description = artist.introduction
+                        )
+                    }
                 }
             }
         }
