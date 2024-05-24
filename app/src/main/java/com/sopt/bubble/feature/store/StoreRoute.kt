@@ -63,7 +63,8 @@ fun StoreRoute(
         is StoreState.Success -> {
             StoreScreen(
                 modifier = modifier,
-                artistList = (state as StoreState.Success).artistList
+                artistList = (state as StoreState.Success).artistList,
+                onBackClick = return
             )
         }
     }
@@ -72,13 +73,19 @@ fun StoreRoute(
 @Composable
 fun StoreScreen(
     modifier: Modifier = Modifier,
-    artistList: List<StoreResponseDto.Result.Artist>
+    artistList: List<StoreResponseDto.Result.Artist>,
+    onBackClick: () -> Unit
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
-        topBar = { StoreTopBar(modifier) }
+        topBar = {
+            StoreTopBar(
+                modifier,
+                onBackClick = { onBackClick() }
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = modifier
