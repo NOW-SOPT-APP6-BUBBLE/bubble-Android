@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail
+package com.sopt.bubble.feature.frienddetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,23 +18,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
-import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailBottomBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailTopBar
+import com.sopt.bubble.feature.friends.detail.FriendDetailViewModel
 import com.sopt.bubble.ui.theme.Body01
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.BubbleAndroidTheme
@@ -42,7 +53,53 @@ import com.sopt.bubble.ui.theme.Gray100
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.GrayBackground
 import com.sopt.bubble.ui.theme.Headline03
+import com.sopt.bubble.util.extension.toast
 
+@Composable
+fun FriendDetailRoute(
+    modifier: Modifier = Modifier,
+    friendDetailViewModel: FriendDetailViewModel = viewModel()
+) {
+    val postState by friendDetailViewModel.postState.collectAsStateWithLifecycle()
+    val deleteState by friendDetailViewModel.deleteState.collectAsStateWithLifecycle()
+
+    var isStarFilled by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(postState) {
+        if (postState is FriendDetailState.Success) {
+            isStarFilled = true
+        }
+    }
+
+    LaunchedEffect(deleteState) {
+        if (deleteState is FriendDetailState.Success) {
+            isStarFilled = false
+        }
+    }
+
+    LaunchedEffect(friendDetailViewModel.sideEffect, lifecycleOwner) {
+        friendDetailViewModel.sideEffect.flowWithLifecycle(lifecycle = lifecycleOwner.lifecycle)
+            .collect { sideEffect ->
+                when (sideEffect) {
+                    is FriendDetailSideEffect.Toast -> context.toast(sideEffect.message)
+                }
+            }
+    }
+
+    FriendDetailScreen(
+        modifier = modifier,
+        isStarFilled = isStarFilled,
+        onPostStarClick = {
+            friendDetailViewModel.postStar()
+        },
+        onDeleteStarClick = {
+            friendDetailViewModel.deleteStar()
+        }
+    )
+}
 
 @Composable
 fun DetailScreen(
@@ -73,12 +130,25 @@ fun DetailScreen(
             }
     }
 
+fun FriendDetailScreen(
+    modifier: Modifier = Modifier,
+    isStarFilled: Boolean,
+    onPostStarClick: () -> Unit,
+    onDeleteStarClick: () -> Unit
+) {
     Scaffold(
         topBar = {
+            FriendDetailTopBar(
+                modifier = modifier,
+                isStarFilled = isStarFilled,
+                onPostStarClick = { onPostStarClick() },
+                onDeleteStarClick = { onDeleteStarClick() }
+            )
+
             DetailTopBar(modifier, onNavigate = onNavigate)
         },
         bottomBar = {
-            DetailBottomBar(modifier)
+            FriendDetailBottomBar(modifier)
         }
     ) { paddingValues ->
         Column(
