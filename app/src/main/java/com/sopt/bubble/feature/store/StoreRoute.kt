@@ -2,6 +2,7 @@ package com.sopt.bubble.feature.store
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -37,7 +38,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun StoreRoute(
     modifier: Modifier = Modifier,
-    storeViewModel: StoreViewModel = viewModel()
+    storeViewModel: StoreViewModel = viewModel(),
+    onBackClick: () -> Unit,
+    onItemClick: () -> Unit
 ) {
     val state by storeViewModel.state.collectAsStateWithLifecycle()
 
@@ -64,7 +67,8 @@ fun StoreRoute(
             StoreScreen(
                 modifier = modifier,
                 artistList = (state as StoreState.Success).artistList,
-                onBackClick = return
+                onBackClick = onBackClick,
+                onItemClick = onItemClick
             )
         }
     }
@@ -74,7 +78,8 @@ fun StoreRoute(
 fun StoreScreen(
     modifier: Modifier = Modifier,
     artistList: List<StoreResponseDto.Result.Artist>,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onItemClick: () -> Unit
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -112,7 +117,10 @@ fun StoreScreen(
                         ) {
                             ArtistItem(
                                 name = artistInfo.name,
-                                photo = artistInfo.photo
+                                photo = artistInfo.photo,
+                                modifier = Modifier.clickable {
+                                    onItemClick()
+                                }
                             )
                         }
                         if (index == artistList.size - 1) {
