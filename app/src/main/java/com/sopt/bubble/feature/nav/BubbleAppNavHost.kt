@@ -1,6 +1,5 @@
 package com.sopt.bubble.feature.nav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sopt.bubble.feature.chat.ChatScreen
+import com.sopt.bubble.feature.frienddetail.FriendDetailScreen
 import com.sopt.bubble.feature.friends.FriendsScreen
-import com.sopt.bubble.feature.friends.detail.DetailScreen
 import com.sopt.bubble.feature.more.MoreScreen
 import com.sopt.bubble.feature.test.TestScreen
 
@@ -63,7 +62,7 @@ fun BubbleAppNavHost(
             arguments = listOf(navArgument("artistMemberId") { defaultValue = "2" })
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("artistMemberId")?.let {
-                DetailScreen(
+                FriendDetailScreen(
                     onNavigate = navController,
                     artistMemberId = it
                 )
