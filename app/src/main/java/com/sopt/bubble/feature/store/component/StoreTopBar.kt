@@ -1,7 +1,8 @@
-package com.sopt.bubble.feature.more.store.component
+package com.sopt.bubble.feature.store.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +21,10 @@ import com.sopt.bubble.R
 import com.sopt.bubble.ui.theme.Headline02
 
 @Composable
-fun StoreTopBar(modifier: Modifier = Modifier) {
+fun StoreTopBar(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -49,7 +53,10 @@ fun StoreTopBar(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(16.dp))
         Image(
             painter = painterResource(id = R.drawable.ic_store_delete),
-            contentDescription = null
+            contentDescription = null,
+            modifier = modifier.clickable {
+                onBackClick()
+            }
         )
     }
 }

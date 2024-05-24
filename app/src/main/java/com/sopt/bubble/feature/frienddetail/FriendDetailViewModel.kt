@@ -3,6 +3,8 @@ package com.sopt.bubble.feature.friends.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.frienddetail.FriendDetailSideEffect
+import com.sopt.bubble.feature.frienddetail.FriendDetailState
 import com.sopt.bubble.module.ServicePool.friendDetailService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

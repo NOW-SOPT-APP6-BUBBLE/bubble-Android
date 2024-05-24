@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail
+package com.sopt.bubble.feature.frienddetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,15 +32,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.bubble.R
-import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
-import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailBottomBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailTopBar
+import com.sopt.bubble.feature.friends.detail.FriendDetailViewModel
 import com.sopt.bubble.ui.theme.Body01
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
 import com.sopt.bubble.util.extension.toast
 
 @Composable
-fun DetailRoute(
+fun FriendDetailRoute(
     modifier: Modifier = Modifier,
     friendDetailViewModel: FriendDetailViewModel = viewModel()
 ) {
@@ -73,7 +74,7 @@ fun DetailRoute(
             }
     }
 
-    DetailScreen(
+    FriendDetailScreen(
         modifier = modifier,
         isStarFilled = isStarFilled,
         onPostStarClick = {
@@ -86,7 +87,7 @@ fun DetailRoute(
 }
 
 @Composable
-fun DetailScreen(
+fun FriendDetailScreen(
     modifier: Modifier = Modifier,
     isStarFilled: Boolean,
     onPostStarClick: () -> Unit,
@@ -94,15 +95,16 @@ fun DetailScreen(
 ) {
     Scaffold(
         topBar = {
-            DetailTopBar(
+            FriendDetailTopBar(
                 modifier = modifier,
                 isStarFilled = isStarFilled,
                 onPostStarClick = { onPostStarClick() },
                 onDeleteStarClick = { onDeleteStarClick() }
             )
+
         },
         bottomBar = {
-            DetailBottomBar(modifier)
+            FriendDetailBottomBar(modifier)
         }
     ) { paddingValues ->
         Column(

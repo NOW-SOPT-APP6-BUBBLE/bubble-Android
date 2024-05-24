@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail
+package com.sopt.bubble.feature.frienddetail
 
 import androidx.annotation.StringRes
 
