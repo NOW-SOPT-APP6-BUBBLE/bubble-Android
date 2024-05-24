@@ -7,7 +7,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -24,12 +26,40 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel
 import com.sopt.bubble.feature.precise_store.model.CheckBoxContent
+import com.sopt.bubble.feature.precise_store.model.checkBoxList
 import com.sopt.bubble.ui.theme.Body02
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray800
 import com.sopt.bubble.ui.theme.White
 import com.sopt.bubble.util.extension.noRippleClickable
+
+@Composable
+fun PreciseStoreCheckBoxView(
+    isCheckedList: List<Boolean>,
+    onClickCheckBox: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+
+        for (index in 0..<PreciseStoreViewModel.CHECK_BUTTON_NUM) {
+            with(checkBoxList[index]) {
+                PreciseStoreCheckBox(
+                    checkBoxContent = this,
+                    isChecked = isCheckedList[index],
+                    onClickCheckBox = { onClickCheckBox(index) }
+                )
+
+                if (index < PreciseStoreViewModel.CHECK_BUTTON_NUM - 1) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun PreciseStoreCheckBox(

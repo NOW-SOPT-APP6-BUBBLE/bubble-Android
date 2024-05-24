@@ -3,6 +3,7 @@ package com.sopt.bubble.feature.precise_store
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.bubble.module.ServicePool
+import com.sopt.bubble.module.ServicePool.preciseStoreService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ class PreciseStoreViewModel : ViewModel() {
 
     fun getPreciseArtistInformation(artistId: Long) = viewModelScope.launch {
         runCatching {
-            ServicePool.preciseStoreService.getPreciseArtistInformation(
+            preciseStoreService.getPreciseArtistInformation(
                 memberId = FIXED_MEMBER_ID,
                 artistId = artistId
             )
@@ -53,17 +54,19 @@ class PreciseStoreViewModel : ViewModel() {
     }
 
     private fun checkPurchasable(isCheckedList: List<Boolean>): Boolean = with(isCheckedList) {
-        this[INDEX_CHECKBOX01] && this[INDEX_CHECKBOX02] && this[INDEX_CHECKBOX03]
+        var result = true
+        for (index in 0..<CHECK_BUTTON_NUM) {
+            result = result && this[index]
+        }
+        result
     }
 
     companion object {
-        const val INDEX_CHECKBOX01 = 0
-        const val INDEX_CHECKBOX02 = 1
-        const val INDEX_CHECKBOX03 = 2
+        const val FIXED_MEMBER_ID = "1"
 
         const val CHECK_BUTTON_NUM = 3
 
-        const val FIXED_MEMBER_ID = "1"
+        const val MORE_UNFOLD_ITEM_LIMIT = 3
 
         const val PRECISE_STORE_TOP_IMAGE_RATIO = 360 / 182f
         const val PRECISE_STORE_BANNER_IMAGE_RATIO = 320 / 64f

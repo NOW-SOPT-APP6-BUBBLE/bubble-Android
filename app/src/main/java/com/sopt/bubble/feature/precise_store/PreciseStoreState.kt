@@ -1,7 +1,6 @@
 package com.sopt.bubble.feature.precise_store
 
 import com.sopt.bubble.data.dto.response.ResponsePreciseArtistDto
-import kotlinx.serialization.SerialName
 
 
 sealed interface PreciseStoreState {
@@ -16,7 +15,7 @@ sealed interface PreciseStoreState {
                 "최애 아티스트와 나만의 특별한 프라이빗 메시지, bubble for JYPnation",
         val isCheckedList: List<Boolean> = listOf(false, false, false),
         val isPurchasable: Boolean = false,
-    ): PreciseStoreState
+    ) : PreciseStoreState
 
     data object LoadingState : PreciseStoreState
     data object ErrorState : PreciseStoreState
