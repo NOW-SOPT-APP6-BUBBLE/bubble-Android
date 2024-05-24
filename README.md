@@ -46,4 +46,4 @@ https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/772301ef
 ```
 
 ## 🫧Project Archiving
-[CONVENTION & MINUTE](https://www.notion.so/sopt-official/6-94f8a27db9544112a1b20167cc1513a0?pvs=4)
+[CONVENTION & MEETING MINUTES](https://www.notion.so/sopt-official/6-94f8a27db9544112a1b20167cc1513a0?pvs=4)
