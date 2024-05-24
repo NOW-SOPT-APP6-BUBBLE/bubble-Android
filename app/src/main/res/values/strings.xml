@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">bubble-Android</string>
+    <string name="server_success">서버통신 성공</string>
+    <string name="server_failure">서버통신 실패</string>
 
     <!--    bottom navigation-->
     <string name="screen_friends">친구</string>
