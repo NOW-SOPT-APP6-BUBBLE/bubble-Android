@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail
+package com.sopt.bubble.feature.frienddetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,25 +20,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.bubble.R
-import com.sopt.bubble.feature.friends.detail.component.DetailBottomBar
-import com.sopt.bubble.feature.friends.detail.component.DetailTopBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailBottomBar
+import com.sopt.bubble.feature.frienddetail.component.FriendDetailTopBar
 import com.sopt.bubble.ui.theme.Body01
-import com.sopt.bubble.ui.theme.BubbleAndroidTheme
 import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline03
 
-
 @Composable
-fun DetailScreen(modifier: Modifier = Modifier) {
+fun FriendDetailScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
-            DetailTopBar(modifier)
+            FriendDetailTopBar(modifier)
         },
         bottomBar = {
-            DetailBottomBar(modifier)
+            FriendDetailBottomBar(modifier)
         }
     ) { paddingValues ->
         Column(
@@ -89,13 +86,5 @@ fun DetailScreen(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = modifier.weight(2f))
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BubbleAndroidTheme {
-        DetailScreen()
     }
 }

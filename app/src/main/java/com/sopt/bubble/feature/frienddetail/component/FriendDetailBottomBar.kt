@@ -1,4 +1,4 @@
-package com.sopt.bubble.feature.friends.detail.component
+package com.sopt.bubble.feature.frienddetail.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,7 +17,7 @@ import com.sopt.bubble.ui.theme.Gray200
 import com.sopt.bubble.ui.theme.Headline04
 
 @Composable
-fun DetailBottomBar(modifier: Modifier) {
+fun FriendDetailBottomBar(modifier: Modifier) {
     Box(
         modifier = modifier
             .background(Gray200)
