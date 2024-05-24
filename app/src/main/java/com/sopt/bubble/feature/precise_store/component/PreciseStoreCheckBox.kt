@@ -33,7 +33,9 @@ import com.sopt.bubble.util.extension.noRippleClickable
 
 @Composable
 fun PreciseStoreCheckBox(
-    checkBoxContent: CheckBoxContent
+    checkBoxContent: CheckBoxContent,
+    isChecked: Boolean,
+    onClickCheckBox:()->Unit
 ) {
     var isTextFolded: Boolean by remember { mutableStateOf(false) }
 
@@ -41,7 +43,7 @@ fun PreciseStoreCheckBox(
         if (isTextFolded) R.drawable.ic_precise_store_fold
         else R.drawable.ic_precise_store_unfold
     val checkImageRes =
-        if (checkBoxContent.isChecked) R.drawable.ic_precise_store_checkbox_selected
+        if (isChecked) R.drawable.ic_precise_store_checkbox_selected
         else R.drawable.ic_precise_store_checkbox_unselected
 
     Card(
@@ -75,7 +77,7 @@ fun PreciseStoreCheckBox(
                     Image(
                         painter = painterResource(id = checkImageRes),
                         contentDescription = stringResource(id = R.string.precise_store_content_description_checkbox_checked),
-                        modifier = Modifier.noRippleClickable { checkBoxContent.onClickCheckBox }
+                        modifier = Modifier.noRippleClickable { onClickCheckBox() }
                     )
 
                     Text(
