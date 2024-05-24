@@ -33,6 +33,7 @@ import com.sopt.bubble.R
 import com.sopt.bubble.feature.more.MoreViewModel.Companion.menuList
 import com.sopt.bubble.feature.more.component.MoreTopAppBar
 import com.sopt.bubble.feature.nav.BubbleBottomNavigation
+import com.sopt.bubble.feature.nav.Screen
 import com.sopt.bubble.ui.theme.Black
 import com.sopt.bubble.ui.theme.Body03
 import com.sopt.bubble.ui.theme.Gray100
@@ -71,20 +72,18 @@ fun MoreScreen(
             for (menu in menuList) {
                 MoreMenuButton(
                     iconResId = menu.iconResId,
-                    textResId = menu.textResId
-                ) {
-                    //onClick
-                }
+                    textResId = menu.textResId,
+                    onClick = { if(menu.textResId == R.string.more_btn_store) onNavigate.navigate(Screen.Store.route) }
+                )
             }
         }
     }
 }
 
 
-
 @Composable
 private fun MoreUserProfile(
-    uiState: MoreUiState
+    uiState: MoreUiState,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -130,7 +129,7 @@ fun MoreMenuButton(
     iconResId: Int,
     @StringRes
     textResId: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier

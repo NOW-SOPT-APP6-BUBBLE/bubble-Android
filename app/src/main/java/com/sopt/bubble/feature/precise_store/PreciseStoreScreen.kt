@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -27,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.sopt.bubble.R
+import com.sopt.bubble.feature.nav.BottomScreen
 import com.sopt.bubble.feature.precise_store.PreciseStoreViewModel.Companion.PRECISE_STORE_TOP_IMAGE_RATIO
 import com.sopt.bubble.feature.precise_store.component.PreciseMoreSubscribeView
 import com.sopt.bubble.feature.precise_store.component.PreciseStoreArtistDescriptionView
@@ -42,9 +42,10 @@ fun PreciseStoreScreen(
     modifier: Modifier = Modifier,
     viewModel: PreciseStoreViewModel = viewModel(),
     navController: NavController = rememberNavController(),
+    artistMemberId: String,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val artistId: Long = 3
+    val artistId: Long = artistMemberId.toLong()
 
     LaunchedEffect(key1 = artistId) {
         viewModel.getPreciseArtistInformation(artistId = artistId)
@@ -54,7 +55,7 @@ fun PreciseStoreScreen(
         topBar = {
             PreciseStoreTopBar(
                 onClickBackIcon = { navController.navigateUp() },
-                onClickCloseIcon = { navController.navigateUp() })
+                onClickCloseIcon = { navController.navigate(BottomScreen.More.route) })
         }
     ) { paddingValues ->
         when (uiState) {
@@ -86,7 +87,7 @@ fun PreciseStoreSuccessScreen(
     modifier: Modifier = Modifier,
     uiState: PreciseStoreState.SuccessState,
     onClickCheckBox: (Int) -> Unit,
-    onClickBottomBar: () -> Unit = {}
+    onClickBottomBar: () -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
 
@@ -159,7 +160,7 @@ fun PreciseStoreSuccessScreen(
 
 @Composable
 fun PreciseStoreFailureScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -168,12 +169,4 @@ fun PreciseStoreFailureScreen(
     ) {
 
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PrecisePreview() {
-    PreciseStoreScreen()
 }

@@ -27,8 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.sopt.bubble.R
 import com.sopt.bubble.data.dto.response.StoreResponseDto
+import com.sopt.bubble.feature.nav.Screen
 import com.sopt.bubble.feature.store.component.ArtistItem
 import com.sopt.bubble.feature.store.component.StoreBottomBar
 import com.sopt.bubble.feature.store.component.StoreTopBar
@@ -39,8 +41,8 @@ import kotlinx.coroutines.launch
 fun StoreRoute(
     modifier: Modifier = Modifier,
     storeViewModel: StoreViewModel = viewModel(),
-    onBackClick: () -> Unit,
-    onItemClick: () -> Unit
+    onNavigator: NavHostController,
+    onItemClick: () -> Unit,
 ) {
     val state by storeViewModel.state.collectAsStateWithLifecycle()
 
@@ -67,7 +69,7 @@ fun StoreRoute(
             StoreScreen(
                 modifier = modifier,
                 artistList = (state as StoreState.Success).artistList,
-                onBackClick = onBackClick,
+                onNavigator = onNavigator,
                 onItemClick = onItemClick
             )
         }
@@ -78,8 +80,8 @@ fun StoreRoute(
 fun StoreScreen(
     modifier: Modifier = Modifier,
     artistList: List<StoreResponseDto.Result.Artist>,
-    onBackClick: () -> Unit,
-    onItemClick: () -> Unit
+    onNavigator: NavHostController,
+    onItemClick: () -> Unit,
 ) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -88,7 +90,7 @@ fun StoreScreen(
         topBar = {
             StoreTopBar(
                 modifier,
-                onBackClick = { onBackClick() }
+                onBackClick = { onNavigator.popBackStack() }
             )
         }
     ) { innerPadding ->
@@ -119,7 +121,7 @@ fun StoreScreen(
                                 name = artistInfo.name,
                                 photo = artistInfo.photo,
                                 modifier = Modifier.clickable {
-                                    onItemClick()
+                                    onNavigator.navigate("${Screen.Precise.route}/${artistInfo.artistId}")
                                 }
                             )
                         }

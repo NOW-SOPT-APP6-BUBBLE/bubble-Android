@@ -10,7 +10,8 @@ import com.sopt.bubble.feature.chat.ChatScreen
 import com.sopt.bubble.feature.frienddetail.FriendDetailScreen
 import com.sopt.bubble.feature.friends.FriendsScreen
 import com.sopt.bubble.feature.more.MoreScreen
-import com.sopt.bubble.feature.test.TestScreen
+import com.sopt.bubble.feature.precise_store.PreciseStoreScreen
+import com.sopt.bubble.feature.store.StoreRoute
 
 @Composable
 fun BubbleAppNavHost(
@@ -50,20 +51,30 @@ fun BubbleAppNavHost(
         }
 
         composable(
-            Screen.Test.route,
+            Screen.Store.route,
         ) {
-            TestScreen(
-                onNavigate = navController
-            )
+            StoreRoute(onNavigator = navController, onItemClick = {})
         }
 
         composable(
             route = "${Screen.Detail.route}/{artistMemberId}",
-            arguments = listOf(navArgument("artistMemberId") { defaultValue = "2" })
+            arguments = listOf(navArgument("artistMemberId") { defaultValue = "0" })
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("artistMemberId")?.let {
                 FriendDetailScreen(
                     onNavigate = navController,
+                    artistMemberId = it
+                )
+            }
+        }
+
+        composable(
+            route = "${Screen.Precise.route}/{artistMemberId}",
+            arguments = listOf(navArgument("artistMemberId") { defaultValue = "0" })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getString("artistMemberId")?.let {
+                PreciseStoreScreen(
+                    navController = navController,
                     artistMemberId = it
                 )
             }
