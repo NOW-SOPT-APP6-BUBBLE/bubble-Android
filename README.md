@@ -35,8 +35,8 @@ https://github.com/NOW-SOPT-APP6-BUBBLE/bubble-Android/assets/128459613/772301ef
 │  │  └─📂response
 │  │  └─📂request
 │  ├─📂service
-│  ├─📂module
 ├─📂feature
+├─📂module
 └─📂util
 ```
 
